@@ -1,0 +1,306 @@
+---
+type: locations
+description: Facilities, levels, zones, and spatial relationships
+---
+
+# Places
+
+## Surface Base
+**Explored:** yes
+**Status:** active (home base)
+**Contains:** [[Climber Surface Station]], [[Surface Hab Storage]]
+**Related:** [[Climber]], [[Facility Delta]], [[Facility Epsilon]]
+
+- My real home base, where I live and operate from.
+- Has the crafting setup needed to build things like the servo unit.
+- Has a **Climber surface station** — direct elevator access down to Delta and Epsilon.
+- Has a **locked storage unit** — numeric code unknown.
+
+## Climber Surface Station
+**Explored:** yes
+**Status:** active
+**Parent:** [[Surface Base]]
+**Position:** at the Surface Base
+
+- Completed. Connects Surface Base ↔ Delta (Level 4) ↔ Epsilon (Level 5).
+
+## The Massive Cave System
+**Explored:** partial
+**Status:** active
+**Contains:** [[Level 1 — Habitat]], [[Level 2 — Site Beta]], [[Level 3]], [[Level 4 — Facility Delta]], [[Level 5 — Facility Epsilon]], [[Level 6 — Facility Omicron]]
+
+- Multi-level mining complex I'm exploring underground.
+
+## Level 1 — Habitat
+**Explored:** yes
+**Status:** active
+**Parent:** [[The Massive Cave System]]
+**Position:** top level of the cave system
+**Contains:** [[Upper Entry Chamber]]
+**Related:** [[Rig #1]]
+
+- Old mining-complex hub inside the massive cave.
+- Reference "home" level for orienting routes inside the cave.
+- Upper entry chamber on Level 1 contains Drill Rig #1.
+
+## Upper Entry Chamber
+**Explored:** yes
+**Status:** active
+**Parent:** [[Level 1 — Habitat]]
+**Related:** [[Rig #1]]
+
+## Level 2 — Site Beta
+**Explored:** yes
+**Status:** active
+**Parent:** [[The Massive Cave System]]
+**Position:** below Level 1 — Habitat
+**Related:** [[Rig #2]], [[Kalynite]]
+
+- Named work area on Level 2.
+- Drill Rig #2 is here, mining kalynite.
+
+## Level 3
+**Explored:** partial
+**Status:** active
+**Parent:** [[The Massive Cave System]]
+**Position:** below Level 2 — Site Beta
+**Contains:** [[Level 3 Upper Area]]
+**Related:** [[Rig #3]], [[Kaloxite]], [[Rig #4]]
+
+- Drill Rig #3 here, mining kaloxite (kalynite + extra oxygen).
+- Pools in the area near Rig #3.
+- Unreachable upper area above the pools / above Rig #4.
+
+## Level 3 Upper Area
+**Explored:** no
+**Status:** inaccessible
+**Parent:** [[Level 3]]
+**Position:** above the pools near Rig #3, above Rig #4
+
+- Don't know what's up there or how to get in.
+
+## Level 4 — Facility Delta
+**Explored:** yes
+**Status:** active
+**Parent:** [[The Massive Cave System]]
+**Position:** below Level 3, crater bottom
+**Contains:** [[Delta Security Station]], [[Small Unnamed Outpost Near Delta]]
+**Related:** [[Rig #4]], [[Rig #5]], [[Climber]], [[Facility Epsilon]]
+
+- Facility Delta sits at the bottom of the crater on Level 4.
+- Intermediate Climber station — connects Surface through Delta down to Epsilon.
+- Drill Rig #5 is near Facility Delta (mines meteorite + meteor glass).
+- Drill Rig #4 is nearby, next to an unnamed small outpost. Mines gold + kalynite.
+
+## Delta Security Station
+**Explored:** yes
+**Status:** active (locked — requires unknown item)
+**Parent:** [[Level 4 — Facility Delta]]
+**Related:** [[GAIA]]
+
+- Has a GAIA-like data device similar to the one in Epsilon.
+- Probably needs a special drive or key item — exact requirement unknown.
+
+## Small Unnamed Outpost Near Delta
+**Explored:** partial
+**Status:** active
+**Parent:** [[Level 4 — Facility Delta]]
+**Position:** next to Rig #4
+
+## Level 5 — Facility Epsilon
+**Explored:** partial
+**Status:** active (multiple locked areas)
+**Parent:** [[The Massive Cave System]]
+**Position:** below Level 4 — Facility Delta
+**Contains:** [[Climber Control Room]], [[Crew Quarters A]], [[Crew Quarters B]], [[Crew Quarters C]], [[Epsilon Canteen]], [[Epsilon Secure Storage]], [[Epsilon Storage Room]], [[Epsilon Airlock]], [[Epsilon Yard]]
+**Related:** [[Climber]], [[GAIA]], [[Roger]], [[Loadmaster's Key]], [[Tangrite]]
+
+- The deeper hub. Reached via the Climber from Delta or Surface Base.
+
+## Climber Control Room
+**Explored:** yes
+**Status:** active (partially accessible)
+**Parent:** [[Level 5 — Facility Epsilon]]
+**Related:** [[GAIA]], [[Empty Hardened Storage Drive]]
+
+- Contains a GAIA data server that needs an "empty hardened storage drive" to read out Climber records.
+
+## Crew Quarters A
+**Explored:** yes
+**Status:** accessible
+**Parent:** [[Level 5 — Facility Epsilon]]
+**Related:** [[George Broussard]], [[Grant Harlow]], [[Lisa Chapman]], [[Ncuti Sinclair]]
+
+- Accessible. Residents: George Broussard, Grant Harlow, Lisa Chapman, Ncuti Sinclair.
+- Has a door to the Canteen that won't open.
+
+## Crew Quarters B
+**Explored:** no
+**Status:** inaccessible (door won't open)
+**Parent:** [[Level 5 — Facility Epsilon]]
+
+## Crew Quarters C
+**Explored:** partial
+**Status:** accessible via Theta route
+**Parent:** [[Level 5 — Facility Epsilon]]
+**Related:** [[Simone Parker]], [[Dieter Yar]], [[Facility Theta]]
+
+- Door from the Epsilon side is jammed.
+- Accessible from the other side via Facility Theta (back side of Epsilon).
+- Residents: Simone Parker, Dieter Yar.
+- Has a door to the Canteen that won't open.
+
+## Epsilon Canteen
+**Explored:** no
+**Status:** inaccessible (doors from Crew Quarters A and C won't open)
+**Parent:** [[Level 5 — Facility Epsilon]]
+
+- Doors connect from Crew Quarters A and Crew Quarters C, but neither will open.
+
+## Epsilon Secure Storage
+**Explored:** no
+**Status:** locked (needs Loadmaster's Key)
+**Parent:** [[Level 5 — Facility Epsilon]]
+**Related:** [[Loadmaster's Key]], [[Roger]]
+
+- Locked. Needs the Loadmaster's key (Roger lost it).
+- Suspected to contain reactor parts for Lambda.
+
+## Epsilon Storage Room
+**Explored:** no
+**Status:** locked (needs numeric code)
+**Parent:** [[Level 5 — Facility Epsilon]]
+
+- Door requires a numeric code I don't have.
+
+## Epsilon Airlock
+**Explored:** partial
+**Status:** partially accessible (big door won't open)
+**Parent:** [[Level 5 — Facility Epsilon]]
+
+- Has a big door that won't open. Leads outside to the Lost World jungle.
+
+## Epsilon Yard
+**Explored:** partial
+**Status:** active
+**Parent:** [[Level 5 — Facility Epsilon]]
+**Position:** outside Epsilon's airlock
+**Contains:** [[North Gate]], [[South Gate]]
+
+- Two gates: North Gate and South Gate.
+
+## North Gate
+**Explored:** partial
+**Status:** active
+**Parent:** [[Epsilon Yard]]
+**Related:** [[Tangrite]]
+
+- Partly explored. Tangrite is present beyond it.
+- Northeast path leads to Facility Theta.
+- Southeast path leads to Facility Lambda.
+
+## South Gate
+**Explored:** partial
+**Status:** active
+**Parent:** [[Epsilon Yard]]
+**Related:** [[Kappa Facility]]
+
+- Explored. A sign for Facility Kappa is visible just outside.
+
+## Level 6 — Facility Omicron
+**Explored:** no
+**Status:** inaccessible
+**Parent:** [[The Massive Cave System]]
+**Position:** below Level 5 — Facility Epsilon
+**Related:** [[Climber]]
+
+- Currently inaccessible. No way down to it yet.
+
+## Lost World Jungle
+**Explored:** partial
+**Status:** active (hazardous in parts)
+**Position:** outside Facility Epsilon's airlock, reachable through the Epsilon Yard
+**Contains:** [[Facility Theta]], [[Facility Lambda]], [[Facility Mu]], [[Facility Kappa]], [[Bridge Beyond Mu]]
+**Related:** [[Epsilon Airlock]], [[Epsilon Yard]]
+
+- Weird "lost world" jungle / swamp biome.
+
+## Facility Theta
+**Explored:** yes
+**Status:** fully explored for now
+**Parent:** [[Lost World Jungle]]
+**Position:** northeast of North Gate; back side of Facility Epsilon
+**Related:** [[Facility Lambda]], [[Facility Mu]], [[Sorrell]], [[Crew Quarters C]]
+
+- Small fenced-in area near Lambda in the swamp.
+- Believed to be Theta — not confirmed in-world with a sign yet.
+- A sign nearby points to Facility Mu beyond it.
+- Is described as the "back side" of Facility Epsilon.
+- Access to the other side of Crew Quarters C's jammed door is through here.
+- Nothing more to do here for now — will return when Crew Quarters C is relevant.
+
+## Theta Shack
+**Explored:** yes
+**Status:** active (laser drill installed, missing lens)
+**Parent:** [[Facility Theta]]
+**Position:** near Facility Theta in the swamp
+**Related:** [[Sorrell]], [[Laser Drill at Theta Shack]], [[Loadmaster's Key]]
+
+- Probable Sorrell fishing hab — not confirmed with in-world log or sign.
+- Laser drill set up near the shack: drone installed, still missing Jaspite focusing lens.
+
+## Facility Lambda
+**Explored:** yes
+**Status:** hazardous (radioactive)
+**Parent:** [[Lost World Jungle]]
+**Position:** southeast of North Gate, in the swamp
+**Related:** [[Facility Theta]], [[Facility Mu]], [[Lambda Reactor]]
+
+- Located in the swamps. Radioactive — probable cause is the damaged reactor.
+- Pools and gigantic animal skeletons throughout ("swamp graveyard" feel).
+
+## Facility Mu
+**Explored:** partial
+**Status:** accessible (oxygen dome running)
+**Parent:** [[Lost World Jungle]]
+**Position:** beyond Facility Theta (sign points here from Theta)
+**Contains:** [[Platform Near Mu]]
+**Related:** [[Facility Theta]], [[Power Cell]], [[Bridge Beyond Mu]]
+
+- Gate is now open (opened by me).
+- Power cell delivered — oxygen dome confirmed running.
+
+## Platform Near Mu
+**Explored:** yes
+**Status:** active (gear recovered)
+**Parent:** [[Facility Mu]]
+**Position:** on the approach path to Facility Mu
+
+- Previous death site. Gear has been recovered.
+
+## Bridge Beyond Mu
+**Explored:** partial
+**Status:** active (still exploring)
+**Parent:** [[Lost World Jungle]]
+**Position:** beyond Facility Mu
+**Related:** [[Facility Mu]]
+
+- Found during recent exploration run.
+- Air dome on the bridge (probable).
+
+## Kappa Facility
+**Explored:** no
+**Status:** unknown (sign seen, not visited)
+**Parent:** [[Lost World Jungle]]
+**Position:** near South Gate, possibly near the fishing hab
+**Related:** [[South Gate]]
+
+- Sign spotted just outside Epsilon near the south gate.
+- May be close to the fishing hab (probable).
+
+## Surface Hab Storage
+**Explored:** yes
+**Status:** locked (needs numeric code)
+**Parent:** [[Surface Base]]
+
+- Locked storage unit at the surface hab. Numeric code unknown.
