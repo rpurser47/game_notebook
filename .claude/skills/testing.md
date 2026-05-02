@@ -17,7 +17,7 @@ uv run pytest -m e2e
 uv run pytest -m "not slow"
 
 # Run a single file
-uv run pytest tests/unit/markdown_unit.py
+uv run pytest tests/unit/test_markdown_unit.py
 
 # Run with output
 uv run pytest -v -s
@@ -34,21 +34,31 @@ uv run ruff format src/ tests/
 
 There is no pylint or black in this project — ruff handles both formatting and linting.
 
+## File Naming Convention
+
+All test files follow the pytest standard `test_` prefix:
+
+| Tier | Pattern | Example |
+|------|---------|---------|
+| Unit | `test_<name>_unit.py` | `test_markdown_unit.py` |
+| Integration | `test_<name>_integration.py` | `test_storage_integration.py` |
+| E2E | `test_<name>_e2e.py` | `test_notebook_e2e.py` |
+
 ## Test Directory Structure
 
 ```
 tests/
-├── conftest.py              # Shared fixtures (paths, tmp dirs, LLM stubs)
-├── unit/                    # Fast, mocked — one file per source file
-│   ├── markdown_unit.py
-│   ├── index_unit.py
-│   ├── entities_unit.py
-│   ├── nodes_unit.py
-│   ├── graph_unit.py
+├── conftest.py                        # Shared fixtures (paths, tmp dirs, LLM stubs)
+├── unit/                              # Fast, mocked — one file per source file
+│   ├── test_markdown_unit.py
+│   ├── test_index_unit.py
+│   ├── test_entities_unit.py
+│   ├── test_nodes_unit.py
+│   ├── test_graph_unit.py
 │   └── ...
-├── integration/             # Real dependencies, no LLM calls
-│   └── test_*.py
-└── e2e/                     # Full pipeline with real LLM
+├── integration/                       # Real dependencies, no LLM calls
+│   └── test_<name>_integration.py
+└── e2e/                               # Full pipeline with real LLM
     └── test_notebook_e2e.py
 ```
 
@@ -56,14 +66,14 @@ tests/
 
 | Source File | Unit Test File |
 |-------------|----------------|
-| `src/storage/markdown.py` | `tests/unit/markdown_unit.py` |
-| `src/storage/index.py` | `tests/unit/index_unit.py` |
-| `src/extraction/entities.py` | `tests/unit/entities_unit.py` |
-| `src/agent/nodes.py` | `tests/unit/nodes_unit.py` |
-| `src/agent/graph.py` | `tests/unit/graph_unit.py` |
-| `src/agent/state.py` | `tests/unit/state_unit.py` |
-| `src/cli/interface.py` | `tests/unit/interface_unit.py` |
-| `src/main.py` | `tests/unit/main_unit.py` |
+| `src/storage/markdown.py` | `tests/unit/test_markdown_unit.py` |
+| `src/storage/index.py` | `tests/unit/test_index_unit.py` |
+| `src/extraction/entities.py` | `tests/unit/test_entities_unit.py` |
+| `src/agent/nodes.py` | `tests/unit/test_nodes_unit.py` |
+| `src/agent/graph.py` | `tests/unit/test_graph_unit.py` |
+| `src/agent/state.py` | `tests/unit/test_state_unit.py` |
+| `src/cli/interface.py` | `tests/unit/test_interface_unit.py` |
+| `src/main.py` | `tests/unit/test_main_unit.py` |
 
 Every new source file needs a corresponding unit test file before merging.
 

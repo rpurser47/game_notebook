@@ -32,6 +32,15 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "unit: fast unit tests with mocked dependencies",
+    "integration: tests with real file system and ChromaDB",
+    "e2e: full pipeline tests with real LLM calls",
+    "slow: tests that take longer than 10 seconds",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py313"
