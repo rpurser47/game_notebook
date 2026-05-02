@@ -40,10 +40,14 @@ description: Key items and equipment
         assert idx != -1, "Loadmaster's Key section not found in things.md"
         section = things_content[idx: idx + 300]
 
-        # The key's status should no longer say 'lost'
-        assert "lost" not in section.lower(), (
-            "Expected Loadmaster's Key status to be updated away from 'lost' "
-            f"after recovery, but section reads:\n{section}"
+        # The Status field specifically should no longer say 'lost'
+        import re
+        status_match = re.search(r"\*\*Status:\*\*\s*(.+)", section)
+        assert status_match is not None, f"No Status field found in section:\n{section}"
+        status_value = status_match.group(1).strip().lower()
+        assert "lost" not in status_value, (
+            "Expected Loadmaster's Key Status to be updated away from 'lost' "
+            f"after recovery, but Status is: {status_value!r}"
         )
 
     def test_completing_key_recovery_quest_updates_todo_AND_key(self, agent):

@@ -351,6 +351,13 @@ Return only the IDs of items that are genuinely relevant to this query."""
                     if filename not in files_modified:
                         files_modified.append(filename)
 
+                    # Propagate completion to related items
+                    if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
+                        propagated = self._propagate_completion_to_related(entity_name, filename)
+                        for f in propagated:
+                            if f not in files_modified:
+                                files_modified.append(f)
+
         # Process relationships (add to Related field)
         for rel in relationships:
             from_entity = rel.get("from", "")
@@ -418,6 +425,13 @@ Return only the IDs of items that are genuinely relevant to this query."""
                             entity_name=entity_name,
                             updates={mapped_field: new_value},
                         )
+
+                        # Propagate completion to related items
+                        if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
+                            propagated = self._propagate_completion_to_related(entity_name, filename)
+                            for f in propagated:
+                                if f not in files_modified:
+                                    files_modified.append(f)
                     else:
                         # Append as history
                         self.store.update_entity(
@@ -549,6 +563,42 @@ Do not explain your process or mention files."""
         response = self.llm.invoke(conversation_messages)
 
         return {**state, "response": response.content}
+
+    def _propagate_completion_to_related(self, todo_name: str, todo_file: str) -> list[str]:
+        """When a todo is completed, update the Status of related items to 'found'.
+
+        Only propagates to item entities (things.md) whose current status
+        indicates they haven't been obtained yet (lost, not obtained, not recovered).
+        """
+        chunks = self.store.parse_into_chunks(todo_file)
+        todo_chunk = next((c for c in chunks if c.entity_name.lower() == todo_name.lower()), None)
+        if not todo_chunk:
+            return []
+
+        files_modified = []
+        unacquired = {"lost", "not obtained", "not recovered", "unknown"}
+
+        for related_name in todo_chunk.related:
+            related_file = self._find_entity_file(related_name)
+            if not related_file or related_file not in ("things.md",):
+                continue
+            related_chunks = self.store.parse_into_chunks(related_file)
+            related_chunk = next(
+                (c for c in related_chunks if c.entity_name.lower() == related_name.lower()), None
+            )
+            if not related_chunk:
+                continue
+            current_status = (related_chunk.status or "").lower()
+            if any(s in current_status for s in unacquired):
+                self.store.update_entity(
+                    filename=related_file,
+                    entity_name=related_name,
+                    updates={"Status": "found"},
+                )
+                if related_file not in files_modified:
+                    files_modified.append(related_file)
+
+        return files_modified
 
     def _get_file_for_type(self, entity_type: str) -> str:
         """Get the filename for an entity type."""

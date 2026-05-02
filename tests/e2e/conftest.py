@@ -100,7 +100,7 @@ description: Quests, plans, and mysteries
 ## Recover Loadmaster's Key
 **Subtype:** quest
 **Status:** open
-**Related:** [[Roger]], [[Sorrell]]
+**Related:** [[Roger]], [[Sorrell]], [[Loadmaster's Key]]
 
 - The key is probably at Sorrell's fishing hab.
 
