@@ -285,8 +285,9 @@ Return only the IDs of items that are genuinely relevant to this query."""
             # On parse failure, pass all chunks through rather than dropping data
             return state
 
-    def write(self, state: NotebookState) -> NotebookState:
-        """Write observations and entities to storage."""
+    def persist(self, state: NotebookState) -> NotebookState:
+        """Write all extracted data to storage (handles both record and update intents)."""
+        intent = state.get("intent", "record")
         observations = state.get("extracted_observations", [])
         entities = state.get("resolved_entities", [])
         updates = state.get("extracted_updates", [])
@@ -294,79 +295,79 @@ Return only the IDs of items that are genuinely relevant to this query."""
 
         files_modified = []
 
-        # Write observations to journal
-        if observations:
+        field_map = {
+            "role": "Role",
+            "status": "Status",
+            "location": "Location",
+            "explored": "Explored",
+            "position": "Position",
+            "subtype": "Subtype",
+            "category": "Category",
+            "date": "Date",
+        }
+
+        # Journal — only for record intent (new observations, not corrections)
+        if intent == "record" and observations:
             self.store.append_to_journal(observations)
             files_modified.append("journal.md")
-            # Re-index journal
             self.index.index_file(self.store, "journal.md")
 
-        # Process entities
+        # New entities
         for entity in entities:
             if entity.get("is_new", True):
-                # Determine target file
                 entity_type = entity.get("type", "mysteries")
                 filename = self._get_file_for_type(entity_type)
-
-                # Create entity
                 self.store.create_entity(
                     filename=filename,
                     entity_name=entity.get("resolved_name", entity["name"]),
                     entity_type=entity_type,
                     fields=entity.get("fields", {}),
                 )
-
                 if filename not in files_modified:
                     files_modified.append(filename)
 
-        # Process updates
+        # Field updates
         for update in updates:
             entity_name = update.get("entity", "")
             field = update.get("field", "")
             new_value = update.get("new_value", "")
 
-            if entity_name and field and new_value:
-                # Find which file contains this entity
-                filename = self._find_entity_file(entity_name)
-                if filename:
-                    # Map common field names
-                    field_map = {
-                        "role": "Role",
-                        "status": "Status",
-                        "location": "Location",
-                        "explored": "Explored",
-                        "position": "Position",
-                        "subtype": "Subtype",
-                        "category": "Category",
-                        "date": "Date",
-                    }
-                    mapped_field = field_map.get(field.lower(), field.capitalize())
+            if not (entity_name and new_value):
+                continue
 
-                    self.store.update_entity(
-                        filename=filename,
-                        entity_name=entity_name,
-                        updates={mapped_field: new_value},
-                    )
+            filename = self._find_entity_file(entity_name)
+            if not filename:
+                continue
 
-                    if filename not in files_modified:
-                        files_modified.append(filename)
+            if field:
+                mapped_field = field_map.get(field.lower(), field.capitalize())
+                self.store.update_entity(
+                    filename=filename,
+                    entity_name=entity_name,
+                    updates={mapped_field: new_value},
+                )
+                if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
+                    for f in self._propagate_completion_to_related(entity_name, filename):
+                        if f not in files_modified:
+                            files_modified.append(f)
+            else:
+                self.store.update_entity(
+                    filename=filename,
+                    entity_name=entity_name,
+                    updates={},
+                    append_history=new_value,
+                )
 
-                    # Propagate completion to related items
-                    if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
-                        propagated = self._propagate_completion_to_related(entity_name, filename)
-                        for f in propagated:
-                            if f not in files_modified:
-                                files_modified.append(f)
+            if filename not in files_modified:
+                files_modified.append(filename)
 
-        # Process relationships (add to Related field)
+        # Relationships
         for rel in relationships:
             from_entity = rel.get("from", "")
             to_entity = rel.get("to", "")
-
             if from_entity and to_entity:
                 filename = self._find_entity_file(from_entity)
                 if filename:
-                    # This is simplified - a full implementation would parse and update Related field
                     self.store.update_entity(
                         filename=filename,
                         entity_name=from_entity,
@@ -374,76 +375,7 @@ Return only the IDs of items that are genuinely relevant to this query."""
                         append_history=f"Related to [[{to_entity}]]",
                     )
 
-        # Re-index modified files
-        for filename in files_modified:
-            self.index.index_file(self.store, filename)
-
-        return {**state, "files_modified": files_modified}
-
-    def modify(self, state: NotebookState) -> NotebookState:
-        """Handle explicit update requests (mark as done, corrections)."""
-        updates = state.get("extracted_updates", [])
-        entities = state.get("resolved_entities", [])
-        files_modified = []
-
-        # Create any new entities that slipped through as updates
-        for entity in entities:
-            if entity.get("is_new", True):
-                entity_type = entity.get("type", "mysteries")
-                filename = self._get_file_for_type(entity_type)
-                self.store.create_entity(
-                    filename=filename,
-                    entity_name=entity.get("resolved_name", entity["name"]),
-                    entity_type=entity_type,
-                    fields=entity.get("fields", {}),
-                )
-                if filename not in files_modified:
-                    files_modified.append(filename)
-
-        for update in updates:
-            entity_name = update.get("entity", "")
-            field = update.get("field", "")
-            new_value = update.get("new_value", "")
-
-            if entity_name and new_value:
-                filename = self._find_entity_file(entity_name)
-                if filename:
-                    if field:
-                        field_map = {
-                            "role": "Role",
-                            "status": "Status",
-                            "location": "Location",
-                            "explored": "Explored",
-                            "position": "Position",
-                            "subtype": "Subtype",
-                            "category": "Category",
-                            "date": "Date",
-                        }
-                        mapped_field = field_map.get(field.lower(), field.capitalize())
-                        self.store.update_entity(
-                            filename=filename,
-                            entity_name=entity_name,
-                            updates={mapped_field: new_value},
-                        )
-
-                        # Propagate completion to related items
-                        if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
-                            propagated = self._propagate_completion_to_related(entity_name, filename)
-                            for f in propagated:
-                                if f not in files_modified:
-                                    files_modified.append(f)
-                    else:
-                        # Append as history
-                        self.store.update_entity(
-                            filename=filename,
-                            entity_name=entity_name,
-                            updates={},
-                            append_history=new_value,
-                        )
-
-                    if filename not in files_modified:
-                        files_modified.append(filename)
-
+        # Re-index everything touched
         for filename in files_modified:
             self.index.index_file(self.store, filename)
 

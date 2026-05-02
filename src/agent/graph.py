@@ -35,8 +35,7 @@ def create_graph(
     graph.add_node("analyze_query", factory.analyze_query)
     graph.add_node("retrieve", factory.retrieve)
     graph.add_node("reflect", factory.reflect)
-    graph.add_node("write", factory.write)
-    graph.add_node("modify", factory.modify)
+    graph.add_node("persist", factory.persist)
     graph.add_node("respond", factory.respond)
 
     # Set entry point
@@ -54,27 +53,10 @@ def create_graph(
         },
     )
 
-    # Record flow: extract -> resolve -> write -> respond
+    # Record/update flow: extract -> resolve -> persist -> respond
     graph.add_edge("extract", "resolve")
-
-    # After resolve, check intent for next step
-    def route_after_resolve(state: NotebookState) -> Literal["write", "modify"]:
-        intent = state.get("intent", "record")
-        if intent == "update":
-            return "modify"
-        return "write"
-
-    graph.add_conditional_edges(
-        "resolve",
-        route_after_resolve,
-        {
-            "write": "write",
-            "modify": "modify",
-        },
-    )
-
-    graph.add_edge("write", "respond")
-    graph.add_edge("modify", "respond")
+    graph.add_edge("resolve", "persist")
+    graph.add_edge("persist", "respond")
 
     # Query flow: analyze_query -> retrieve -> reflect -> respond
     graph.add_edge("analyze_query", "retrieve")
