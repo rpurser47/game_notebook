@@ -306,6 +306,7 @@ Return only the IDs of items that are genuinely relevant to this query."""
             "category": "Category",
             "date": "Date",
             "outcome": "Outcome",
+            "description": "Description",
         }
 
         # Journal — only for record intent (new observations, not corrections)

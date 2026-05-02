@@ -133,6 +133,11 @@ class MarkdownStore:
         if date_match:
             fields["date"] = date_match.group(1).strip()
 
+        # Description
+        description_match = re.search(r"\*\*Description:\*\*\s*(.+?)(?:\n|$)", content)
+        if description_match:
+            fields["description"] = description_match.group(1).strip()
+
         # Related (wiki-links)
         related_match = re.search(r"\*\*Related:\*\*\s*(.+?)(?:\n|$)", content)
         if related_match:
@@ -329,6 +334,8 @@ class MarkdownStore:
             section += f"**Date:** {fields['date']}\n"
 
         # shared
+        if "description" in fields:
+            section += f"**Description:** {fields['description']}\n"
         if "related" in fields and fields["related"]:
             related = fields["related"]
             if isinstance(related, list):
@@ -336,10 +343,6 @@ class MarkdownStore:
             else:
                 related_str = f"[[{related}]]"
             section += f"**Related:** {related_str}\n"
-
-        # Add description/notes
-        if "description" in fields:
-            section += f"\n- {fields['description']}\n"
 
         # Append to file
         new_content = content.rstrip() + "\n" + section

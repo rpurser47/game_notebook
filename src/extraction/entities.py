@@ -41,9 +41,9 @@ Output ONLY valid JSON with this structure:
 }
 
 Field reference by type:
-- character: role, location, status
-- location: explored (yes|no|partial), status, position (spatial relationship to another place), parent (containing place)
-- item: category (ore|material|equipment|key-item|tech-component|access-code), status, location
+- character: role, location, status, description (optional — one sentence of colour or context: appearance, personality, what makes them memorable)
+- location: explored (yes|no|partial), status, position (spatial relationship to another place), parent (containing place), description (optional — atmosphere, notable features, what it feels like)
+- item: category (ore|material|equipment|key-item|tech-component|access-code), status, location, description (optional — what it looks like or why it matters)
 - todo: subtype (quest|plan|mystery), status (open|in-progress|blocked|completed|answered), requires (prerequisite todo name), outcome (one sentence: how/why it was completed — only set when status becomes completed or answered)
 - event: category (death|discovery|encounter|hazard-confirmed|quest-resolution|other), date, location, status (active|resolved|noted)
 
