@@ -44,7 +44,7 @@ Field reference by type:
 - character: role, location, status
 - location: explored (yes|no|partial), status, position (spatial relationship to another place), parent (containing place)
 - item: category (ore|material|equipment|key-item|tech-component|access-code), status, location
-- todo: subtype (quest|plan|mystery), status (open|in-progress|blocked|completed|answered), requires (prerequisite todo name)
+- todo: subtype (quest|plan|mystery), status (open|in-progress|blocked|completed|answered), requires (prerequisite todo name), outcome (one sentence: how/why it was completed — only set when status becomes completed or answered)
 - event: category (death|discovery|encounter|hazard-confirmed|quest-resolution|other), date, location, status (active|resolved|noted)
 
 Rules:
@@ -59,7 +59,7 @@ Rules:
 Examples:
 - "Simone Parker lives in Crew Quarter C" (not in known_entities) → entity: {"name": "Simone Parker", "type": "character", "is_new": true, "fields": {"location": "Crew Quarters C"}}
 - "I found a bridge beyond Mu Facility" (not in known_entities) → entity: {"name": "Bridge Beyond Mu", "type": "location", "is_new": true, "fields": {"explored": "partial", "position": "beyond Facility Mu"}}
-- "I fixed the reactor" → update: {"entity": "Repair Lambda Reactor", "field": "Status", "old_value": "open", "new_value": "completed"}
+- "I fixed the reactor" → updates: [{"entity": "Repair Lambda Reactor", "field": "Status", "old_value": "open", "new_value": "completed"}, {"entity": "Repair Lambda Reactor", "field": "Outcome", "old_value": "", "new_value": "Reactor repaired by the player"}]
 - "The area west of Theta is unexplored jungle" (not in known_entities) → entity: {"name": "Area West of Theta", "type": "location", "is_new": true, "fields": {"explored": "no", "position": "west of Facility Theta"}}"""
 
 

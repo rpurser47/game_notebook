@@ -250,6 +250,15 @@ class MarkdownStore:
                     rf"\g<1>{new_value}\3",
                     section_content,
                 )
+            else:
+                # Field doesn't exist yet — insert after the last **Field:** line
+                last_field = list(re.finditer(r"\*\*\w[\w ]*:\*\*[^\n]*\n", section_content))
+                insert_pos = last_field[-1].end() if last_field else len(section_content)
+                section_content = (
+                    section_content[:insert_pos]
+                    + f"**{field_name}:** {new_value}\n"
+                    + section_content[insert_pos:]
+                )
 
         # Append to history if provided
         if append_history:

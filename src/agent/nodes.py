@@ -288,6 +288,7 @@ Return only the IDs of items that are genuinely relevant to this query."""
     def persist(self, state: NotebookState) -> NotebookState:
         """Write all extracted data to storage (handles both record and update intents)."""
         intent = state.get("intent", "record")
+        user_input = state.get("user_input", "")
         observations = state.get("extracted_observations", [])
         entities = state.get("resolved_entities", [])
         updates = state.get("extracted_updates", [])
@@ -304,6 +305,7 @@ Return only the IDs of items that are genuinely relevant to this query."""
             "subtype": "Subtype",
             "category": "Category",
             "date": "Date",
+            "outcome": "Outcome",
         }
 
         # Journal — only for record intent (new observations, not corrections)
@@ -326,6 +328,13 @@ Return only the IDs of items that are genuinely relevant to this query."""
                 if filename not in files_modified:
                     files_modified.append(filename)
 
+        # Track which completed entities already have an Outcome in the update batch
+        entities_with_outcome = {
+            u.get("entity", "")
+            for u in updates
+            if field_map.get((u.get("field") or "").lower()) == "Outcome"
+        }
+
         # Field updates
         for update in updates:
             entity_name = update.get("entity", "")
@@ -347,6 +356,13 @@ Return only the IDs of items that are genuinely relevant to this query."""
                     updates={mapped_field: new_value},
                 )
                 if mapped_field == "Status" and new_value.lower() in ("completed", "answered"):
+                    # Write a fallback Outcome if the extractor didn't produce one
+                    if entity_name not in entities_with_outcome:
+                        self.store.update_entity(
+                            filename=filename,
+                            entity_name=entity_name,
+                            updates={"Outcome": user_input},
+                        )
                     for f in self._propagate_completion_to_related(entity_name, filename):
                         if f not in files_modified:
                             files_modified.append(f)

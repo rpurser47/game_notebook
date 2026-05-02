@@ -20,7 +20,7 @@ class TestOutcomeFieldOnCompletion:
         assert idx != -1
         section = content[idx: idx + 400]
 
-        assert "**Outcome:**" in section or "**Resolution:**" in section, (
+        assert "**Outcome:**" in section, (
             f"Expected an Outcome or Resolution field in the completed todo, "
             f"but section reads:\n{section}"
         )
@@ -35,9 +35,7 @@ class TestOutcomeFieldOnCompletion:
         assert idx != -1
         section = content[idx: idx + 400]
 
-        outcome_match = re.search(
-            r"\*\*(?:Outcome|Resolution):\*\*\s*(.+)", section
-        )
+        outcome_match = re.search(r"\*\*Outcome:\*\*\s*(.+)", section)
         assert outcome_match, "No Outcome/Resolution field found"
         outcome_value = outcome_match.group(1).strip().lower()
 
@@ -61,7 +59,7 @@ class TestOutcomeFieldOnCompletion:
         assert idx != -1
         section = content[idx: idx + 400]
 
-        assert "**Outcome:**" in section or "**Resolution:**" in section, (
+        assert "**Outcome:**" in section, (
             f"Expected an Outcome or Resolution field after solving the mystery, "
             f"but section reads:\n{section}"
         )
@@ -76,7 +74,7 @@ class TestOutcomeFieldOnCompletion:
         assert idx != -1
         section = content[idx: idx + 400]
 
-        assert "**Outcome:**" in section or "**Resolution:**" in section, (
+        assert "**Outcome:**" in section, (
             f"Expected Outcome field even for an explicit mark-done, "
             f"but section reads:\n{section}"
         )
@@ -96,6 +94,6 @@ class TestOutcomeFieldOnCompletion:
         assert "open" in status_match.group(1).lower()
 
         # No Outcome on an open todo
-        assert "**Outcome:**" not in section and "**Resolution:**" not in section, (
+        assert "**Outcome:**" not in section, (
             "Open todo should not have an Outcome field"
         )
