@@ -50,9 +50,9 @@ Field reference by type:
 Rules:
 - Be precise. Only extract what's explicitly stated or clearly implied.
 - Tag uncertain info with "(probable)" in the observation text.
-- CRITICAL — entity naming: derive a stable, descriptive name from what the thing IS and WHERE it is, not from the words used in conversation. Never use conversational references like "second", "another", "that", "the one near", "new", or ordinal words as part of a name. Use location + type to form the name instead.
-  - BAD: "Second Drill", "Another Laser Drill", "New Location"
-  - GOOD: "Laser Drill near South Gate", "Drill Site near Epsilon South Gate"
+- CRITICAL — entity naming: when an entity has no explicit in-world name, construct one from its type and geographic context — what it IS + WHERE it is. This makes names stable and searchable across sessions. Never use conversational references ("second", "another", "that one", "new", ordinal numbers) as part of a name.
+  - BAD: "Second Drill", "Another Laser Drill", "New Location", "Third Door"
+  - GOOD: "Laser Drill near Epsilon South Gate", "Door at Kappa Lab Level", "Drill Site South of Epsilon Yard"
 - For corrections, include the old_value if mentioned.
 - If nothing to extract, return empty arrays.
 - CRITICAL: If a person's name is not in known_entities["characters"], they MUST appear as an entity with is_new: true. Do not silently drop new people.
