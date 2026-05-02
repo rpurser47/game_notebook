@@ -26,25 +26,25 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Category:** ore
 **Status:** in supply
 **Location:** Rig #5
-**Related:** [[Rig #4]]
+**Related:** [[Rig #5]]
 
-- Mined as part of the mixed vein at Rig #4, Facility Delta area.
+- Mined at Rig #5, near Facility Delta on the Level 4 crater floor.
 
 ## Meteorite
 **Category:** ore
 **Status:** in supply
 **Location:** Rig #4
-**Related:** [[Rig #5]]
+**Related:** [[Rig #4]]
 
-- Mined at Rig #5, near Facility Delta on the Level 4 crater floor.
+- Mined at Rig #4, near Facility Delta on the Level 4 crater floor.
 
 ## Meteor Glass
 **Category:** material
 **Status:** in supply
-**Location:** [[Level 4 — Facility Delta]] (Rig #5)
-**Related:** [[Rig #5]], [[Meteorite]]
+**Location:** [[Level 4 — Facility Delta]] (Rig #4)
+**Related:** [[Rig #4]], [[Meteorite]]
 
-- Produced from the meteorite vein at Rig #5.
+- Produced from the meteorite vein at Rig #4.
 
 ## Tangrite
 **Category:** ore
@@ -66,8 +66,8 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Loadmaster's Key
 **Category:** key-item
-**Status:** lost (not recovered)
-**Location:** Probable: [[Theta Shack]] (Sorrell's fishing hab)
+**Status:** found
+**Location:** Fishing Hab (recovered)
 **Related:** [[Roger]], [[Sorrell]], [[Epsilon Secure Storage]]
 
 - Opens Epsilon's Secure Storage.
@@ -214,20 +214,20 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 - Trying to figure out how to build one. Recipe / unlock condition unknown.
 
-## Box Code 7924
+## Crate Code 7924
 **Category:** access-code
 **Status:** known (target lock not yet identified)
 **Location:** unknown
 **Related:** [[Samantha Corburn]]
 
-- Numeric code: 7924. Provided by Samantha Corburn.
+- Numeric code: 7924. Found via Samantha Corburn's shipment list.
 - Target lock not yet identified.
 ### 2026-05-01
 - Related to [[Samantha Corburn]]
 
 ## Epsilon Storage Room Code
 **Category:** access-code
-**Status:** answered
+**Status:** open (code unknown)
 **Location:** [[Epsilon Storage Room]]
 **Related:** [[Epsilon Storage Room]]
 
@@ -236,7 +236,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Surface Hab Storage Code
 **Category:** access-code
-**Status:** answered
+**Status:** open (code unknown)
 **Location:** [[Surface Hab Storage]]
 **Related:** [[Surface Hab Storage]]
 
@@ -249,13 +249,23 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 ### 2026-05-01
 - Related to [[Loadmaster's Office]]
 
-## Key Card
-**Location:** obtained from Simone Parker
+## Simone Parker's Key Card
 **Category:** key-item
-### 2026-05-01
-- Related to [[Simone Parker]]
-### 2026-05-01
-- Related to [[Grant Harlow]]
+**Status:** obtained
+**Location:** on player (recovered from Bunker Room)
+**Related:** [[Simone Parker]], [[Bunker Room]]
+
+- Key card recovered from Simone Parker, found dead in the Bunker Room of Epsilon.
+- Purpose / what it opens: unknown.
+
+## Grant Harlow's Key Card
+**Category:** key-item
+**Status:** obtained
+**Location:** on player (recovered from Bunker Room)
+**Related:** [[Grant Harlow]], [[Bunker Room]]
+
+- Key card recovered from Grant Harlow, found dead in the Bunker Room of Epsilon.
+- Purpose / what it opens: unknown.
 
 ## Gaia Data Server in Lambda
 **Location:** Facility Lambda
@@ -269,3 +279,13 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Location:** Facility Lambda
 **Status:** needs decryption
 **Category:** tech-component
+
+## Crate Code 9970
+**Category:** access-code
+**Status:** known (target lock not yet identified)
+**Location:** unknown
+**Related:** [[Samantha Corburn]]
+
+- Crate access code: 9970. Found on a shipment list Samantha Corburn showed.
+- Also linked to a Tangrite focusing lens shipment.
+- Target crate/lock not yet identified.

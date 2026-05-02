@@ -21,6 +21,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** (none)
 **Related:** [[Sorrell]], [[Facility Theta]], [[Theta Shack]]
+**Outcome:** Found well past the Outflow Dam; note from Andy Sorrell confirmed the location.
 
 - Confirm the small shed near Theta is Sorrell's fishing hab.
 - Look for an in-world log or sign as confirmation.
@@ -31,6 +32,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Find Sorrell's Fishing Hab]]
 **Related:** [[Roger]], [[Loadmaster's Key]], [[Sorrell]]
+**Outcome:** Found at Sorrell's fishing hab.
 
 - The key is probable at Sorrell's fishing hab. Retrieve it once the hab is confirmed.
 
@@ -43,12 +45,15 @@ description: Quests, plans, and mysteries with dependency chains
 
 - Use the Loadmaster's key to open Epsilon's Secure Storage.
 
+- NOTE: Reactor parts were retrieved from the Loadmaster's Office, not Secure Storage — this quest may be for other contents.
+
 ## Retrieve Reactor Parts
 **Subtype:** quest
 **Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Unlock Epsilon Secure Storage]]
 **Related:** [[Epsilon Secure Storage]], [[Lambda Reactor]]
+**Outcome:** Retrieved from the Loadmaster's Office.
 
 - Suspected the reactor parts needed for Lambda are inside Epsilon's Secure Storage.
 
@@ -138,6 +143,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Status:** completed
 **Requires:** (none)
 **Related:** [[Epsilon Airlock]]
+**Outcome:** Opened the big door in Epsilon's airlock.
 
 - Figure out how to open the big door in Epsilon's airlock.
 - Unknown access requirement (key, power, controls?).
@@ -221,7 +227,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Reach Level 6 — Facility Omicron
 **Subtype:** quest
-**Status:** completed
+**Status:** open
 **Requires:** (none)
 **Related:** [[Level 6 — Facility Omicron]], [[Climber]]
 
@@ -311,7 +317,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Box Code 7924 — Identify Target
 **Subtype:** mystery
-**Status:** answered
+**Status:** open
 **Requires:** (none)
 **Related:** [[Box Code 7924]]
 

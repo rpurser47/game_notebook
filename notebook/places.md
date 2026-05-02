@@ -175,7 +175,7 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Epsilon Airlock
 **Explored:** partial
-**Status:** partially accessible (big door won't open)
+**Status:** accessible (big door opened)
 **Parent:** [[Level 5 — Facility Epsilon]]
 
 - Has a big door that won't open. Leads outside to the Lost World jungle.
@@ -298,6 +298,9 @@ description: Facilities, levels, zones, and spatial relationships
 - Sign spotted just outside Epsilon near the south gate.
 - May be close to the fishing hab (probable).
 
+- Has an elevator from the Upper Level down to the Lab Level, but it won't work while the water level is up.
+- Quest: drain the water to reveal the Undersea Dam and enable the elevator.
+
 ## Surface Hab Storage
 **Explored:** yes
 **Status:** locked (needs numeric code)
@@ -369,7 +372,20 @@ description: Facilities, levels, zones, and spatial relationships
 ### 2026-05-01
 - Related to [[Outflow Dam]]
 
+**Status:** explored
+**Related:** [[Sorrell]], [[Outflow Dam]], [[Loadmaster's Key]]
+
+- Sorrell's fishing hab. Found well past the Outflow Dam.
+- The Loadmaster's Key was recovered here.
+
 ## Outflow Dam
+**Explored:** partial
+**Status:** active
+**Parent:** [[Lost World Jungle]]
+**Position:** past the Inflow Dam, in the opposite direction from the Fishing Hab
+**Related:** [[Inflow Dam]], [[Fishing Hab]]
+
+- Passed through on the way to and from the Fishing Hab.
 **Explored:** partial
 
 ## Inflow Dam
@@ -394,6 +410,10 @@ description: Facilities, levels, zones, and spatial relationships
 ## Bunker Room
 **Explored:** no
 **Parent:** [[Facility Epsilon]]
+**Status:** explored (contains dead crew)
+- Simone Parker found dead here.
+- Grant Harlow found dead here.
+- Key cards recovered from both.
 
 ## Big Door in Lambda Reactor Room
 **Explored:** no
