@@ -34,6 +34,7 @@ def create_graph(
     graph.add_node("resolve", factory.resolve)
     graph.add_node("analyze_query", factory.analyze_query)
     graph.add_node("retrieve", factory.retrieve)
+    graph.add_node("reflect", factory.reflect)
     graph.add_node("write", factory.write)
     graph.add_node("modify", factory.modify)
     graph.add_node("respond", factory.respond)
@@ -75,9 +76,10 @@ def create_graph(
     graph.add_edge("write", "respond")
     graph.add_edge("modify", "respond")
 
-    # Query flow: analyze_query -> retrieve -> respond
+    # Query flow: analyze_query -> retrieve -> reflect -> respond
     graph.add_edge("analyze_query", "retrieve")
-    graph.add_edge("retrieve", "respond")
+    graph.add_edge("retrieve", "reflect")
+    graph.add_edge("reflect", "respond")
 
     # End after respond
     graph.add_edge("respond", END)

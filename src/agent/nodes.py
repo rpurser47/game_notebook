@@ -94,6 +94,21 @@ Examples:
 - "What has happened?" → {"semantic_query": null, "filters": {"entity_type": "events"}, "entities_mentioned": []}"""
 
 
+REFLECTION_PROMPT = """You are reviewing search results for relevance to a user's query.
+
+Given a query and a list of retrieved items (each with an ID and a one-line summary), return only the IDs of items that are genuinely relevant to the query.
+
+Output ONLY valid JSON:
+{"relevant_ids": ["id1", "id2", ...]}
+
+Be strict. If an item is only tangentially related or shares a keyword but not the actual topic, exclude it.
+
+Examples:
+- Query: "what needs a code?" → keep access codes and locked doors, drop drilling rigs and cargo drones
+- Query: "what do I know about Roger?" → keep Roger and things directly involving Roger, drop unrelated people and places
+- Query: "what quests are open?" → keep open quests, drop completed quests and unrelated items"""
+
+
 class NodeFactory:
     """Factory for creating agent nodes with shared dependencies."""
 
@@ -221,6 +236,54 @@ class NodeFactory:
         )
 
         return {**state, "retrieved_chunks": results}
+
+    def reflect(self, state: NotebookState) -> NotebookState:
+        """Filter retrieved chunks to only those genuinely relevant to the query."""
+        chunks = state.get("retrieved_chunks", [])
+        if not chunks:
+            return state
+
+        user_input = state.get("user_input", "")
+
+        # Build a compact item list for the LLM — ID + one-line summary
+        items = []
+        for chunk in chunks:
+            chunk_id = chunk.get("chunk_id", "")
+            meta = chunk.get("metadata", {})
+            name = meta.get("entity_name", chunk_id)
+            entity_type = meta.get("entity_type", "")
+            status = meta.get("status", "")
+            summary_parts = [p for p in [entity_type, status] if p]
+            summary = f"{name} ({', '.join(summary_parts)})" if summary_parts else name
+            items.append({"id": chunk_id, "summary": summary})
+
+        user_prompt = f"""Query: {user_input}
+
+Items to review:
+{json.dumps(items, indent=2)}
+
+Return only the IDs of items that are genuinely relevant to this query."""
+
+        messages = [
+            SystemMessage(content=REFLECTION_PROMPT),
+            HumanMessage(content=user_prompt),
+        ]
+
+        response = self.llm.invoke(messages)
+        content = response.content
+
+        try:
+            if "```json" in content:
+                content = content.split("```json")[1].split("```")[0]
+            elif "```" in content:
+                content = content.split("```")[1].split("```")[0]
+            data = json.loads(content.strip())
+            relevant_ids = set(data.get("relevant_ids", []))
+            filtered = [c for c in chunks if c.get("chunk_id") in relevant_ids]
+            return {**state, "retrieved_chunks": filtered}
+        except (json.JSONDecodeError, IndexError):
+            # On parse failure, pass all chunks through rather than dropping data
+            return state
 
     def write(self, state: NotebookState) -> NotebookState:
         """Write observations and entities to storage."""
