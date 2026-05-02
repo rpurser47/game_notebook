@@ -304,3 +304,101 @@ description: Facilities, levels, zones, and spatial relationships
 **Parent:** [[Surface Base]]
 
 - Locked storage unit at the surface hab. Numeric code unknown.
+
+## South of Epsilon Yard Drill Site
+**Explored:** partial
+**Status:** active
+**Parent:** [[Lost World Jungle]]
+**Position:** just outside the south exit of Epsilon Yard, just off the road from the sign
+**Related:** [[Epsilon Yard]], [[South Gate]], [[Kappa Facility]]
+
+## Dam on Path to Kappa
+**Explored:** partial
+**Status:** active (door rusted shut)
+**Parent:** [[Lost World Jungle]]
+**Position:** on the path from Epsilon Yard South Gate toward Kappa Facility
+**Related:** [[South Gate]], [[Kappa Facility]], [[Undersea Dam]]
+
+- Door is rusted shut — cannot enter.
+- An "undersea dam" structure is visible in the water beneath it.
+### 2026-05-01
+- Related to [[rusted-shut door]]
+### 2026-05-01
+- Related to [[Epsilon Yard South Gate]]
+### 2026-05-01
+- Related to [[Kappa Facility]]
+
+## Undersea Dam
+**Explored:** no
+**Status:** unknown
+**Parent:** [[Lost World Jungle]]
+**Position:** in the water beneath the Dam on Path to Kappa
+**Related:** [[Dam on Path to Kappa]]
+
+- Visible from above through the water beneath the dam.
+### 2026-05-01
+- Related to [[Dam on Path to Kappa]]
+
+## Kappa Upper Level
+**Explored:** partial
+**Position:** upper level of Kappa Facility
+**Parent:** [[Kappa Facility]]
+### 2026-05-01
+- Related to [[Lab Level]]
+### 2026-05-01
+- Related to [[Kappa Facility]]
+
+## Lab Level
+**Explored:** partial
+**Position:** below Kappa Upper Level
+**Parent:** [[Kappa Facility]]
+### 2026-05-01
+- Related to [[Kappa Upper Level]]
+### 2026-05-01
+- Related to [[Kappa Facility]]
+
+## Fishing Spot Beyond the Dam
+**Explored:** no
+**Position:** just beyond the Dam on Path to Kappa
+### 2026-05-01
+- Related to [[Dam on Path to Kappa]]
+
+## Fishing Hab
+**Explored:** partial
+**Position:** well past the Outflow Dam
+### 2026-05-01
+- Related to [[Outflow Dam]]
+
+## Outflow Dam
+**Explored:** partial
+
+## Inflow Dam
+**Explored:** partial
+
+## Power Facility Rho
+**Explored:** partial
+
+## Communications Facility Sigma
+**Status:** found
+**Explored:** partial
+
+## Materials Research Facility
+**Explored:** partial
+
+## Facility Omega
+**Explored:** partial
+**Parent:** [[Level 6 — Facility Omicron]]
+### 2026-05-01
+- Related to [[Facility Omicron]]
+
+## Bunker Room
+**Explored:** no
+**Parent:** [[Facility Epsilon]]
+
+## Big Door in Lambda Reactor Room
+**Explored:** no
+**Position:** in the reactor room of Lambda
+
+## Undersea Dam Control Room
+**Explored:** no
+**Parent:** [[Undersea Dam]]

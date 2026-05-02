@@ -25,7 +25,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 ## Gold
 **Category:** ore
 **Status:** in supply
-**Location:** [[Level 4 — Facility Delta]] (Rig #4)
+**Location:** Rig #5
 **Related:** [[Rig #4]]
 
 - Mined as part of the mixed vein at Rig #4, Facility Delta area.
@@ -33,7 +33,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 ## Meteorite
 **Category:** ore
 **Status:** in supply
-**Location:** [[Level 4 — Facility Delta]] (Rig #5)
+**Location:** Rig #4
 **Related:** [[Rig #5]]
 
 - Mined at Rig #5, near Facility Delta on the Level 4 crater floor.
@@ -73,6 +73,8 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Opens Epsilon's Secure Storage.
 - Roger (Loadmaster) lost it — told Jack about it.
 - Probable location: Sorrell's fishing hab near Theta. Not yet recovered.
+### 2026-05-01
+- Related to [[player]]
 
 ## Empty Hardened Storage Drive
 **Category:** tech-component
@@ -101,6 +103,10 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 - Needed to run Mu's oxygen dome.
 - Delivered to Mu. Oxygen dome confirmed running.
+### 2026-05-01
+- Related to [[Facility Mu]]
+### 2026-05-01
+- Related to [[Facility Epsilon]]
 
 ## Jaspite Focusing Lens
 **Category:** tech-component
@@ -129,6 +135,8 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - In the upper entry chamber on Level 1.
 - Operating status and ore type still not confirmed.
 - Has a Mk1 cargo drone assigned.
+### 2026-05-01
+- Related to [[Level 1 — Habitat]]
 
 ## Rig #2
 **Category:** equipment
@@ -137,6 +145,10 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Related:** [[Kalynite]], [[Mk1 Cargo Drone]]
 
 - Mining kalynite at Site Beta. Has a Mk1 cargo drone.
+### 2026-05-01
+- Related to [[Kalynite]]
+### 2026-05-01
+- Related to [[Mk1 Cargo Drone]]
 
 ## Rig #3
 **Category:** equipment
@@ -145,6 +157,10 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Related:** [[Kaloxite]], [[Mk1 Cargo Drone]]
 
 - Mining kaloxite on Level 3. Has a Mk1 cargo drone.
+### 2026-05-01
+- Related to [[Kaloxite]]
+### 2026-05-01
+- Related to [[Mk1 Cargo Drone]]
 
 ## Rig #4
 **Category:** equipment
@@ -153,6 +169,12 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Related:** [[Gold]], [[Kalynite]], [[Mk1 Cargo Drone]]
 
 - Mining gold + kalynite. Has a Mk1 cargo drone.
+### 2026-05-01
+- Related to [[Gold]]
+### 2026-05-01
+- Related to [[Kalynite]]
+### 2026-05-01
+- Related to [[Mk1 Cargo Drone]]
 
 ## Rig #5
 **Category:** equipment
@@ -161,6 +183,12 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 **Related:** [[Meteorite]], [[Meteor Glass]], [[Mk1 Cargo Drone]]
 
 - Mining meteorite + meteor glass. Has a Mk1 cargo drone.
+### 2026-05-01
+- Related to [[Meteorite]]
+### 2026-05-01
+- Related to [[Meteor Glass]]
+### 2026-05-01
+- Related to [[Mk1 Cargo Drone]]
 
 ## Laser Drill at Theta Shack
 **Category:** equipment
@@ -194,10 +222,12 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 - Numeric code: 7924. Provided by Samantha Corburn.
 - Target lock not yet identified.
+### 2026-05-01
+- Related to [[Samantha Corburn]]
 
 ## Epsilon Storage Room Code
 **Category:** access-code
-**Status:** unknown
+**Status:** answered
 **Location:** [[Epsilon Storage Room]]
 **Related:** [[Epsilon Storage Room]]
 
@@ -206,8 +236,36 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Surface Hab Storage Code
 **Category:** access-code
-**Status:** unknown
+**Status:** answered
 **Location:** [[Surface Hab Storage]]
 **Related:** [[Surface Hab Storage]]
 
 - Numeric code for the locked storage unit at the surface hab is unknown.
+
+## Console
+**Location:** Loadmaster's Office
+**Status:** inaccessible
+**Category:** tech-component
+### 2026-05-01
+- Related to [[Loadmaster's Office]]
+
+## Key Card
+**Location:** obtained from Simone Parker
+**Category:** key-item
+### 2026-05-01
+- Related to [[Simone Parker]]
+### 2026-05-01
+- Related to [[Grant Harlow]]
+
+## Gaia Data Server in Lambda
+**Location:** Facility Lambda
+**Category:** tech-component
+
+## Bypass Chip
+**Status:** required
+**Category:** tech-component
+
+## Scrambled Console in Lambda
+**Location:** Facility Lambda
+**Status:** needs decryption
+**Category:** tech-component

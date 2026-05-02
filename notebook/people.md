@@ -44,6 +44,8 @@ description: Named NPCs and their roles
 **Location:** Facility Epsilon, Crew Quarters A
 **Status:** Active (resident)
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[George Broussard]], [[Lisa Chapman]], [[Ncuti Sinclair]]
+### 2026-05-01
+- Related to [[Bunker Room]]
 
 ## Lisa Chapman
 **Role:** Crew member
@@ -81,15 +83,29 @@ description: Named NPCs and their roles
 **Related:** [[Facility Epsilon]]
 
 - Known as "Sam". Provided box code 7924 (purpose/target unknown).
+### 2026-05-01
+- Related to [[Tagrite Focusing Lens]]
 
 ## Simone Parker
 **Role:** Unknown
 **Location:** Crew Quarters C
 **Status:** Unknown
 **Related:** [[Crew Quarters C]], [[Facility Epsilon]]
+### 2026-05-01
+- Related to [[Bunker Room]]
 
 ## Dieter Yar
 **Role:** Unknown
 **Location:** Crew Quarters C
 **Status:** Unknown
 **Related:** [[Crew Quarters C]], [[Facility Epsilon]]
+
+## Andy Sorrell
+
+### 2026-05-01
+- Related to [[Fishing Spot Beyond the Dam]]
+
+## Roger Patton
+**Role:** loadmaster
+### 2026-05-01
+- Related to [[Loadmaster's Key]]

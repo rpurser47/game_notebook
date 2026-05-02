@@ -194,3 +194,127 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 
 ## Session — 2026-04-30 21:40
 - Dieter Yar lives in Crew Quarter C.
+
+## Session — 2026-05-01 16:06
+- 7924 does not work on the Epsilon storage room.
+
+## Session — 2026-05-01 17:05
+- There is another drill site just outside the south exit of the Epsilon Yard.
+- The drill site is just off the road from the sign.
+
+## Session — 2026-05-01 17:06
+- Samantha listed another shipment.
+- The shipment includes a tagrite focusing lens.
+- The shipment includes access code 9970.
+
+## Session — 2026-05-01 17:11
+- Followed the path from Epsilon Yard south gate towards Kappa.
+- Found a dam with a door that is rusted shut.
+- Saw an undersea dam in the water beneath the dam.
+
+## Session — 2026-05-01 17:19
+- Followed the path from Epsilon Yard south gate toward Kappa.
+- Found a dam on the path to Kappa.
+- The dam has a door that is rusted shut.
+- There is an "undersea dam" visible in the water beneath the dam.
+
+## Session — 2026-05-01 17:20
+- There appears to be a quest to drain the water at Kappa.
+- Draining the water at Kappa would reveal the undersea dam.
+- The undersea dam is currently hidden beneath water at Kappa.
+
+## Session — 2026-05-01 17:26
+- There is an elevator from Kappa Upper Level down to the Lab Level.
+- Kappa has an Upper Level.
+- Kappa has a Lab Level below the Upper Level.
+
+## Session — 2026-05-01 17:26
+- The elevator at Kappa will not work while the water level is up.
+- The water level is blocking access to the elevator between Kappa Upper Level and the Lab Level.
+
+## Session — 2026-05-01 17:27
+- Found a note from Andy Sorrell.
+- The note says the fishing spot is just beyond the dam.
+
+## Session — 2026-05-01 17:34
+- The player thinks they found the fishing hab.
+- The fishing hab is well past the dam.
+- The dam is officially called the Outflow Dam.
+
+## Session — 2026-05-01 17:35
+- Found the Loadmaster's Key.
+
+## Session — 2026-05-01 17:49
+- Reactor parts were obtained from the loadmaster's office.
+
+## Session — 2026-05-01 17:50
+- Roger Patton's security card key was obtained.
+- The security card key is associated with the loadmaster.
+
+## Session — 2026-05-01 17:51
+- There is a console in the Loadmaster's Office.
+- The console in the Loadmaster's Office is currently inaccessible to the player.
+
+## Session — 2026-05-01 20:22
+- Player found a directory of facilities.
+
+## Session — 2026-05-01 20:23
+- The player is at BOREHOLE FACILITY: Omicron.
+- The player found a directory of facilities.
+- The player has the Box Code 7924 tied to Samantha Corburn.
+- The player has the Epsilon Storage Room Code.
+- The player has the Surface Hab Storage Code.
+- The player has Console access.
+- The player has rig codes for Rig #1 through Rig #5.
+- Rig #1 is Level 1: Habitat.
+- Rig #2 is tied to Kalynite and a Mk1 Cargo Drone.
+- Rig #3 is tied to Kaloxite and a Mk1 Cargo Drone.
+- Rig #4 is tied to Gold, Kalynite, and a Mk1 Cargo Drone.
+- Rig #5 is tied to Meteorite, Meteor Glass, and a Mk1 Cargo Drone.
+- The Power Cell is linked to Facility Mu / Facility Epsilon.
+
+## Session — 2026-05-01 20:23
+- POWER FACILITY: Rho was mentioned.
+
+## Session — 2026-05-01 20:23
+- COMMUNICATIONS FACILITY: Sigma was found.
+- The player discovered a new facility named Sigma.
+
+## Session — 2026-05-01 20:23
+- Found Material Refinement Facility Tau.
+
+## Session — 2026-05-01 20:24
+- MATERIALS RESEARCH FACILITY: lota was found.
+
+## Session — 2026-05-01 20:24
+- Found Scientific Research Facility Omega.
+- Found Borehole Facility Omicron.
+
+## Session — 2026-05-01 20:24
+- Found POWER FACILITY: Rho.
+
+## Session — 2026-05-01 20:25
+- Found COMMUNICATIONS FACILITY: Sigma.
+
+## Session — 2026-05-01 21:11
+- Opened the big door in Epsilon
+
+## Session — 2026-05-01 21:12
+- Simone Parker is dead in the Bunker Room in Facility Epsilon.
+- The player obtained a key card from Simone Parker.
+
+## Session — 2026-05-01 21:13
+- Grant Harlow is dead in the Bunker Room in Epsilon
+- Obtained a key card from Grant Harlow
+
+## Session — 2026-05-01 21:29
+- There is another Gaia Data Server in the Lambda facility.
+
+## Session — 2026-05-01 21:30
+- There's a big door that needs a bypass chip in the reactor room of Lambda
+
+## Session — 2026-05-01 21:31
+- There is a scrambled console in Lambda that needs to be decrypted.
+
+## Session — 2026-05-01 21:41
+- A security card is needed from Sinclair Ncuti to access the control room in the Undersea Dam.

@@ -17,7 +17,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Find Sorrell's Fishing Hab
 **Subtype:** quest
-**Status:** open
+**Status:** answered
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** (none)
 **Related:** [[Sorrell]], [[Facility Theta]], [[Theta Shack]]
@@ -27,7 +27,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Recover Loadmaster's Key
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Find Sorrell's Fishing Hab]]
 **Related:** [[Roger]], [[Loadmaster's Key]], [[Sorrell]]
@@ -45,7 +45,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Retrieve Reactor Parts
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Unlock Epsilon Secure Storage]]
 **Related:** [[Epsilon Secure Storage]], [[Lambda Reactor]]
@@ -135,7 +135,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Epsilon Airlock Big Door
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Requires:** (none)
 **Related:** [[Epsilon Airlock]]
 
@@ -205,7 +205,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Explore North Gate Jungle
 **Subtype:** plan
-**Status:** open
+**Status:** completed
 **Requires:** (none)
 **Related:** [[North Gate]], [[Tangrite]]
 
@@ -221,7 +221,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Reach Level 6 — Facility Omicron
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Requires:** (none)
 **Related:** [[Level 6 — Facility Omicron]], [[Climber]]
 
@@ -311,8 +311,14 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Box Code 7924 — Identify Target
 **Subtype:** mystery
-**Status:** in-progress
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Box Code 7924]]
 
 - Code 7924 is known (from Samantha Corburn). What lock does it open?
+
+## Drain Water at Kappa
+**Status:** in-progress
+**Subtype:** quest
+### 2026-05-01
+- Related to [[Undersea Dam]]
