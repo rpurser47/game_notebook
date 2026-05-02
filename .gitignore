@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Game Notebook specific
+notebook/.index/
+notebook/.history/
