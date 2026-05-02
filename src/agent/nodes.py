@@ -464,24 +464,59 @@ Return only the IDs of items that are genuinely relevant to this query."""
                     for chunk in chunks:
                         context_parts.append(f"---\n{chunk.get('content', '')}\n---")
 
-        elif intent == "record":
+        elif intent in ("record", "update"):
             observations = state.get("extracted_observations", [])
             entities = state.get("resolved_entities", [])
+            updates = state.get("extracted_updates", [])
+
             if observations:
                 context_parts.append(f"Recorded {len(observations)} observation(s).")
-            if entities:
+            if intent == "record" and entities:
                 new_entities = [e for e in entities if e.get("is_new")]
                 if new_entities:
                     names = [e.get("resolved_name", e["name"]) for e in new_entities]
                     context_parts.append(f"New entities added: {', '.join(names)}")
 
-        elif intent == "update":
-            updates = state.get("extracted_updates", [])
-            files_modified = state.get("files_modified", [])
-            if updates:
-                context_parts.append(f"Made {len(updates)} update(s).")
-            if files_modified:
-                context_parts.append(f"Files modified: {', '.join(files_modified)}")
+            # Collect search queries: entity names + observation text
+            search_queries = [
+                e.get("resolved_name", e["name"])
+                for e in entities
+            ] + [
+                u.get("entity", "") for u in updates if u.get("entity")
+            ] + observations
+
+            # Fetch related context for each query
+            related_chunks = []
+            seen_ids = set()
+            for name in search_queries:
+                if not name:
+                    continue
+                results = self.index.hybrid_search(semantic_query=name, top_k=3)
+                for chunk in results:
+                    cid = chunk.get("chunk_id")
+                    if cid not in seen_ids:
+                        seen_ids.add(cid)
+                        related_chunks.append(chunk)
+
+            # Also pull open todos related to what was just recorded/updated,
+            # so the response can mention unblocked next steps
+            combined_query = " ".join(q for q in search_queries if q)
+            if combined_query:
+                open_todos = self.index.hybrid_search(
+                    semantic_query=combined_query,
+                    filters={"entity_type": "todos", "status": "open"},
+                    top_k=3,
+                )
+                for chunk in open_todos:
+                    cid = chunk.get("chunk_id")
+                    if cid not in seen_ids:
+                        seen_ids.add(cid)
+                        related_chunks.append(chunk)
+
+            if related_chunks:
+                context_parts.append("\nRelated information from the notebook:")
+                for chunk in related_chunks:
+                    context_parts.append(f"---\n{chunk.get('content', '')}\n---")
 
         # Build response prompt
         context_str = "\n".join(context_parts) if context_parts else ""
@@ -493,9 +528,9 @@ Intent: {intent}
 {context_str}
 
 Respond naturally and concisely. Remember:
-- For recording: acknowledge briefly, confirm key facts
+- For recording: acknowledge what was recorded, then mention any relevant related info AND any open next steps or quests from the notebook context above
+- For updates: acknowledge the change, then explicitly mention what is now unblocked or what the next open step is, using the notebook context above
 - For queries: answer directly using the retrieved information
-- For updates: "Noted. [one sentence summary]"
 - For chat: respond naturally
 
 Do not explain your process or mention files."""
