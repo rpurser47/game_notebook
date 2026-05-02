@@ -50,7 +50,9 @@ Field reference by type:
 Rules:
 - Be precise. Only extract what's explicitly stated or clearly implied.
 - Tag uncertain info with "(probable)" in the observation text.
-- Entity names should be proper nouns when possible.
+- CRITICAL — entity naming: derive a stable, descriptive name from what the thing IS and WHERE it is, not from the words used in conversation. Never use conversational references like "second", "another", "that", "the one near", "new", or ordinal words as part of a name. Use location + type to form the name instead.
+  - BAD: "Second Drill", "Another Laser Drill", "New Location"
+  - GOOD: "Laser Drill near South Gate", "Drill Site near Epsilon South Gate"
 - For corrections, include the old_value if mentioned.
 - If nothing to extract, return empty arrays.
 - CRITICAL: If a person's name is not in known_entities["characters"], they MUST appear as an entity with is_new: true. Do not silently drop new people.
@@ -59,6 +61,7 @@ Rules:
 Examples:
 - "Simone Parker lives in Crew Quarter C" (not in known_entities) → entity: {"name": "Simone Parker", "type": "character", "is_new": true, "fields": {"location": "Crew Quarters C"}}
 - "I found a bridge beyond Mu Facility" (not in known_entities) → entity: {"name": "Bridge Beyond Mu", "type": "location", "is_new": true, "fields": {"explored": "partial", "position": "beyond Facility Mu"}}
+- "there's a second laser drill near the path from Epsilon South Gate to Kappa" (not in known_entities) → entity: {"name": "Laser Drill near Epsilon South Gate", "type": "item", "is_new": true, "fields": {"category": "equipment", "location": "near path from Epsilon South Gate to Kappa"}}  NOT {"name": "Second Laser Drill", ...}
 - "I fixed the reactor" → updates: [{"entity": "Repair Lambda Reactor", "field": "Status", "old_value": "open", "new_value": "completed"}, {"entity": "Repair Lambda Reactor", "field": "Outcome", "old_value": "", "new_value": "Reactor repaired by the player"}]
 - "The area west of Theta is unexplored jungle" (not in known_entities) → entity: {"name": "Area West of Theta", "type": "location", "is_new": true, "fields": {"explored": "no", "position": "west of Facility Theta"}}"""
 
