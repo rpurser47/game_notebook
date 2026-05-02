@@ -23,7 +23,7 @@ A conversational agentic tool that acts as a smart notebook for 1st-person RPG g
 ```mermaid
 flowchart TD
     CLI["CLI Interface\n─────────────────\nLoad last 20 messages\nInput prompt: > \nRich terminal, purple theme"]
-    Agent["LangGraph Agent\n─────────────────\nRouter · Extract · Resolve\nAnalyzeQuery · Retrieve\nWrite · Modify · Respond"]
+    Agent["LangGraph Agent\n─────────────────\nRouter · Extract · Resolve\nAnalyzeQuery · Retrieve · Reflect\nPersist · Respond"]
     MD["Markdown Files\n─────────────────\nnotebook/journal.md\npeople.md · places.md\nthings.md · todos.md\nevents.md · [dynamic].md\n.history/conversation.jsonl"]
     VI["Vector Index\n─────────────────\n.index/chromadb/\nChunks embedded\nMetadata for filtering\nHash-based incremental updates"]
 
@@ -88,6 +88,7 @@ Todos file uses a single type `todos` with **Subtype** field to distinguish: `qu
 **Position:** spatial relationship (for locations)
 **Parent:** [[ContainingPlace]] (for locations)
 **Subtype:** quest | plan | mystery (for todos)
+**Outcome:** how/why it was resolved (for completed/answered todos)
 **Date:** YYYY-MM-DD (for events)
 **Related:** [[EntityName]], [[OtherEntity]]
 
@@ -97,6 +98,8 @@ Todos file uses a single type `todos` with **Subtype** field to distinguish: `qu
 ### YYYY-MM-DD
 - Timestamped history entry (appended on updates)
 ```
+
+The `**Outcome:**` field is written automatically when a todo's status becomes `completed` or `answered`. The extractor produces it from the user's message; if the message contains no detail (e.g. a bare "mark as done"), the raw user input is used as a fallback.
 
 ### Journal Format
 
@@ -161,27 +164,24 @@ class NotebookState(TypedDict):
 flowchart TD
     START([START]) --> Router
 
-    Router -->|record| Extract_R[Extract]
+    Router -->|record| Extract
     Router -->|query| AnalyzeQuery
-    Router -->|update| Extract_U[Extract]
+    Router -->|update| Extract
     Router -->|chat| Respond
 
-    Extract_R --> Resolve_R[Resolve]
-    Resolve_R --> Write
+    Extract --> Resolve
+    Resolve --> Persist
 
     AnalyzeQuery --> Retrieve
+    Retrieve --> Reflect
 
-    Extract_U --> Resolve_U[Resolve]
-    Resolve_U --> Modify
-
-    Write --> Respond
-    Retrieve --> Respond
-    Modify --> Respond
+    Persist --> Respond
+    Reflect --> Respond
 
     Respond --> END([END])
 ```
 
-**Note:** Both `record` and `update` intents flow through Extract → Resolve, then diverge: `record` goes to Write, `update` goes to Modify.
+Both `record` and `update` intents share the same path: Extract → Resolve → Persist. The `persist` node uses `intent` to decide whether to append to the journal (record only).
 
 ### Intent Classification
 
@@ -208,10 +208,18 @@ flowchart TD
     QA -->|filters only| MS["Metadata-only Search\ntop_k = 30"]
     QA -->|neither| EM[Empty Result]
 
-    SS --> Respond
-    MS --> Respond
+    SS --> Reflect
+    MS --> Reflect
     EM --> Respond
+
+    Reflect["Reflect — LLM\n────────────────\nFilter chunk IDs\nto genuinely relevant ones"] --> Respond
 ```
+
+### Reflection (Relevance Filtering)
+
+After hybrid search, a lightweight LLM pass filters the retrieved chunks to only those genuinely relevant to the query. This prevents metadata keyword collisions from polluting results (e.g. a query about "codes" returning mining rigs because they share a keyword).
+
+The reflect node builds a compact list of `{id, summary}` pairs and asks the LLM to return only the relevant IDs. On JSON parse failure it passes all chunks through unchanged.
 
 ### Query Examples
 
@@ -248,7 +256,7 @@ Status filters are only applied when **explicitly** requested ("open quests", "c
 
 ### Incremental Index Updates
 
-Index updates happen after every Write/Modify via content-hash tracking:
+Index updates happen after every Persist via content-hash tracking:
 
 | Action | Index Operation |
 |--------|-----------------|
@@ -278,7 +286,9 @@ Orphaned chunks (from deletions/renames) are removed during startup full reindex
     }
   ],
   "updates": [
-    {"entity": "Roger", "field": "role", "old_value": "loadmaster", "new_value": "captain"}
+    {"entity": "Roger", "field": "role", "old_value": "loadmaster", "new_value": "captain"},
+    {"entity": "Recover Key Quest", "field": "status", "old_value": "open", "new_value": "completed"},
+    {"entity": "Recover Key Quest", "field": "outcome", "old_value": "", "new_value": "Found at Sorrell's fishing hab"}
   ],
   "relationships": [
     {"from": "Kira", "relation": "is at", "to": "Millhaven"}
@@ -290,10 +300,12 @@ Orphaned chunks (from deletions/renames) are removed during startup full reindex
 - Character: `role`, `location`, `status`
 - Location: `explored`, `position`, `parent`
 - Item: `category`, `status`, `location`
-- Todo: `subtype` (quest/plan/mystery), `status`, `requires`
+- Todo: `subtype` (quest/plan/mystery), `status`, `requires`, `outcome`
 - Event: `category`, `date`, `location`, `status`
 
 **Critical rule**: New people/places MUST appear as entities with `is_new: true`. Uncertain info is tagged with `(probable)`.
+
+When a todo's status is set to `completed` or `answered`, the extractor also emits a companion `outcome` update summarising how/why it was resolved.
 
 ### Coreference Resolution
 
@@ -316,6 +328,39 @@ Coreference output:
   "reasoning": "brief explanation"
 }
 ```
+
+---
+
+## Persist Node
+
+The `persist` node handles all writes for both `record` and `update` intents:
+
+1. **Journal** (record only) — appends observations as a new `## Session —` entry
+2. **New entities** — calls `create_entity` for each `is_new=true` entity
+3. **Field updates** — calls `update_entity` for each extracted update
+   - If the field already exists in the section, the value is replaced in-place
+   - If the field does not exist, it is inserted after the last `**Field:**` line
+4. **Completion propagation** — when a todo's `Status` becomes `completed` or `answered`:
+   - Reads the todo's `Related` links
+   - Finds any linked items in `things.md` whose status indicates unacquired (`lost`, `not obtained`, `not recovered`, `unknown`)
+   - Updates those items' `Status` to `found`
+   - Writes a fallback `Outcome` from the raw user input if the extractor didn't produce one
+5. **Relationships** — appends `Related to [[Entity]]` history entries
+6. **Re-index** — calls `index_file` on every modified file
+
+---
+
+## Respond Node — Contextual Enrichment
+
+For `record` and `update` intents, the respond node enriches the reply with related context from the index rather than just echoing back what was recorded.
+
+**Steps:**
+1. Collect search queries from entity names, update entity names, and observation strings
+2. Run `hybrid_search` for each query (top 3, deduped by chunk ID)
+3. Run an additional `hybrid_search` filtered to `entity_type=todos, status=open` using the combined query text — surfaces unblocked next steps
+4. Inject all retrieved chunks into the LLM prompt
+
+This means after recording Simone Parker's death the response can mention her known location, and after recovering a key the response can mention the quest that is now unblocked.
 
 ---
 
@@ -376,9 +421,9 @@ Stored in `notebook/.history/conversation.jsonl`:
 
 - Memory-only: records and recalls, never advises or strategizes
 - Concise and conversational, second person ("you found", "you've got")
-- Record: brief acknowledgement, confirm key facts
+- Record: brief acknowledgement, confirm key facts, mention related open items or next steps
 - Query: answer directly, mention related open items if relevant
-- Update: "Noted. [one sentence summary of change]"
+- Update: acknowledge the change, mention what is now unblocked
 - Never expose internal mechanics or mention files
 
 ### Response Examples
@@ -400,6 +445,13 @@ about missing cleaning supplies — you haven't resolved that yet.
 ```
 > actually Roger is the captain, not loadmaster
 Noted. Updated Roger's role from loadmaster to captain.
+```
+
+**Completing a quest:**
+```
+> I recovered the Loadmaster's Key at Sorrell's fishing hab
+You recovered the Loadmaster's Key. That completes Recover Loadmaster's Key.
+The next open step is Unlock Epsilon Secure Storage, which is now unblocked.
 ```
 
 ---
@@ -424,7 +476,7 @@ Noted. Updated Roger's role from loadmaster to captain.
 src/
 ├── agent/
 │   ├── graph.py        # LangGraph definition + NotebookAgent wrapper
-│   ├── nodes.py        # All 8 node implementations + NodeFactory
+│   ├── nodes.py        # All node implementations + NodeFactory
 │   └── state.py        # NotebookState TypedDict schema
 ├── storage/
 │   ├── markdown.py     # MarkdownStore: read/write/parse markdown files

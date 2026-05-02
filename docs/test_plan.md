@@ -10,107 +10,140 @@ Goal: verify that the four core notebook behaviors work reliably — recording, 
 |------|-------------|---------------|-------|
 | Unit | File system (temp dir) | LLM | < 1s |
 | Integration | File system + ChromaDB (temp dir) | LLM | < 10s |
-| E2E | Everything | Nothing | < 30s |
+| E2E | Everything | Nothing | ~2 min |
+
+Run with: `uv run --extra dev pytest`
+
+Markers: `unit`, `integration`, `e2e`, `slow`. E2E tests are skipped automatically if `OPENAI_API_KEY` is not set.
+
+File naming convention: `test_<name>_unit.py`, `test_<name>_integration.py`, `test_<name>_e2e.py`.
 
 ---
 
 ## Unit Tests
 
-### `tests/unit/markdown_unit.py` — Storage round-trips
+### `tests/unit/test_markdown_unit.py` — Storage round-trips
 
-These tests use a real temp directory. No mocking.
+Real temp directory, no LLM.
 
-| Test | Input | Expected |
-|------|-------|----------|
-| `test_create_entity` | create "Kira", type character, role blacksmith | `## Kira` and `**Role:** blacksmith` appear in people.md |
-| `test_update_entity_field` | update Roger's Role from "Loadmaster" to "Captain" | field value changes in-place, old value gone |
-| `test_update_appends_history` | update with `append_history=True` | dated `### YYYY-MM-DD` section appended below entity |
-| `test_append_to_journal` | append ["Found the key at fishing hab"] | new `## Session —` section at bottom of journal.md |
-| `test_parse_into_chunks` | parse people.md fixture | one chunk per `##` header, entity_name and entity_type populated |
-| `test_get_known_entities` | parse all fixture files | returns dict with "characters", "todos", etc. keys |
+| Class | What it covers |
+|-------|---------------|
+| `TestCreateEntity` | create entity, fields written correctly, appended to file |
+| `TestUpdateEntity` | field updated in-place; new fields inserted when absent; history appended |
+| `TestAppendToJournal` | session entry appended with date header |
+| `TestParseIntoChunks` | one chunk per `##` header, entity_name/type/status/related populated |
+| `TestGetKnownEntities` | returns dict grouped by type across multiple files |
 
-### `tests/unit/entities_unit.py` — Extraction parsing
+### `tests/unit/test_entities_unit.py` — Extraction parsing
 
-Mock the LLM; test that `EntityExtractor` correctly parses responses and handles edge cases.
+Mock LLM; tests that `EntityExtractor` parses responses and handles edge cases.
 
-| Test | LLM returns | Expected |
-|------|-------------|----------|
-| `test_extract_new_person` | valid JSON with one new character entity | `ExtractionResult.entities[0].is_new == True` |
-| `test_extract_handles_code_fence` | JSON wrapped in ` ```json ``` ` | parses successfully |
-| `test_extract_handles_malformed_json` | partial/invalid JSON | returns empty ExtractionResult, no exception |
-| `test_resolve_skips_llm_for_new_entity` | — | if name not in known_entities, no LLM call made |
-| `test_resolve_calls_llm_for_ambiguous` | coreference JSON: `{"resolved_to": "Roger", "confidence": "certain", ...}` | entity marked `is_new=False`, `resolved_name="Roger"` |
-| `test_resolve_uncertain_stays_new` | coreference JSON: `{"resolved_to": null, "confidence": "uncertain", ...}` | entity stays `is_new=True` |
+| Class | What it covers |
+|-------|---------------|
+| `TestExtract` | valid JSON, JSON in code fences, malformed JSON → empty result |
+| `TestResolveEntities` | skip LLM for genuinely new names; call LLM for ambiguous; uncertain stays new |
+
+### `tests/unit/test_nodes_unit.py` — Reflect node
+
+Mock LLM; tests the relevance-filtering pass.
+
+| Class | What it covers |
+|-------|---------------|
+| `TestReflectNode` | keeps relevant IDs; drops irrelevant; empty input skips LLM; all irrelevant → empty; malformed JSON passes through; unknown IDs ignored; chunk content unchanged |
+
+### `tests/unit/test_respond_unit.py` — Contextual enrichment
+
+Mock LLM and index; tests that respond fetches related context.
+
+| Class | What it covers |
+|-------|---------------|
+| `TestRespondContextualEnrichment` | calls `hybrid_search` for record intent; calls for update intent; skips for chat; context content appears in LLM prompt |
 
 ---
 
 ## Integration Tests
 
-These spin up a real `MarkdownStore` + `NotebookIndex` in a temp directory. LLM is still mocked.
+Real `MarkdownStore` + `NotebookIndex` in a temp directory. LLM mocked.
 
-### `tests/integration/test_storage_index.py` — Write → search round-trip
+### `tests/integration/test_storage_integration.py` — Write → search round-trip
 
-| Test | Steps | Expected |
-|------|-------|----------|
-| `test_new_entity_is_searchable` | create Kira via MarkdownStore, index_file, search "blacksmith" | Kira chunk appears in results |
-| `test_updated_entity_reflects_in_index` | create Roger, update role to Captain, index_file, search "Captain" | updated chunk returned, old "Loadmaster" content gone |
-| `test_metadata_filter_by_type` | create entities of mixed types, search with `entity_type=characters` filter | only character chunks returned |
-| `test_metadata_filter_by_status` | create todos with open/completed status, filter `status=open` | only open todos returned |
-| `test_hash_prevents_redundant_reindex` | index same file twice unchanged | second index call returns 0 changes |
-| `test_orphan_chunk_removed` | index file, delete entity from markdown, reindex all | deleted entity's chunk no longer in results |
+| Class | What it covers |
+|-------|---------------|
+| `TestSearchAfterWrite` | new entity searchable; updated entity reflects in index |
+| `TestMetadataFilters` | filter by entity_type; filter by status |
+| `TestIncrementalIndexing` | unchanged file → 0 updates; changed file → updates |
+| `TestOrphanRemoval` | deleted entity chunk removed on reindex |
 
 ---
 
-## E2E / Prompt Tests
+## E2E Tests
 
-These call the real LLM (requires `OPENAI_API_KEY`). They test that the prompts produce correct behavior on realistic game inputs. Skipped if no API key is set.
+Real LLM (`gpt-4o`, `temperature=0.3`). Each test gets a fresh temp notebook seeded with realistic game content (Roger, Rupert Sanford, Kingston, Facility Epsilon, Facility Lambda, four todos including the Recover Loadmaster's Key chain).
 
-Each test creates a fresh temp notebook directory, initializes a `NotebookAgent`, sends one or more messages, and inspects both the response and the resulting markdown files.
+### `tests/e2e/test_record_e2e.py` — Recording new information
 
-### `tests/e2e/test_record.py` — Recording new information
+| Class | What it covers |
+|-------|---------------|
+| `TestRecordNewNPC` | new NPC appears in people.md with role; journal updated; response acknowledges |
+| `TestRecordNewLocation` | new location appears in places.md |
+| `TestRecordMultipleEntities` | both entities recorded in same turn |
 
-| Test | Input | Assert |
-|------|-------|--------|
-| `test_record_new_npc` | "I met a mechanic named Yuki at the surface base, she fixes drones" | people.md contains `## Yuki`, Role includes "mechanic", journal updated |
-| `test_record_new_location` | "Found a new room called the Bunker Room below Epsilon" | places.md contains `## Bunker Room` |
-| `test_record_new_quest` | "I need to find the source of the Jaspite ore — no idea where to look yet" | todos.md contains new entry, Subtype is quest |
-| `test_record_multiple_entities` | "Talked to a guard named Praxis outside the Theta gate — he mentioned someone called the Warden" | both Praxis and the Warden appear in people.md |
+### `tests/e2e/test_query_e2e.py` — Recall
 
-### `tests/e2e/test_query.py` — Recall
+| Class | What it covers |
+|-------|---------------|
+| `TestQueryKnownNPC` | returns Rupert details; returns Roger details |
+| `TestQueryOpenQuests` | open quests returned; completed quests not hallucinated |
+| `TestQueryOpenMysteries` | mysteries returned |
+| `TestQueryDoesNotModifyFiles` | query leaves all files unchanged |
 
-These seed the temp notebook with the real fixture files, then query.
+### `tests/e2e/test_update_e2e.py` — Corrections and status changes
 
-| Test | Input | Assert |
-|------|-------|--------|
-| `test_query_known_npc` | "What do I know about Rupert Sanford?" | response mentions "custodian" and "cleaning supplies" |
-| `test_query_open_quests` | "What quests are still open?" | response includes "Unlock Epsilon Secure Storage", "Repair Lambda Reactor", does not include completed quests |
-| `test_query_open_mysteries` | "What mysteries am I tracking?" | response includes "Lambda Radiation Cause", "Epsilon Crew Disappearance" |
-| `test_query_entity_relationship` | "What's Roger's connection to the key?" | response mentions Loadmaster's Key and Sorrell/fishing hab |
+| Class | What it covers |
+|-------|---------------|
+| `TestUpdateQuestStatus` | todo marked completed in file; response acknowledges |
+| `TestCorrectNPCRole` | field updated in-place; no duplicate entry |
+| `TestUpdateDoesNotCreateDuplicate` | re-stating existing info → still one entry |
 
-### `tests/e2e/test_update.py` — Corrections and status changes
+### `tests/e2e/test_routing_e2e.py` — Intent classification
 
-| Test | Input | Assert |
-|------|-------|--------|
-| `test_update_quest_status` | "I finished the Theta Gate Servo Install" | todos.md shows `**Status:** completed` for that entry |
-| `test_correct_npc_role` | "Actually Roger is the captain, not the loadmaster" | people.md shows `**Role:** captain` (or Captain), response says "Noted" |
-| `test_update_does_not_create_duplicate` | "Roger's role is captain" (Roger already exists) | people.md has exactly one `## Roger` section |
+| Class | What it covers |
+|-------|---------------|
+| `TestRoutingRecord` | new ore creates entry; new NPC routes to record not update |
+| `TestRoutingQuery` | question about known entity doesn't modify files |
+| `TestRoutingUpdate` | mark-done modifies files; correction modifies files |
+| `TestRoutingChat` | greeting and meta-question leave files unchanged |
 
-### `tests/e2e/test_routing.py` — Intent classification
+### `tests/e2e/test_reflect_e2e.py` — Relevance filtering
 
-Checks that the router sends inputs down the right path by inspecting which files were modified (or not).
+| Class | What it covers |
+|-------|---------------|
+| `TestReflectionFiltersNoise` | codes query excludes rigs; person query excludes unrelated entities |
 
-| Test | Input | Expected intent | Files modified? |
-|------|-------|-----------------|-----------------|
-| `test_routes_record` | "Found a new ore called viridite near Lambda" | record | yes |
-| `test_routes_query` | "Where is the fishing hab?" | query | no |
-| `test_routes_update` | "Mark 'Explore North Gate Jungle' as done" | update | yes |
-| `test_routes_chat` | "Thanks, that's all for now" | chat | no |
+### `tests/e2e/test_contextual_response_e2e.py` — Contextual enrichment
+
+| Class | What it covers |
+|-------|---------------|
+| `TestRecordSurfacesRelatedContext` | recording NPC event surfaces known info about that NPC; recording key completion surfaces next step; response is not just an echo |
+| `TestUpdateSurfacesRelatedContext` | completing quest mentions what was unlocked; response is not bare "Noted." |
+
+### `tests/e2e/test_status_propagation_e2e.py` — Cross-entity status propagation
+
+| Class | What it covers |
+|-------|---------------|
+| `TestQuestCompletionPropagatesStatus` | completing key-recovery quest updates item status away from "lost"; both todo AND item updated; item not left stale after quest done |
+
+### `tests/e2e/test_outcome_e2e.py` — Outcome field on completion
+
+| Class | What it covers |
+|-------|---------------|
+| `TestOutcomeFieldOnCompletion` | completing quest adds `**Outcome:**` field; outcome is meaningful (not just "completed"); mystery resolution adds outcome; explicit mark-done also adds outcome; open todos do not get an outcome |
 
 ---
 
 ## What's Not Covered
 
 - CLI rendering (Rich output) — manual verification only
-- Conversation persistence (JSONL) — covered implicitly by integration tests
-- Dynamic file creation (`create_topic_file`) — low priority, test manually when it first occurs
+- Conversation persistence (JSONL) — covered implicitly by e2e tests
+- Dynamic file creation (`create_topic_file`) — low priority, test manually when first triggered
 - Anthropic provider — spot-check manually; prompt behavior should be equivalent
