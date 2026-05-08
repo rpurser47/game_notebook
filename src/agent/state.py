@@ -26,11 +26,15 @@ class NotebookState(TypedDict, total=False):
     # Resolved entities (after coreference)
     resolved_entities: list[dict]
 
+    # Conflict detection (proposed updates that contradict DB state)
+    conflicts: list[dict]
+
     # Query analysis
     query_filters: dict | None
     semantic_query: str | None
 
-    # Retrieved context
+    # Retrieved context — structured (DB) and semantic (vector)
+    structured_results: list[dict]
     retrieved_chunks: list[dict]
 
     # Output

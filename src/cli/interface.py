@@ -52,8 +52,9 @@ class NotebookCLI:
 
     def display_stats(self, stats: dict) -> None:
         """Display index statistics."""
+        entity_part = f" · {stats['entities']} entities" if "entities" in stats else ""
         self.console.print(
-            f"[dim]Loaded {stats['total_chunks']} chunks from {stats['files']} files.[/dim]"
+            f"[dim]Loaded {stats['total_chunks']} chunks from {stats['files']} files{entity_part}.[/dim]"
         )
 
     def display_history(self, history: list[dict]) -> None:
@@ -92,9 +93,10 @@ class NotebookCLI:
     def display_status(self) -> None:
         """Display current status."""
         stats = self.agent.get_stats()
+        entity_part = f" | Entities: {stats['entities']}" if "entities" in stats else ""
         self.console.print(
             f"[dim]Chunks: {stats['total_chunks']} | "
-            f"Files: {stats['files']} | "
+            f"Files: {stats['files']}{entity_part} | "
             f"Messages in memory: {stats['messages_in_memory']}[/dim]"
         )
 

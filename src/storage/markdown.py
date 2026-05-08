@@ -85,64 +85,66 @@ class MarkdownStore:
             return None, content
 
     def parse_entity_fields(self, content: str) -> dict:
-        """Parse **Field:** values from entity content."""
+        """Parse **Field:** values from entity content.
+
+        Scans the entire section, including content after history blocks.
+        When a field appears multiple times, the last occurrence wins.
+        """
         fields = {}
 
-        # Status (normalize to lowercase)
-        status_match = re.search(r"\*\*Status:\*\*\s*(.+?)(?:\n|$)", content)
-        if status_match:
-            fields["status"] = status_match.group(1).strip().lower()
+        def _last(pattern: str, text: str) -> str | None:
+            """Return the last match for a field pattern (handles duplicate fields)."""
+            matches = re.findall(pattern, text)
+            return matches[-1].strip() if matches else None
 
-        # Location
-        location_match = re.search(r"\*\*Location:\*\*\s*(.+?)(?:\n|$)", content)
-        if location_match:
-            fields["location"] = location_match.group(1).strip()
+        status = _last(r"\*\*Status:\*\*\s*(.+?)(?:\n|$)", content)
+        if status:
+            fields["status"] = status.lower()
 
-        # Role
-        role_match = re.search(r"\*\*Role:\*\*\s*(.+?)(?:\n|$)", content)
-        if role_match:
-            fields["role"] = role_match.group(1).strip()
+        location = _last(r"\*\*Location:\*\*\s*(.+?)(?:\n|$)", content)
+        if location:
+            fields["location"] = location
 
-        # Category (things.md, events.md)
-        category_match = re.search(r"\*\*Category:\*\*\s*(.+?)(?:\n|$)", content)
-        if category_match:
-            fields["category"] = category_match.group(1).strip().lower()
+        role = _last(r"\*\*Role:\*\*\s*(.+?)(?:\n|$)", content)
+        if role:
+            fields["role"] = role
 
-        # Explored status (places.md)
-        explored_match = re.search(r"\*\*Explored:\*\*\s*(.+?)(?:\n|$)", content)
-        if explored_match:
-            fields["explored"] = explored_match.group(1).strip().lower()
+        category = _last(r"\*\*Category:\*\*\s*(.+?)(?:\n|$)", content)
+        if category:
+            fields["category"] = category.lower()
 
-        # Position (places.md)
-        position_match = re.search(r"\*\*Position:\*\*\s*(.+?)(?:\n|$)", content)
-        if position_match:
-            fields["position"] = position_match.group(1).strip()
+        explored = _last(r"\*\*Explored:\*\*\s*(.+?)(?:\n|$)", content)
+        if explored:
+            fields["explored"] = explored.lower()
 
-        # Parent (places.md, todos.md)
-        parent_match = re.search(r"\*\*Parent:\*\*\s*(.+?)(?:\n|$)", content)
-        if parent_match:
-            fields["parent"] = re.findall(r"\[\[(.+?)\]\]", parent_match.group(1))
+        position = _last(r"\*\*Position:\*\*\s*(.+?)(?:\n|$)", content)
+        if position:
+            fields["position"] = position
 
-        # Subtype (todos.md)
-        subtype_match = re.search(r"\*\*Subtype:\*\*\s*(.+?)(?:\n|$)", content)
-        if subtype_match:
-            fields["subtype"] = subtype_match.group(1).strip().lower()
+        parent_matches = re.findall(r"\*\*Parent:\*\*\s*(.+?)(?:\n|$)", content)
+        if parent_matches:
+            fields["parent"] = re.findall(r"\[\[(.+?)\]\]", parent_matches[-1])
 
-        # Date (events.md)
-        date_match = re.search(r"\*\*Date:\*\*\s*(.+?)(?:\n|$)", content)
-        if date_match:
-            fields["date"] = date_match.group(1).strip()
+        subtype = _last(r"\*\*Subtype:\*\*\s*(.+?)(?:\n|$)", content)
+        if subtype:
+            fields["subtype"] = subtype.lower()
 
-        # Description
-        description_match = re.search(r"\*\*Description:\*\*\s*(.+?)(?:\n|$)", content)
-        if description_match:
-            fields["description"] = description_match.group(1).strip()
+        date = _last(r"\*\*Date:\*\*\s*(.+?)(?:\n|$)", content)
+        if date:
+            fields["date"] = date
 
-        # Related (wiki-links)
-        related_match = re.search(r"\*\*Related:\*\*\s*(.+?)(?:\n|$)", content)
-        if related_match:
-            related_str = related_match.group(1)
-            fields["related"] = re.findall(r"\[\[(.+?)\]\]", related_str)
+        description = _last(r"\*\*Description:\*\*\s*(.+?)(?:\n|$)", content)
+        if description:
+            fields["description"] = description
+
+        outcome = _last(r"\*\*Outcome:\*\*\s*(.+?)(?:\n|$)", content)
+        if outcome:
+            fields["outcome"] = outcome
+
+        # Related: collect wiki-links from the last **Related:** line
+        related_matches = re.findall(r"\*\*Related:\*\*\s*(.+?)(?:\n|$)", content)
+        if related_matches:
+            fields["related"] = re.findall(r"\[\[(.+?)\]\]", related_matches[-1])
 
         return fields
 

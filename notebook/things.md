@@ -1,12 +1,12 @@
 ---
 type: items
-description: Ores, materials, equipment, key items, access codes, and tech components
+description: Resources, equipment, key items, access codes, and tech components
 ---
 
 # Things
 
 ## Kalynite
-**Category:** ore
+**Category:** resource
 **Status:** in supply
 **Location:** [[Level 2 — Site Beta]] (Rig #2), [[Level 4 — Facility Delta]] (Rig #4)
 **Related:** [[Rig #2]], [[Rig #4]]
@@ -14,7 +14,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Base ore. Mined at Site Beta (Rig #2, Level 2) and as part of Rig #4's mixed vein at Delta.
 
 ## Kaloxite
-**Category:** ore
+**Category:** resource
 **Status:** in supply
 **Location:** [[Level 3]] (Rig #3)
 **Related:** [[Rig #3]]
@@ -23,7 +23,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Mined at Rig #3 on Level 3.
 
 ## Gold
-**Category:** ore
+**Category:** resource
 **Status:** in supply
 **Location:** Rig #5
 **Related:** [[Rig #5]]
@@ -31,7 +31,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Mined at Rig #5, near Facility Delta on the Level 4 crater floor.
 
 ## Meteorite
-**Category:** ore
+**Category:** resource
 **Status:** in supply
 **Location:** Rig #4
 **Related:** [[Rig #4]]
@@ -39,7 +39,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Mined at Rig #4, near Facility Delta on the Level 4 crater floor.
 
 ## Meteor Glass
-**Category:** material
+**Category:** resource
 **Status:** in supply
 **Location:** [[Level 4 — Facility Delta]] (Rig #4)
 **Related:** [[Rig #4]], [[Meteorite]]
@@ -47,7 +47,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Produced from the meteorite vein at Rig #4.
 
 ## Tangrite
-**Category:** ore
+**Category:** resource
 **Status:** in supply (ongoing harvesting needed)
 **Location:** [[North Gate]] area, Lost World jungle (Level 5)
 **Related:** [[Facility Epsilon]], [[North Gate]]
@@ -56,8 +56,8 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Used for: Climber surface station (completed), large mining charges (pending).
 
 ## Jaspite
-**Category:** ore
-**Status:** not obtained (source unknown)
+**Category:** resource
+**Status:** found
 **Location:** unknown
 **Related:** [[Jaspite Focusing Lens]]
 
@@ -94,6 +94,10 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Required to gain access to facilities with locked gates.
 - First unit used at Mu gate (gate is now open).
 - Second unit crafted, intended for Theta's locked fenced gate. Not yet installed.
+### 2026-05-02
+- Related to [[Facility Theta]]
+### 2026-05-02
+- Related to [[Theta Gate]]
 
 ## Power Cell
 **Category:** tech-component
@@ -110,7 +114,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Jaspite Focusing Lens
 **Category:** tech-component
-**Status:** not obtained
+**Status:** found
 **Location:** unknown
 **Related:** [[Jaspite]], [[Laser Drill at Theta Shack]]
 
@@ -119,7 +123,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Oxygen Generators
 **Category:** equipment
-**Status:** found (location not logged)
+**Status:** found
 **Location:** unknown (found, specific location not narrated)
 **Related:** [[Facility Mu]]
 
@@ -193,10 +197,12 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 ## Laser Drill at Theta Shack
 **Category:** equipment
 **Status:** not operational (missing Jaspite focusing lens)
-**Location:** [[Theta Shack]]
+**Location:** near Facility Mu
 **Related:** [[Jaspite Focusing Lens]], [[Mk1 Cargo Drone]]
 
 - Cargo drone installed. Still needs Jaspite focusing lens to come online.
+### 2026-05-02
+- Related to [[Facility Mu]]
 
 ## Mk1 Cargo Drone
 **Category:** equipment
@@ -227,7 +233,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Epsilon Storage Room Code
 **Category:** access-code
-**Status:** open (code unknown)
+**Status:** blocked
 **Location:** [[Epsilon Storage Room]]
 **Related:** [[Epsilon Storage Room]]
 
@@ -251,7 +257,7 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 
 ## Simone Parker's Key Card
 **Category:** key-item
-**Status:** obtained
+**Status:** owned
 **Location:** on player (recovered from Bunker Room)
 **Related:** [[Simone Parker]], [[Bunker Room]]
 
@@ -289,3 +295,114 @@ description: Ores, materials, equipment, key items, access codes, and tech compo
 - Crate access code: 9970. Found on a shipment list Samantha Corburn showed.
 - Also linked to a Tangrite focusing lens shipment.
 - Target crate/lock not yet identified.
+
+## Second Laser Drill
+**Location:** near the path from Epsilon South Gate to Kappa
+**Category:** equipment
+### 2026-05-02
+- Related to [[Epsilon South Gate]]
+### 2026-05-02
+- Related to [[Kappa Facility]]
+
+## Herbicide Charge
+**Location:** Facility Theta
+**Category:** equipment
+**Status:** obtained
+### 2026-05-02
+- Related to [[Facility Theta]]
+### 2026-05-02
+- Related to [[Surface Base]]
+### 2026-05-03
+- Related to [[Surface Base]]
+### 2026-05-03
+- Related to [[Facility Theta]]
+### 2026-05-03
+- Related to [[Biology Lab]]
+### 2026-05-03
+- Related to [[Facility Theta]]
+
+## Biology Lab Blueprints
+**Location:** Facility Theta
+**Category:** key-item
+### 2026-05-02
+- Related to [[Facility Theta]]
+### 2026-05-02
+- Related to [[Surface Base]]
+
+## Strange Growth
+**Location:** Welfare Hab
+**Status:** blocking a door
+**Category:** resource
+### 2026-05-02
+- Related to [[Door in Welfare Hab]]
+
+## Gaia Secure Server
+**Location:** Theta Biolab
+**Status:** noted
+**Category:** tech-component
+### 2026-05-02
+- Related to [[Theta Biolab]]
+
+## Psuedofungus Spore
+**Location:** Theta Facility
+**Status:** noted
+**Category:** resource
+### 2026-05-02
+- Related to [[Theta Facility]]
+
+## Antigen to Psuedofungus Spore
+**Location:** Tai Shujin note
+**Status:** noted
+**Category:** key-item
+
+## Heavy Door in Lambda Facility
+**Location:** Facility Lambda
+**Status:** opened
+**Category:** key-item
+### 2026-05-02
+- Related to [[Facility Lambda]]
+
+## Secure Access Key
+**Status:** held by player
+**Category:** access-code
+### 2026-05-02
+- Related to [[player]]
+### 2026-05-02
+- Related to [[George Broussard]]
+
+## Oxygen Filter Upgrade
+**Status:** upgraded
+**Category:** equipment
+### 2026-05-02
+- Related to [[Suit]]
+
+## Gaia Data Server at Theta
+**Location:** Facility Theta
+**Status:** noted
+**Category:** tech-component
+**Description:** A Gaia data server located at Theta.
+### 2026-05-03
+- Related to [[Facility Theta]]
+### 2026-05-03
+- Related to [[Facility Theta]]
+
+## Locked Box in Lisa Chapman's Room
+**Location:** Lisa Chapman's room
+**Status:** locked
+**Category:** key-item
+**Description:** A box that requires a security code to open.
+### 2026-05-07
+- Related to [[Lisa Chapman's room]]
+
+## Mining Drill Northwest of Theta
+**Location:** northwest of Facility Theta
+**Status:** present
+**Category:** equipment
+**Description:** A mining drill near the locked storage.
+
+## Ncuti Sinclair's Security Card
+**Status:** held
+**Category:** access-code
+**Description:** A security card belonging to Ncuti Sinclair.
+### 2026-05-07
+- Related to [[Ncuti Sinclair]]

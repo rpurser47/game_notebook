@@ -43,7 +43,7 @@ Output ONLY valid JSON with this structure:
 Field reference by type:
 - character: role, location, status, description (optional — one sentence of colour or context: appearance, personality, what makes them memorable)
 - location: explored (yes|no|partial), status, position (spatial relationship to another place), parent (containing place), description (optional — atmosphere, notable features, what it feels like)
-- item: category (ore|material|equipment|key-item|tech-component|access-code), status, location, description (optional — what it looks like or why it matters)
+- item: category (resource|equipment|key-item|tech-component|access-code), status, location, description (optional — what it looks like or why it matters). Use "resource" for ores, minerals, and raw materials that are harvested or found in the world.
 - todo: subtype (quest|plan|mystery), status (open|in-progress|blocked|completed|answered), requires (prerequisite todo name), outcome (one sentence: how/why it was completed — only set when status becomes completed or answered)
 - event: category (death|discovery|encounter|hazard-confirmed|quest-resolution|other), date, location, status (active|resolved|noted)
 
@@ -62,6 +62,7 @@ Examples:
 - "Simone Parker lives in Crew Quarter C" (not in known_entities) → entity: {"name": "Simone Parker", "type": "character", "is_new": true, "fields": {"location": "Crew Quarters C"}}
 - "I found a bridge beyond Mu Facility" (not in known_entities) → entity: {"name": "Bridge Beyond Mu", "type": "location", "is_new": true, "fields": {"explored": "partial", "position": "beyond Facility Mu"}}
 - "there's a second laser drill near the path from Epsilon South Gate to Kappa" (not in known_entities) → entity: {"name": "Laser Drill near Epsilon South Gate", "type": "item", "is_new": true, "fields": {"category": "equipment", "location": "near path from Epsilon South Gate to Kappa"}}  NOT {"name": "Second Laser Drill", ...}
+- "I found a new ore called cryonite" → entity: {"name": "Cryonite", "type": "item", "is_new": true, "fields": {"category": "resource"}}
 - "I fixed the reactor" → updates: [{"entity": "Repair Lambda Reactor", "field": "Status", "old_value": "open", "new_value": "completed"}, {"entity": "Repair Lambda Reactor", "field": "Outcome", "old_value": "", "new_value": "Reactor repaired by the player"}]
 - "The area west of Theta is unexplored jungle" (not in known_entities) → entity: {"name": "Area West of Theta", "type": "location", "is_new": true, "fields": {"explored": "no", "position": "west of Facility Theta"}}"""
 

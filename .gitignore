@@ -220,5 +220,6 @@ __marimo__/
 # Game Notebook specific
 notebook/.index/
 notebook/.history/
+notebook/.db/
 .claude/settings.local.json
 .claude/settings.local.json

@@ -54,20 +54,24 @@ def main():
         # Initialize storage
         from .storage.markdown import MarkdownStore
         from .storage.index import NotebookIndex
+        from .storage.db import NotebookDB
 
         store = MarkdownStore(notebook_path)
         index = NotebookIndex(notebook_path, embedding_provider)
+        db = NotebookDB(notebook_path)
 
         # Reindex all files on startup (cleans up orphaned chunks)
         print("Reindexing knowledge base...")
         updated_count = index.index_all(store)
         stats = index.get_stats()
-        print(f"Indexed {stats['total_chunks']} chunks ({updated_count} updated).")
+        db_stats = db.get_stats()
+        print(f"Indexed {stats['total_chunks']} chunks ({updated_count} updated). "
+              f"{db_stats['entities']} entities in DB.")
 
         # Create agent
         from .agent.graph import NotebookAgent
 
-        agent = NotebookAgent(llm, store, index)
+        agent = NotebookAgent(llm, store, index, db)
 
         # Run CLI
         from .cli.interface import run_cli
