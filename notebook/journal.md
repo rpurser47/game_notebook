@@ -318,3 +318,122 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 
 ## Session — 2026-05-01 21:41
 - A security card is needed from Sinclair Ncuti to access the control room in the Undersea Dam.
+
+## Session — 2026-05-02 10:30
+- The player made a Jaspite Focusing Lens.
+- The Jaspite Focusing Lens is now available for use or installation.
+
+## Session — 2026-05-02 10:44
+- The Laser Drill at the Theta Shack is really near Facility Mu.
+- There is a second Laser Drill near the path from Epsilon south gate to Kappa.
+
+## Session — 2026-05-02 10:58
+- Found an herbicide charge in Theta.
+- Found biology lab blueprints in Theta.
+- The herbicide charge and biology lab blueprints can be used to expand the surface base.
+
+## Session — 2026-05-02 10:59
+- A door in Theta's Welfare Hab is blocked by a strange growth.
+
+## Session — 2026-05-02 11:01
+- Theta Biolab has a Gaia secure server.
+- The Gaia secure server is located in Theta Biolab.
+
+## Session — 2026-05-02 11:03
+- Found a note from Tai Shujin.
+- Tai Shujin says he has developed an antigen to the Psuedofungus spore.
+- The player assumes Psuedofungus spores have invaded Theta facility.
+
+## Session — 2026-05-02 11:06
+- A dead body is halfway through the door to the bunker in Theta.
+- The bunker door in Theta is jammed half open.
+- The body appears to be blocking the doorway in Theta.
+
+## Session — 2026-05-02 11:15
+- The player installed a servo unit in the gate to Theta.
+- The gate to Theta is still jammed and will not open.
+- It is possible to get around the fence near the Theta gate.
+- The player died in the Theta facility.
+
+## Session — 2026-05-02 11:40
+- The player opened the heavy door in Facility Lambda.
+
+## Session — 2026-05-02 14:58
+- Fixing the reactor solved the Lambda Radiation Cause mystery.
+- The player says the reactor repair and the mystery resolution are both complete.
+
+## Session — 2026-05-02 15:00
+- There are 4 dead people in the room behind the heavy door.
+- George Broussard is one of the dead people in that room.
+- The player has George Broussard's secure access key.
+
+## Session — 2026-05-02 15:06
+- The player has gotten into George Broussard's room.
+- George Broussard's room is in Crew Quarters A in Facility Epsilon (implied by prior context).
+
+## Session — 2026-05-02 15:09
+- Code 7924 does not work on the Epsilon storage room
+- The Epsilon storage room code is still not solved
+
+## Session — 2026-05-02 15:10
+- George Broussard's room was searched.
+- There was not much of interest in George Broussard's room.
+
+## Session — 2026-05-02 16:07
+- The player upgraded the oxygen filter on their suit.
+
+## Session — 2026-05-02 16:11
+- The player found their oxygen generators.
+- The oxygen generators were previously tracked as found, but their exact location was unknown.
+
+## Session — 2026-05-02 17:25
+- The player says the key mentioned is for the 1st door in Kappa.
+- The player says they already have that key.
+
+## Session — 2026-05-03 05:54
+- The player has found a source of jaspite.
+
+## Session — 2026-05-03 05:57
+- The player created the biology lab.
+- The biology lab was created after obtaining biology lab blueprints in Theta (implied by recent context).
+
+## Session — 2026-05-03 06:16
+- Player says they have obtained the herbicide charge.
+- The herbicide charge is tied to Facility Theta and the Surface Base.
+- The herbicide charge is used to expand the surface base.
+- The player previously created the Biology Lab at the Surface Base.
+
+## Session — 2026-05-03 06:19
+- The access to the other side of Crew Quarters C's jammed door does not go through Theta.
+- That access is an alternate exit from Epsilon near Mu.
+
+## Session — 2026-05-03 06:23
+- There is another Gaia data server at Facility Theta.
+- The Gaia data server at Theta is an additional one, implying more than one server at that location (probable).
+
+## Session — 2026-05-03 06:25
+- The player logged the GAIA data server at Theta.
+- A GAIA data server is located at Facility Theta.
+- There is also a GAIA data server in Lambda (contextual comparison).
+
+## Session — 2026-05-03 06:30
+- The player cleared some vegetation at Facility Theta.
+- The player needs to make many more herbicide charges at the Biology Lab.
+- The purpose of making more herbicide charges is to gain access to the whole facility at Theta.
+
+## Session — 2026-05-07 05:18
+- The player has Lisa Chapman's security card.
+
+## Session — 2026-05-07 05:20
+- Lisa Chapman's room has been explored.
+- There is a locked box in Lisa Chapman's room.
+- A security code is needed for the locked box in Lisa Chapman's room.
+
+## Session — 2026-05-07 17:30
+- Found a locked storage near a mining drill northwest of Theta.
+- The storage is located near a mining drill northwest of Theta.
+- The storage is locked.
+
+## Session — 2026-05-07 17:57
+- The player has the security card for Ncuti Sinclair.
+- The security card is associated with Ncuti Sinclair.

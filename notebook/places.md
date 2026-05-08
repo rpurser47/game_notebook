@@ -133,6 +133,8 @@ description: Facilities, levels, zones, and spatial relationships
 
 - Accessible. Residents: George Broussard, Grant Harlow, Lisa Chapman, Ncuti Sinclair.
 - Has a door to the Canteen that won't open.
+### 2026-05-02
+- Related to [[Facility Epsilon]]
 
 ## Crew Quarters B
 **Explored:** no
@@ -238,6 +240,8 @@ description: Facilities, levels, zones, and spatial relationships
 - Is described as the "back side" of Facility Epsilon.
 - Access to the other side of Crew Quarters C's jammed door is through here.
 - Nothing more to do here for now — will return when Crew Quarters C is relevant.
+### 2026-05-02
+- Related to [[northwest of Facility Epsilon beyond the sloping bridge]]
 
 ## Theta Shack
 **Explored:** yes
@@ -422,3 +426,53 @@ description: Facilities, levels, zones, and spatial relationships
 ## Undersea Dam Control Room
 **Explored:** no
 **Parent:** [[Undersea Dam]]
+
+## Epsilon Facility Back Side
+**Explored:** partial
+**Position:** back side of Facility Epsilon
+
+## Epsilon South Gate
+**Explored:** no
+**Position:** south gate of Facility Epsilon
+
+## Welfare Hab
+**Explored:** partial
+**Position:** in Facility Theta
+### 2026-05-02
+- Related to [[Facility Theta]]
+
+## Bunker Door in Theta
+**Explored:** partial
+**Position:** in Facility Theta
+### 2026-05-02
+- Related to [[Facility Theta]]
+
+## Biology Lab
+**Status:** created
+**Explored:** yes
+**Parent:** [[Surface Base]]
+**Description:** A newly built lab for biological work.
+### 2026-05-03
+- Related to [[Surface Base]]
+### 2026-05-03
+- Related to [[Surface Base]]
+
+## Alternate Exit from Epsilon near Mu
+**Explored:** partial
+**Position:** near Facility Mu
+**Parent:** [[Facility Epsilon]]
+### 2026-05-03
+- Related to [[Facility Epsilon]]
+### 2026-05-03
+- Related to [[Facility Mu]]
+### 2026-05-03
+- Related to [[Crew Quarters C]]
+
+## Locked Storage Near Mining Drill Northwest of Theta
+**Explored:** no
+**Position:** northwest of Facility Theta
+**Description:** A locked storage area found near a mining drill.
+### 2026-05-07
+- Related to [[Mining Drill Northwest of Theta]]
+### 2026-05-07
+- Related to [[Facility Theta]]

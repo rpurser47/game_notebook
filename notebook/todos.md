@@ -7,10 +7,11 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Lambda Reactor Repair
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Steps:** [[Find Sorrell's Fishing Hab]], [[Recover Loadmaster's Key]], [[Unlock Epsilon Secure Storage]], [[Retrieve Reactor Parts]], [[Repair Lambda Reactor]]
 **Requires:** (none)
 **Related:** [[Facility Lambda]], [[Lambda Reactor]], [[Facility Epsilon]], [[Loadmaster's Key]]
+**Outcome:** fixing the reactor solved that.
 
 - Multi-step chain to fix Lambda's damaged reactor, which is likely causing the swamp radiation.
 - Completing this should also resolve the Lambda radiation mystery.
@@ -32,16 +33,17 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Find Sorrell's Fishing Hab]]
 **Related:** [[Roger]], [[Loadmaster's Key]], [[Sorrell]]
-**Outcome:** Found at Sorrell's fishing hab.
+**Outcome:** I've gotten the key, unlocked the storage, gotten the reactor parts, and fixed the reactor.  All those all complete.
 
 - The key is probable at Sorrell's fishing hab. Retrieve it once the hab is confirmed.
 
 ## Unlock Epsilon Secure Storage
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Recover Loadmaster's Key]]
 **Related:** [[Epsilon Secure Storage]], [[Loadmaster's Key]]
+**Outcome:** I've gotten the key, unlocked the storage, gotten the reactor parts, and fixed the reactor.  All those all complete.
 
 - Use the Loadmaster's key to open Epsilon's Secure Storage.
 
@@ -53,60 +55,65 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Unlock Epsilon Secure Storage]]
 **Related:** [[Epsilon Secure Storage]], [[Lambda Reactor]]
-**Outcome:** Retrieved from the Loadmaster's Office.
+**Outcome:** I've gotten the key, unlocked the storage, gotten the reactor parts, and fixed the reactor.  All those all complete.
 
 - Suspected the reactor parts needed for Lambda are inside Epsilon's Secure Storage.
 
 ## Repair Lambda Reactor
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Retrieve Reactor Parts]]
 **Related:** [[Facility Lambda]], [[Lambda Reactor]]
+**Outcome:** The reactor was fixed, which solved the problem.
 
 - Return to Lambda and repair the damaged reactor.
 - Likely resolves the swamp radiation.
 
 ## Relocate Surface Facility
 **Subtype:** plan
-**Status:** open
+**Status:** completed
 **Steps:** [[Craft Large Mining Charges]], [[Clear Land Around Surface Station]], [[Move Surface Facility]]
 **Requires:** (none)
 **Related:** [[Surface Base]], [[Climber Surface Station]], [[Tangrite]]
+**Outcome:** i have completed moving and relocating the surface facility
 
 - Move the surface base closer to the Climber surface station.
 - Requires clearing terrain with large mining charges first.
 
 ## Craft Large Mining Charges
 **Subtype:** plan
-**Status:** open
+**Status:** completed
 **Part-of:** [[Relocate Surface Facility]]
 **Requires:** (none)
 **Related:** [[Tangrite]], [[Surface Base]]
+**Outcome:** you can mark those two done
 
 - Craft 2–3 large mining charges. Requires sourcing more tangrite.
 
 ## Clear Land Around Surface Station
 **Subtype:** plan
-**Status:** open
+**Status:** completed
 **Part-of:** [[Relocate Surface Facility]]
 **Requires:** [[Craft Large Mining Charges]]
 **Related:** [[Surface Base]], [[Climber Surface Station]]
+**Outcome:** Herbicide changes were made and the rest of Theta was opened.
 
 - Detonate / clear the area around the Climber surface station.
 
 ## Move Surface Facility
 **Subtype:** plan
-**Status:** open
+**Status:** completed
 **Part-of:** [[Relocate Surface Facility]]
 **Requires:** [[Clear Land Around Surface Station]]
 **Related:** [[Surface Base]]
+**Outcome:** i have completed moving and relocating the surface facility
 
 - Relocate / extend the surface facility into the cleared zone.
 
 ## Theta Gate Servo Install
 **Subtype:** quest
-**Status:** open
+**Status:** in-progress
 **Requires:** (none)
 **Related:** [[Facility Theta]], [[Servo Unit]]
 
@@ -124,19 +131,21 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Find Jaspite Source
 **Subtype:** quest
-**Status:** open
+**Status:** answered
 **Part-of:** [[Theta Laser Drill — Jaspite Lens]]
 **Requires:** (none)
 **Related:** [[Jaspite]]
+**Outcome:** I've found a source of jaspite
 
 - Source of Jaspite ore is currently unknown.
 
 ## Craft Jaspite Focusing Lens
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Theta Laser Drill — Jaspite Lens]]
 **Requires:** [[Find Jaspite Source]]
 **Related:** [[Jaspite Focusing Lens]], [[Jaspite]]
+**Outcome:** The player crafted a Jaspite Focusing Lens.
 
 ## Epsilon Airlock Big Door
 **Subtype:** quest
@@ -211,7 +220,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Explore North Gate Jungle
 **Subtype:** plan
-**Status:** completed
+**Status:** in-progress
 **Requires:** (none)
 **Related:** [[North Gate]], [[Tangrite]]
 
@@ -254,9 +263,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Lambda Radiation Cause
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Facility Lambda]], [[Lambda Reactor Repair]]
+**Outcome:** Fixing the reactor solved the mystery.
 
 - Why is the Lambda swamp radioactive?
 - Best lead: the damaged reactor at Lambda. Probable but not yet confirmed.
@@ -300,9 +310,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Confirm Facility Theta Identity
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Facility Theta]]
+**Outcome:** What I thought was the Theta site is not.  It is the back side of the Epsilon facility.  Theta is Northwest of Epsilon beyond the sloping bridge.  I need a servo unit to get access.
 
 - The fenced area near Lambda is believed to be Theta — not yet confirmed with an in-world sign.
 
@@ -317,9 +328,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Box Code 7924 — Identify Target
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Box Code 7924]]
+**Outcome:** No, 7924 does not open the box in Lisa Chapman's room
 
 - Code 7924 is known (from Samantha Corburn). What lock does it open?
 

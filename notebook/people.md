@@ -42,6 +42,10 @@ description: Named NPCs and their roles
 **Location:** Facility Epsilon, Crew Quarters A
 **Status:** Active (resident)
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[Grant Harlow]], [[Lisa Chapman]], [[Ncuti Sinclair]]
+### 2026-05-02
+- Related to [[Heavy Door in Lambda Facility]]
+### 2026-05-02
+- Related to [[Crew Quarters A]]
 
 ## Grant Harlow
 **Role:** Crew member
@@ -56,6 +60,8 @@ description: Named NPCs and their roles
 **Location:** Facility Epsilon, Crew Quarters A
 **Status:** Active (resident)
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[George Broussard]], [[Grant Harlow]], [[Ncuti Sinclair]]
+### 2026-05-07
+- Related to [[Lisa Chapman's Security Card]]
 
 ## Ncuti Sinclair
 **Role:** Crew member
@@ -105,3 +111,8 @@ description: Named NPCs and their roles
 **Location:** Crew Quarters C
 **Status:** Unknown
 **Related:** [[Crew Quarters C]], [[Facility Epsilon]]
+
+## Tai Shujin
+**Status:** noted
+### 2026-05-02
+- Related to [[Antigen to Psuedofungus Spore]]
