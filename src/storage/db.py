@@ -384,10 +384,15 @@ class NotebookDB:
             if current is None:
                 continue  # Field doesn't exist yet — no conflict
 
-            # Conflict: DB has a value, and it's different from what we're changing FROM
-            # and different from what we're changing TO (re-stating same value is fine)
-            if current.lower() != new_value.lower() and (
-                old_value == "" or current.lower() != old_value.lower()
+            # Only flag a conflict when the player explicitly stated a prior value
+            # that doesn't match what's in the DB. An empty old_value means the
+            # extractor didn't assert a prior state — that's a normal update, not
+            # a conflict (e.g. "I explored Kappa" when DB has explored=no).
+            # Also skip if new_value matches current (re-stating the same fact).
+            if (
+                old_value
+                and current.lower() != new_value.lower()
+                and current.lower() != old_value.lower()
             ):
                 conflicts.append({
                     "entity": entity_name,
