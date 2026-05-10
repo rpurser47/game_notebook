@@ -138,4 +138,7 @@ description: Chronological session log
     index = NotebookIndex(nb, embedding_provider="local")
     index.index_all(store)
 
-    return NotebookAgent(llm, store, index)
+    from src.storage.db import NotebookDB
+    db = NotebookDB(nb)
+
+    return NotebookAgent(llm, store, index, db)

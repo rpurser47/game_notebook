@@ -437,3 +437,150 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 ## Session — 2026-05-07 17:57
 - The player has the security card for Ncuti Sinclair.
 - The security card is associated with Ncuti Sinclair.
+
+## Session — 2026-05-07 20:53
+- The reactor in Lambda is fixed.
+
+## Session — 2026-05-07 20:54
+- The player has Ncuti Sinclair's security card.
+- The player searched Ncuti Sinclair's quarters.
+
+## Session — 2026-05-07 20:55
+- A power capacitor exists in Facility Mu.
+- The power capacitor in Facility Mu has not been accessible to the player.
+
+## Session — 2026-05-07 20:56
+- The lake at Kappa has been drained.
+- The underwater lab at Kappa has been accessed.
+- Stanley's AI core was retrieved from the underwater lab.
+- Stanley was brought to the surface facility.
+
+## Session — 2026-05-07 21:00
+- In the underwater lab, there was a console that could deactivate 'torn paper'.
+- The player did not deactivate 'torn paper' yet.
+- The player is uncertain what 'torn paper' refers to.
+
+## Session — 2026-05-07 21:02
+- The player has explored Big Door in Lambda Reactor Room.
+- The player has explored Bunker Room.
+- The player has explored Epsilon South Gate.
+- The player has explored Fishing Spot Beyond the Dam.
+- The player has explored Kappa Facility.
+- The player has explored Undersea Dam.
+- The player has explored Undersea Dam Control Room.
+
+## Session — 2026-05-07 21:08
+- The player explored Big Door in Lambda Reactor Room.
+- The player explored Bunker Room.
+- The player explored Epsilon South Gate.
+- The player explored Fishing Spot Beyond the Dam.
+- The player explored Kappa.
+- The player reported exploring multiple previously unexplored areas.
+
+## Session — 2026-05-07 21:08
+- The player mentioned Facility.
+- The player mentioned Undersea Dam.
+- The player mentioned Undersea Dam Control Room.
+
+## Session — 2026-05-08 11:12
+- The code for the box in Lisa Chapman's quarters is 8852.
+- The player identified Lisa Chapman's quarters as the target of the code.
+- The previously recorded crate code 9970 was used.
+
+## Session — 2026-05-08 11:13
+- The locked box is not open yet.
+- The player has just found the code for the locked box.
+
+## Session — 2026-05-08 11:19
+- The player opened the locked box in Lisa Chapman's room.
+- The locked box contained a matter folder.
+- The locked box contained blueprints to make more matter folders.
+- The player obtained a hardened storage drive.
+- The hardened storage drive can be used on all Gaia storage points the player has found.
+
+## Session — 2026-05-08 11:44
+- The player downloaded data from the Gaia data server.
+- The Gaia data server is in Facility Epsilon.
+
+## Session — 2026-05-08 11:48
+- There is a locked crate on a vehicle in the backyard southeast of Facility Epsilon.
+- The vehicle is located in the backyard southeast of Epsilon.
+
+## Session — 2026-05-08 11:56
+- A Gaia server is located in the Kappa Lab.
+
+## Session — 2026-05-08 11:58
+- There is a GAIA server in the Undersea Dam Control Room.
+- The GAIA server is located in the dam control room.
+
+## Session — 2026-05-08 12:02
+- The player gained access to the capacitor in Mu.
+- The capacitor in Mu is now accessible to the player.
+
+## Session — 2026-05-08 12:40
+- The player is in Facility Rho.
+- The player needs to restore power in Facility Rho.
+- The player needs to unlock the door to the generator room in order to get the power back on.
+
+## Session — 2026-05-08 12:47
+- There is a Gaia data server in the Rho generator control room.
+- The player is in Facility Rho.
+- The player needs to get the power back on in Facility Rho.
+- The player needs to figure out how to unlock the generator room door in Facility Rho.
+
+## Session — 2026-05-08 12:52
+- The player gained access to the generators at Facility Rho.
+- Facility Rho has been powered back on.
+- There is another bunker or big door at Facility Rho that the player plans to try to open.
+
+## Session — 2026-05-08 12:53
+- The player found Dieter Yar's security key.
+- The player opened the bunker door.
+
+## Session — 2026-05-08 12:54
+- There is a door to the intake tunnel in Facility Rho.
+- The intake tunnel door in Facility Rho cannot be opened by the player.
+
+## Session — 2026-05-08 13:05
+- The player has obtained the blueprint for hardened data drives.
+- Hardened data drives are needed to retrieve data from Gaia servers.
+- The player needs to get more tangrite.
+
+## Session — 2026-05-08 15:28
+- There is a Gaia server at Facility Lambda.
+
+## Session — 2026-05-08 15:56
+- Downloaded data from the servers at Delta and Epsilon.
+
+## Session — 2026-05-08 16:17
+- Downloaded data from Facility Lambda.
+- The Lambda facility server data has been retrieved.
+
+## Session — 2026-05-08 16:26
+- Downloaded data from the server at Undersea Dam.
+
+## Session — 2026-05-08 16:27
+- Downloaded data from the server in the lab at Kappa.
+
+## Session — 2026-05-08 16:36
+- Downloaded data from the Theta facility.
+
+## Session — 2026-05-08 16:48
+- Downloaded data from the server in Rho Facility.
+- The data download from Rho Facility is a completed action.
+
+## Session — 2026-05-08 17:35
+- The player has entered the Level 3 Upper Area.
+- There is a small hab in the Level 3 Upper Area.
+- The hab contains a broken computer.
+
+## Session — 2026-05-09 05:26
+- A Tau Facility has been discovered.
+- The Tau Facility is across the lava fields from Rho.
+- A matter transporter was built by the player.
+- The matter transporter can be used with Rho to reach the Tau Facility directly (probable).
+
+## Session — 2026-05-09 05:39
+- The player is trying to get the manufacturing system in Tau running.
+- An Additive from Facility Iota is needed to do so.
+- The Additive has not been found yet.

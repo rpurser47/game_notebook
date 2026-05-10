@@ -24,7 +24,7 @@ A conversational agentic tool that acts as a smart notebook for 1st-person RPG g
 ```mermaid
 flowchart TD
     CLI["CLI Interface\n─────────────────\nLoad last 20 messages\nInput prompt: > \nRich terminal, purple theme"]
-    Agent["LangGraph Agent\n─────────────────\nRouter · Extract · Resolve\nAnalyzeQuery · Retrieve · Reflect\nPersist · Respond"]
+    Agent["LangGraph Agent\n─────────────────\nRouter · Extract · Resolve\nConflictCheck · Retrieve · Reflect\nPersist · Respond"]
     DB["SQLite Database\n─────────────────\nnotebook/.db/notebook.db\nEntities · Relationships\nQuests · Facts · Provenance"]
     MD["Markdown Files\n─────────────────\nnotebook/journal.md\npeople.md · places.md\nthings.md · todos.md\nevents.md · [dynamic].md\n.history/conversation.jsonl"]
     VI["Vector Index\n─────────────────\n.index/chromadb/\nDocuments · Observations\nLore · Journal chunks\nMetadata for filtering"]
@@ -70,7 +70,7 @@ flowchart LR
 | Memory type | Store | Why |
 |-------------|-------|-----|
 | Quest flags, status, inventory, NPC status, timestamps | SQLite | Exact lookup, constraints, updates, auditing |
-| Entity relationships ("A serves B", "Place X contains Y") | SQLite edge table | Explicit traversal; vectors miss directionality |
+| Entity relationships ("A serves B", "Place X contains Y") | SQLite relationships table | Explicit traversal; vectors miss directionality |
 | Lore text, journals, notes, observations, transcripts | ChromaDB | Fuzzy similarity and thematic recall |
 | Agent reflections, extraction lessons | SQLite reflection table + optional embeddings | Behavior guidance isolated from world facts |
 
@@ -111,62 +111,64 @@ Markdown files remain the human-readable, git-friendly view of the world. They a
 ```sql
 -- Canonical entities
 CREATE TABLE entities (
-    id          INTEGER PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT NOT NULL,
-    type        TEXT NOT NULL,  -- character|location|item|todo|event
+    type        TEXT NOT NULL,  -- characters|locations|items|todos|events
     status      TEXT,
     created_at  TEXT NOT NULL,
-    updated_at  TEXT NOT NULL
+    updated_at  TEXT NOT NULL,
+    UNIQUE(name, type)
 );
 
 -- Name aliases for coreference ("the innkeeper", "Mara", "the woman at the tavern")
 CREATE TABLE aliases (
-    entity_id   INTEGER REFERENCES entities(id),
+    entity_id   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     alias       TEXT NOT NULL,
     PRIMARY KEY (entity_id, alias)
 );
 
 -- Typed field values (role, location, subtype, explored, etc.)
 CREATE TABLE entity_fields (
-    entity_id   INTEGER REFERENCES entities(id),
+    entity_id   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     field       TEXT NOT NULL,
     value       TEXT NOT NULL,
     PRIMARY KEY (entity_id, field)
 );
 
--- Directed relationships between entities
+-- Directed relationships between entities (to_name is the target entity name,
+-- not a foreign key — allows relationships to entities not yet in DB)
 CREATE TABLE relationships (
-    from_id     INTEGER REFERENCES entities(id),
-    to_id       INTEGER REFERENCES entities(id),
+    from_id     INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+    to_name     TEXT NOT NULL,
     relation    TEXT NOT NULL,  -- "serves", "contains", "is at", "related to"
     asserted_at TEXT NOT NULL,
-    PRIMARY KEY (from_id, to_id, relation)
+    PRIMARY KEY (from_id, to_name, relation)
 );
 
 -- Immutable fact log with provenance
 CREATE TABLE facts (
-    id          INTEGER PRIMARY KEY,
-    entity_id   INTEGER REFERENCES entities(id),
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    entity_id   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     field       TEXT NOT NULL,
     old_value   TEXT,
     new_value   TEXT NOT NULL,
-    source      TEXT NOT NULL,  -- "player_observed"|"narrator"|"inferred"|"speculative"
-    confidence  TEXT NOT NULL,  -- "certain"|"likely"|"uncertain"
+    source      TEXT NOT NULL DEFAULT 'player_observed',  -- "player_observed"|"narrator"|"inferred"|"speculative"
+    confidence  TEXT NOT NULL DEFAULT 'certain',          -- "certain"|"likely"|"uncertain"
     asserted_at TEXT NOT NULL,
     turn_text   TEXT            -- raw user input that produced this fact
 );
 
 -- Timestamped history entries per entity (journal sub-log)
 CREATE TABLE entity_history (
-    id          INTEGER PRIMARY KEY,
-    entity_id   INTEGER REFERENCES entities(id),
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    entity_id   INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     note        TEXT NOT NULL,
     recorded_at TEXT NOT NULL
 );
 
 -- Agent reflection notes (isolated from world facts)
 CREATE TABLE reflections (
-    id          INTEGER PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
     category    TEXT NOT NULL,  -- "extraction"|"conflict"|"coreference"
     note        TEXT NOT NULL,
     created_at  TEXT NOT NULL
@@ -250,7 +252,7 @@ The agent creates new markdown files when topics don't fit existing categories, 
 ### State Schema
 
 ```python
-class NotebookState(TypedDict):
+class NotebookState(TypedDict, total=False):
     # Conversation
     messages: list[BaseMessage]           # Last N turns (trimmed to 40)
     user_input: str
@@ -282,6 +284,8 @@ class NotebookState(TypedDict):
     error: str | None
 ```
 
+Note: the `analyze_query` node also populates a private `_entities_mentioned` list (leading underscore) that carries named entities from the query for structured DB lookups in the `retrieve` node.
+
 ### Graph Structure
 
 ```mermaid
@@ -298,9 +302,8 @@ flowchart TD
     ConflictCheck -->|no conflicts| Persist
     ConflictCheck -->|conflicts| Respond
 
-    AnalyzeQuery --> RetrieveStructured
-    RetrieveStructured --> RetrieveSemantic
-    RetrieveSemantic --> Reflect
+    AnalyzeQuery --> Retrieve
+    Retrieve --> Reflect
 
     Persist --> Respond
     Reflect --> Respond
@@ -308,7 +311,7 @@ flowchart TD
     Respond --> END([END])
 ```
 
-The `ConflictCheck` node compares extracted facts against current DB state. On conflict, the agent responds with the discrepancy and asks the player to confirm before writing — preventing silent overwrites of canon facts.
+The `Retrieve` node performs both structured (DB) and semantic (ChromaDB) lookup in a single pass. The `ConflictCheck` node compares extracted facts against current DB state. On conflict, the agent responds with the discrepancy and asks the player to confirm before writing — preventing silent overwrites of canon facts.
 
 ### Intent Classification
 
@@ -331,15 +334,11 @@ Structured state is always queried first. Semantic recall is enrichment only.
 
 ```mermaid
 flowchart TD
-    Q([User Query]) --> QA["Query Analysis — LLM\n─────────────────────\nentities_mentioned: list\nfilters: entity_type, status, subtype\nsemantic_query: text or null"]
+    Q([User Query]) --> QA["AnalyzeQuery — LLM\n─────────────────────\nentities_mentioned: list\nfilters: entity_type, status, subtype\nsemantic_query: text or null"]
 
-    QA --> RS["Structured Lookup — SQLite\n─────────────────────────\nExact entity fetch by name/alias\nRelationship traversal\nStatus + field filters"]
+    QA --> R["Retrieve — single node\n─────────────────────────\nExact entity fetch by name/alias (DB)\nRelationship traversal (DB)\nStatus + field filters (DB)\n+\nSemantic search (ChromaDB)\n+ metadata filters\ntop_k = 10–30"]
 
-    RS -->|semantic_query set| SS["Semantic Search — ChromaDB\n+ metadata filters\ntop_k = 10"]
-    RS -->|no semantic query| Skip
-
-    SS --> Reflect["Reflect — LLM\n────────────────\nFilter chunk IDs\nto genuinely relevant ones"]
-    Skip --> Merge
+    R --> Reflect["Reflect — LLM\n────────────────\nFilter chunk IDs\nto genuinely relevant ones"]
 
     Reflect --> Merge["Merge Context Bundle\n──────────────────────\nauthor: structured_results\nenrichment: semantic_chunks\nopen_questions: []"]
 
@@ -383,7 +382,7 @@ Entity fields, quest status, relationship edges, inventory — these are **not**
 
 **Chunking strategy:**
 - Journal: split at `##` session headers
-- Entities: embed the prose description only (not field key-value pairs)
+- Entities: one chunk per `##` section (full entity block, including field key-value pairs)
 - Observations: one chunk per extracted observation string
 
 **Chunk metadata:**
@@ -394,8 +393,12 @@ Entity fields, quest status, relationship edges, inventory — these are **not**
     "entity_type": "characters",   # if linked to an entity
     "session_date": "2024-01-15",  # for journal chunks
     "source": "player_observed",   # provenance
+    "status": "open",              # for todo/quest chunks (enables metadata filters)
+    "subtype": "quest",            # for todo chunks
 }
 ```
+
+**Chunk IDs** follow the pattern `<filename>::<entity_name>` (e.g. `people.md::Roger`). This allows targeted upsert and deletion without a full re-index.
 
 ### Reflection (Relevance Filtering)
 
@@ -409,11 +412,14 @@ Index updates happen after every Persist via content-hash tracking:
 
 | Action | DB Operation | Index Operation |
 |--------|-------------|-----------------|
-| New entity | INSERT entities row | Embed prose description if present |
+| New entity | INSERT entities row | Embed entity section chunk |
 | New observation | INSERT fact | Embed observation chunk |
 | Journal append | Append to journal.md | Upsert session chunk |
-| Entity field updated | UPDATE entity_fields | No re-embed (fields not embedded) |
+| Entity field updated | UPDATE entity_fields | Re-embed changed chunk (hash changed) |
+| Unchanged entity | — | Skip (hash unchanged) |
 | Full `/rebuild` | — | Clear hashes, re-index all prose/journal |
+
+Hash tracking uses `<filename>::<entity_name>` as the key. If the hash differs from the stored value, the chunk is re-embedded; if not, it is skipped. This makes repeated `index_file` calls idempotent on unchanged content.
 
 ---
 
@@ -445,28 +451,28 @@ Index updates happen after every Persist via content-hash tracking:
 }
 ```
 
-Every extracted item now carries `source` and `confidence`. These propagate to the `facts` table for provenance tracking.
+Every extracted item carries `source` and `confidence`. These propagate to the `facts` table for provenance tracking.
 
 **Field types by entity type:**
-- Character: `role`, `location`, `status`
-- Location: `explored`, `position`, `parent`
-- Item: `category`, `status`, `location`
-- Todo: `subtype` (quest/plan/mystery), `status`, `requires`, `outcome`
-- Event: `category`, `date`, `location`, `status`
+- Character: `role`, `location`, `status`, `description`
+- Location: `explored`, `position`, `parent`, `status`, `description`
+- Item: `category`, `status`, `location`, `description`
+- Todo: `subtype` (quest/plan/mystery), `status`, `requires`, `outcome`, `description`
+- Event: `category`, `date`, `location`, `status`, `description`
 
 **Critical rule**: New people/places MUST appear as entities with `is_new: true`. Uncertain info is tagged with `(probable)` and written with `confidence: "uncertain"`.
 
 ### Coreference Resolution
 
-After extraction, each entity name is resolved against DB aliases before any write:
+After extraction, each entity name is resolved against DB aliases before any write. The extractor receives `known_entities` (a dict of type → name list) from `NotebookDB.get_known_entities()` so it can identify potentially ambiguous references.
 
 ```
 For each extracted entity:
-  Lookup name + known aliases in aliases table
-  if not found AND is_new=true → genuinely new, INSERT
-  if found → run coreference LLM to confirm match
+  if is_new is False → already resolved by LLM, use name as-is
+  if name matches known entity → run coreference LLM to confirm match
     if certain/likely → is_new=False, resolved to canonical entity
     else → treat as new entity, note ambiguity in reflection table
+  if name not in known entities AND is_new=true → genuinely new, INSERT
 ```
 
 Coreference output:
@@ -487,14 +493,19 @@ Before any write, the `ConflictCheck` node compares proposed updates against cur
 ```python
 for update in extracted_updates:
     current = db.get_field(update["entity"], update["field"])
-    if current and current != update["old_value"]:
-        conflicts.append({
-            "entity": update["entity"],
-            "field": update["field"],
-            "db_value": current,
-            "proposed_value": update["new_value"],
-            "old_value_expected": update["old_value"]
-        })
+    if current is None:
+        continue  # Field doesn't exist yet — no conflict
+
+    # Only flag a conflict when the player explicitly stated a prior value
+    # that doesn't match what's in the DB. An empty old_value means the
+    # extractor didn't assert a prior state — that's a normal update.
+    # Also skip if new_value matches current (re-stating the same fact).
+    if (
+        old_value
+        and current.lower() != new_value.lower()
+        and current.lower() != old_value.lower()
+    ):
+        conflicts.append({...})
 ```
 
 On conflict, the agent responds describing the discrepancy and asks the player to confirm. A confirmed override writes to the DB and records both values in the `facts` log with the player's confirmation noted in `turn_text`.
@@ -505,18 +516,17 @@ On conflict, the agent responds describing the discrepancy and asks the player t
 
 The `persist` node handles all writes for both `record` and `update` intents:
 
-1. **Observations** — INSERT into `facts` table, embed as observation chunk
+1. **Observations** — embed as observation chunk; journal append (record only)
 2. **Journal** (record only) — append observations as a new `## Session —` entry, upsert journal chunk in vector index
-3. **New entities** — INSERT into `entities`, `entity_fields`, `aliases`; render markdown section; embed prose description if present
-4. **Field updates** — UPDATE `entity_fields`, INSERT `facts` provenance row, re-render markdown section
+3. **New entities** — INSERT into `entities`, `entity_fields`, `aliases`; render markdown section; re-index file
+4. **Field updates** — UPDATE `entity_fields`, INSERT `facts` provenance row, re-render markdown section, re-index file
 5. **Completion propagation** — when a todo's `status` becomes `completed` or `answered`:
-   - Query `relationships` table for linked items
-   - Find linked items in `entities` with unacquired status
+   - Query `related` names on the todo entity
+   - Find related items in `entities` with unacquired status (lost / not obtained / not recovered / unknown)
    - UPDATE those items' status to `found` in DB and markdown
-   - Write fallback `Outcome` from raw user input if extractor didn't produce one
+   - Write fallback `Outcome` from raw user input if extractor didn't produce one (both to DB and markdown)
 6. **Relationships** — INSERT into `relationships` table; append `Related to [[Entity]]` to markdown
-7. **Aliases** — INSERT confirmed aliases from coreference
-8. **Re-index** — embed any new prose, upsert journal chunks
+7. **Re-index** — call `index.index_file` for each modified file
 
 ---
 
@@ -525,13 +535,15 @@ The `persist` node handles all writes for both `record` and `update` intents:
 For `record` and `update` intents, the respond node enriches the reply using the two-layer context bundle.
 
 **Steps:**
-1. Collect entity names from extracted entities and updates
+1. Collect entity names from resolved entities and extracted updates
 2. Fetch those entities from DB (exact fields, status, relationships)
 3. Run semantic search over journal/observations for each entity name (top 3, deduped)
-4. Run additional DB query filtered to `entity_type=todos, status=open` — surfaces unblocked next steps
+4. Run additional semantic search filtered to `entity_type=todos, status=open` — surfaces unblocked next steps
 5. Inject into LLM prompt: authoritative DB rows first, semantic chunks second
 
 The LLM is instructed to treat DB rows as ground truth and semantic chunks as supporting context only.
+
+For `query` intent: semantic results are deduplicated against DB results — chunks whose entity name already appears in structured results are treated as enrichment only, not repeated.
 
 ---
 
@@ -660,7 +672,8 @@ src/
 ├── storage/
 │   ├── db.py           # NotebookDB: SQLite reads/writes, schema migration
 │   ├── markdown.py     # MarkdownStore: render markdown from DB; journal appends
-│   └── index.py        # NotebookIndex: ChromaDB + hybrid search
+│   ├── index.py        # NotebookIndex: ChromaDB + hybrid search
+│   └── migrate.py      # One-time migration: parse markdown → SQLite
 ├── extraction/
 │   └── entities.py     # EntityExtractor: LLM extraction + coreference
 ├── cli/
@@ -687,3 +700,7 @@ Environment variables (`.env`):
 - History is chronological (oldest first, newest at bottom)
 - Corrections update the canonical DB field; original value preserved in `facts` log
 - Reflections are stored in the `reflections` table, never mixed with world facts
+
+### DB Seeding
+
+The SQLite DB is not populated from the markdown on first run automatically. The `migrate` module (`src/storage/migrate.py`) parses all markdown files and seeds the DB. This must be run before first use if the notebook was previously markdown-only. E2E test fixtures must call `migrate()` after seeding markdown to ensure `get_known_entities()` returns accurate data for the extraction prompt.

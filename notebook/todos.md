@@ -11,18 +11,18 @@ description: Quests, plans, and mysteries with dependency chains
 **Steps:** [[Find Sorrell's Fishing Hab]], [[Recover Loadmaster's Key]], [[Unlock Epsilon Secure Storage]], [[Retrieve Reactor Parts]], [[Repair Lambda Reactor]]
 **Requires:** (none)
 **Related:** [[Facility Lambda]], [[Lambda Reactor]], [[Facility Epsilon]], [[Loadmaster's Key]]
-**Outcome:** fixing the reactor solved that.
+**Outcome:** The reactor was fixed in Lambda.
 
 - Multi-step chain to fix Lambda's damaged reactor, which is likely causing the swamp radiation.
 - Completing this should also resolve the Lambda radiation mystery.
 
 ## Find Sorrell's Fishing Hab
 **Subtype:** quest
-**Status:** answered
+**Status:** completed
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** (none)
 **Related:** [[Sorrell]], [[Facility Theta]], [[Theta Shack]]
-**Outcome:** Found well past the Outflow Dam; note from Andy Sorrell confirmed the location.
+**Outcome:** Found Sorrell's fishing hab.
 
 - Confirm the small shed near Theta is Sorrell's fishing hab.
 - Look for an in-world log or sign as confirmation.
@@ -33,7 +33,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Find Sorrell's Fishing Hab]]
 **Related:** [[Roger]], [[Loadmaster's Key]], [[Sorrell]]
-**Outcome:** I've gotten the key, unlocked the storage, gotten the reactor parts, and fixed the reactor.  All those all complete.
+**Outcome:** I've found Deiter Yar's security key.  And I opened the bunker door.
 
 - The key is probable at Sorrell's fishing hab. Retrieve it once the hab is confirmed.
 
@@ -65,7 +65,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Retrieve Reactor Parts]]
 **Related:** [[Facility Lambda]], [[Lambda Reactor]]
-**Outcome:** The reactor was fixed, which solved the problem.
+**Outcome:** The reactor was fixed in Lambda.
 
 - Return to Lambda and repair the damaged reactor.
 - Likely resolves the swamp radiation.
@@ -177,10 +177,11 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Climber Records — Hardened Storage Drive
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Steps:** [[Obtain Empty Hardened Storage Drive]], [[Read Climber Records]]
 **Requires:** (none)
 **Related:** [[Climber Control Room]], [[GAIA]], [[Empty Hardened Storage Drive]]
+**Outcome:** A hardened storage drive was obtained from Lisa Chapman's room and can be used on Gaia storage points.
 
 - Read the GAIA data server in Epsilon's Climber control room.
 - Requires an empty hardened storage drive (recipe / source unknown).
@@ -200,6 +201,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Climber Records — Hardened Storage Drive]]
 **Requires:** [[Obtain Empty Hardened Storage Drive]]
 **Related:** [[Climber Control Room]], [[GAIA]]
+**Outcome:** Data from the Gaia data server in Facility Epsilon was downloaded.
 
 ## Delta Security Station
 **Subtype:** mystery
@@ -228,9 +230,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Reach Level 3 Upper Area
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Requires:** (none)
 **Related:** [[Level 3 Upper Area]]
+**Outcome:** The player entered the Level 3 Upper Area.
 
 - Find a way into the unreachable upper area above the pools / above Rig #4 on Level 3.
 
@@ -274,9 +277,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Giant Animal Skeletons in Lambda
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Facility Lambda]]
+**Outcome:** The Giant Animal Skeletons in Lambda has been solved
 
 - Gigantic animal skeletons throughout the Lambda swamp.
 - What were they? Connected to the radiation? Something prehistoric? Unknown.
@@ -319,9 +323,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Confirm Theta Shack as Sorrell's Hab
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Theta Shack]], [[Sorrell]]
+**Outcome:** Theta Shack was determined not to be Sorrell's hab; the player's found location is Sorrell's fishing hab.
 
 - The small shed near Theta is probably Sorrell's fishing hab — not confirmed in-world.
 - Look for a log, sign, or other confirmation.
@@ -336,7 +341,24 @@ description: Quests, plans, and mysteries with dependency chains
 - Code 7924 is known (from Samantha Corburn). What lock does it open?
 
 ## Drain Water at Kappa
-**Status:** in-progress
+**Status:** completed
 **Subtype:** quest
+**Outcome:** I have drained the lake at Kappa, and accessed the underwater lab.  I was able to retrieve the AI core of Stanley, and bring him to the surface facility
 ### 2026-05-01
 - Related to [[Undersea Dam]]
+
+## Unlock Generator Room Door
+**Status:** completed
+**Subtype:** quest
+**Description:** Figure out how to unlock the door to the generator room in Facility Rho.
+**Outcome:** i've gotten access to the generators and powered rho facility.  There's another bunker / big door that I'll try and open
+### 2026-05-08
+- Related to [[Facility Rho]]
+
+## Manufacturing System in Tau
+**Status:** in-progress
+**Subtype:** quest
+### 2026-05-09
+- Related to [[Additive from Facility Iota]]
+### 2026-05-09
+- Related to [[Tau Facility]]

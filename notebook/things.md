@@ -78,7 +78,7 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Empty Hardened Storage Drive
 **Category:** tech-component
-**Status:** not obtained (recipe unknown)
+**Status:** found
 **Location:** unknown
 **Related:** [[Climber Control Room]], [[GAIA]]
 
@@ -254,6 +254,8 @@ description: Resources, equipment, key items, access codes, and tech components
 **Category:** tech-component
 ### 2026-05-01
 - Related to [[Loadmaster's Office]]
+### 2026-05-07
+- Related to [[Underwater Lab at Kappa]]
 
 ## Simone Parker's Key Card
 **Category:** key-item
@@ -276,6 +278,9 @@ description: Resources, equipment, key items, access codes, and tech components
 ## Gaia Data Server in Lambda
 **Location:** Facility Lambda
 **Category:** tech-component
+**Status:** data downloaded
+### 2026-05-08
+- Related to [[Facility Lambda]]
 
 ## Bypass Chip
 **Status:** required
@@ -364,7 +369,7 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Secure Access Key
 **Status:** held by player
-**Category:** access-code
+**Category:** key-item
 ### 2026-05-02
 - Related to [[player]]
 ### 2026-05-02
@@ -378,7 +383,7 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Gaia Data Server at Theta
 **Location:** Facility Theta
-**Status:** noted
+**Status:** data downloaded
 **Category:** tech-component
 **Description:** A Gaia data server located at Theta.
 ### 2026-05-03
@@ -388,11 +393,20 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Locked Box in Lisa Chapman's Room
 **Location:** Lisa Chapman's room
-**Status:** locked
+**Status:** opened
 **Category:** key-item
 **Description:** A box that requires a security code to open.
+**Outcome:** Opened using code 8852.
 ### 2026-05-07
 - Related to [[Lisa Chapman's room]]
+### 2026-05-08
+- Related to [[Lisa Chapman's Room]]
+### 2026-05-08
+- Related to [[Matter Folder]]
+### 2026-05-08
+- Related to [[Matter Folder Blueprints]]
+### 2026-05-08
+- Related to [[Hardened Storage Drive]]
 
 ## Mining Drill Northwest of Theta
 **Location:** northwest of Facility Theta
@@ -402,7 +416,138 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Ncuti Sinclair's Security Card
 **Status:** held
-**Category:** access-code
+**Category:** key card
 **Description:** A security card belonging to Ncuti Sinclair.
 ### 2026-05-07
 - Related to [[Ncuti Sinclair]]
+### 2026-05-07
+- Related to [[Player]]
+
+## Power Capacitor in Facility Mu
+**Location:** Facility Mu
+**Status:** accessed
+**Category:** tech-component
+### 2026-05-07
+- Related to [[Facility Mu]]
+### 2026-05-08
+- Related to [[Facility Mu]]
+
+## AI Core of Stanley
+**Location:** surface facility
+**Status:** recovered
+**Category:** tech-component
+**Description:** Stanley's AI core recovered from the underwater lab at Kappa.
+### 2026-05-07
+- Related to [[Underwater Lab at Kappa]]
+
+## Matter Folder
+**Location:** Lisa Chapman's Room
+**Status:** obtained
+**Category:** key-item
+**Description:** A special folder recovered from the locked box; blueprints suggest it can be replicated.
+
+## Matter Folder Blueprints
+**Location:** Lisa Chapman's Room
+**Status:** obtained
+**Category:** key-item
+**Description:** Blueprints for making additional matter folders.
+
+## Hardened Storage Drive
+**Location:** Lisa Chapman's Room
+**Status:** obtained
+**Category:** key-item
+**Description:** A drive that can be used on Gaia storage points.
+### 2026-05-08
+- Related to [[Gaia Data Server at Theta]]
+### 2026-05-08
+- Related to [[Gaia Data Server in Lambda]]
+### 2026-05-08
+- Related to [[Gaia Secure Server]]
+
+## Gaia Data Server in Epsilon
+**Location:** Facility Epsilon
+**Status:** downloaded
+**Category:** tech-component
+**Description:** A Gaia data server located in Epsilon that the player downloaded data from.
+### 2026-05-08
+- Related to [[Facility Epsilon]]
+
+## Locked Crate on Vehicle in Backyard Southeast of Epsilon
+**Location:** on a vehicle in the backyard southeast of Facility Epsilon
+**Status:** locked
+**Category:** key-item
+**Description:** A locked crate sitting on a vehicle in the back yard southeast of Epsilon.
+### 2026-05-08
+- Related to [[Backyard Southeast of Epsilon]]
+### 2026-05-08
+- Related to [[Vehicle in Backyard Southeast of Epsilon]]
+
+## Gaia Server in Kappa Lab
+**Location:** Kappa Lab
+**Status:** found
+**Category:** tech-component
+**Description:** A Gaia server installed in the Kappa Lab.
+### 2026-05-08
+- Related to [[Kappa Lab]]
+### 2026-05-08
+- Related to [[Kappa Lab]]
+
+## Gaia Server in Undersea Dam Control Room
+**Location:** Undersea Dam Control Room
+**Category:** tech-component
+**Description:** A GAIA server installed in the dam control room.
+**Status:** data downloaded
+### 2026-05-08
+- Related to [[Undersea Dam Control Room]]
+### 2026-05-08
+- Related to [[Undersea Dam Control Room]]
+
+## Gaia Data Server in Rho Generator Control Room
+**Location:** Rho generator control room
+**Category:** tech-component
+**Description:** A Gaia data server located in the generator control room of Facility Rho.
+### 2026-05-08
+- Related to [[Rho generator control room]]
+
+## Dieter Yar's Security Key
+**Status:** found
+**Category:** access-code
+### 2026-05-08
+- Related to [[Dieter Yar]]
+
+## Blueprint for Hardened Data Drives
+**Status:** obtained
+**Category:** key-item
+**Description:** Blueprint for making hardened data drives needed to retrieve data from Gaia servers.
+### 2026-05-08
+- Related to [[Gaia Data Servers]]
+### 2026-05-08
+- Related to [[Tangrite]]
+
+## Gaia Data Server in Rho Facility
+**Location:** Rho Facility
+**Status:** downloaded
+**Category:** tech-component
+**Description:** A server in Rho Facility that the player downloaded data from.
+
+## Broken Computer in Small Hab in Level 3 Upper Area
+**Location:** Small Hab in Level 3 Upper Area
+**Status:** broken
+**Category:** tech-component
+**Description:** A computer that is broken.
+### 2026-05-08
+- Related to [[Small Hab in Level 3 Upper Area]]
+
+## Matter Transporter
+**Status:** built
+**Category:** tech-component
+### 2026-05-09
+- Related to [[Rho]]
+
+## Additive from Facility Iota
+**Location:** Facility Iota
+**Status:** missing
+**Category:** resource
+**Description:** A required additive needed to start the manufacturing system in Tau.
+### 2026-05-09
+- Related to [[Facility Iota]]

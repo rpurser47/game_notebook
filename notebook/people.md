@@ -15,6 +15,8 @@ description: Named NPCs and their roles
 - Probable site: small shed near Theta in the swamp. Not yet confirmed in-world.
 
 - Full name appears to be Andy Sorrell (found note signed by him at the dam).
+### 2026-05-07
+- Related to [[Sorrell's Fishing Hab]]
 
 ## Roger
 **Role:** Loadmaster
@@ -70,6 +72,8 @@ description: Named NPCs and their roles
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[George Broussard]], [[Grant Harlow]], [[Lisa Chapman]]
 
 - Holds a security card needed to access the control room in the Undersea Dam.
+### 2026-05-07
+- Related to [[Crew Quarters]]
 
 ## Rupert Sanford
 **Role:** Custodian (janitorial / maintenance)
@@ -116,3 +120,10 @@ description: Named NPCs and their roles
 **Status:** noted
 ### 2026-05-02
 - Related to [[Antigen to Psuedofungus Spore]]
+
+## Stanley
+**Location:** surface facility
+**Status:** AI core retrieved and brought to the surface facility
+**Description:** An AI whose core was recovered from the underwater lab at Kappa.
+### 2026-05-07
+- Related to [[Surface Facility]]

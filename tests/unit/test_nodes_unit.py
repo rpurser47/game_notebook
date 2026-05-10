@@ -11,7 +11,8 @@ def make_factory(response_text: str) -> NodeFactory:
     llm.invoke.return_value = MagicMock(content=response_text)
     store = MagicMock()
     index = MagicMock()
-    return NodeFactory(llm, store, index)
+    db = MagicMock()
+    return NodeFactory(llm, store, index, db)
 
 
 def make_chunks(names: list[str], entity_type: str = "items") -> list[dict]:

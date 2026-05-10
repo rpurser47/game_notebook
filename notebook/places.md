@@ -94,7 +94,7 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Delta Security Station
 **Explored:** yes
-**Status:** active (locked — requires unknown item)
+**Status:** data downloaded
 **Parent:** [[Level 4 — Facility Delta]]
 **Related:** [[GAIA]]
 
@@ -109,7 +109,7 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Level 5 — Facility Epsilon
 **Explored:** partial
-**Status:** active (multiple locked areas)
+**Status:** data downloaded
 **Parent:** [[The Massive Cave System]]
 **Position:** below Level 4 — Facility Delta
 **Contains:** [[Climber Control Room]], [[Crew Quarters A]], [[Crew Quarters B]], [[Crew Quarters C]], [[Epsilon Canteen]], [[Epsilon Secure Storage]], [[Epsilon Storage Room]], [[Epsilon Airlock]], [[Epsilon Yard]]
@@ -293,7 +293,7 @@ description: Facilities, levels, zones, and spatial relationships
 - Air dome on the bridge (probable).
 
 ## Kappa Facility
-**Explored:** no
+**Explored:** yes
 **Status:** unknown (sign seen, not visited)
 **Parent:** [[Lost World Jungle]]
 **Position:** near South Gate, possibly near the fishing hab
@@ -365,7 +365,7 @@ description: Facilities, levels, zones, and spatial relationships
 - Related to [[Kappa Facility]]
 
 ## Fishing Spot Beyond the Dam
-**Explored:** no
+**Explored:** yes
 **Position:** just beyond the Dam on Path to Kappa
 ### 2026-05-01
 - Related to [[Dam on Path to Kappa]]
@@ -397,6 +397,8 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Power Facility Rho
 **Explored:** partial
+**Status:** completed
+**Outcome:** The generators were accessed and Facility Rho was powered on.
 
 ## Communications Facility Sigma
 **Status:** found
@@ -412,7 +414,7 @@ description: Facilities, levels, zones, and spatial relationships
 - Related to [[Facility Omicron]]
 
 ## Bunker Room
-**Explored:** no
+**Explored:** yes
 **Parent:** [[Facility Epsilon]]
 **Status:** explored (contains dead crew)
 - Simone Parker found dead here.
@@ -420,19 +422,21 @@ description: Facilities, levels, zones, and spatial relationships
 - Key cards recovered from both.
 
 ## Big Door in Lambda Reactor Room
-**Explored:** no
+**Explored:** yes
 **Position:** in the reactor room of Lambda
 
 ## Undersea Dam Control Room
 **Explored:** no
 **Parent:** [[Undersea Dam]]
+### 2026-05-08
+- Related to [[Undersea Dam]]
 
 ## Epsilon Facility Back Side
 **Explored:** partial
 **Position:** back side of Facility Epsilon
 
 ## Epsilon South Gate
-**Explored:** no
+**Explored:** yes
 **Position:** south gate of Facility Epsilon
 
 ## Welfare Hab
@@ -476,3 +480,43 @@ description: Facilities, levels, zones, and spatial relationships
 - Related to [[Mining Drill Northwest of Theta]]
 ### 2026-05-07
 - Related to [[Facility Theta]]
+
+## Sorrell's Fishing Hab
+**Explored:** partial
+**Description:** A hab identified by the player as belonging to Sorrell; it is specifically the fishing hab.
+
+## Underwater Lab at Kappa
+**Explored:** partial
+**Parent:** [[Kappa Facility]]
+**Description:** An underwater lab revealed after the lake at Kappa was drained.
+
+## Facility
+**Explored:** partial
+
+## Backyard Southeast of Epsilon
+**Explored:** partial
+**Position:** southeast of Facility Epsilon
+**Description:** A backyard area with a vehicle holding a locked crate.
+
+## Intake Tunnel Door in Facility Rho
+**Explored:** partial
+**Position:** in Facility Rho
+**Description:** A door leading to the intake tunnel that the player could not open.
+### 2026-05-08
+- Related to [[Power Facility Rho]]
+
+## Small Hab in Level 3 Upper Area
+**Explored:** partial
+**Position:** in Level 3 Upper Area
+**Description:** A small habitation area containing a broken computer.
+### 2026-05-08
+- Related to [[Level 3 Upper Area]]
+
+## Tau Facility
+**Explored:** no
+**Position:** across the lava fields from Rho
+### 2026-05-09
+- Related to [[Rho]]
+
+## Facility Iota
+**Explored:** no
