@@ -584,3 +584,64 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 - The player is trying to get the manufacturing system in Tau running.
 - An Additive from Facility Iota is needed to do so.
 - The Additive has not been found yet.
+
+## Session — 2026-05-10 06:57
+- Facility Iota was found.
+- Facility Iota was got working.
+- Reactor parts were created at Tau Facility.
+
+## Session — 2026-05-12 19:34
+- The player figured out how to make a Mark 2 cargo drone.
+
+## Session — 2026-05-12 19:37
+- The player is exploring the lava fields around Facility Rho.
+
+## Session — 2026-05-14 21:00
+- The player has been assigned to find Seam X-5.
+- Seam X-5 is west of the Tau facility (probable).
+
+## Session — 2026-05-14 21:13
+- The player found controls for the Omicron Tether Bridge.
+- The controls are locked down by tear paper protocol.
+- The player needs to deactivate tear paper protocol somehow.
+
+## Session — 2026-05-14 21:14
+- The Omicron Tether Bridge requires power relays to be connected.
+- More power relays will need to be made on the surface.
+
+## Session — 2026-05-14 21:29
+- The player found Seam X-5.
+
+## Session — 2026-05-15 20:19
+- The player has gotten some Hyperion crystal.
+
+## Session — 2026-05-15 20:24
+- The locked crate in the X-5 structure was opened.
+- Grant Harlow's security card was obtained from the crate.
+- The security card is needed to enter a facility.
+- The facility may be Omicron (probable).
+
+## Session — 2026-05-15 20:25
+- Grant Harlow is Maeve's grandfather.
+
+## Session — 2026-05-15 20:52
+- Gerard Shaw is Maeve's grandfather.
+
+## Session — 2026-05-18 19:54
+- The player entered Omicron.
+- Gerard Shaw's security key was used to enter Omicron.
+
+## Session — 2026-05-18 20:06
+- The player cannot get into Crew Quarters A in Omicron.
+- Crew Quarters A in Omicron is inaccessible because the door won't open.
+
+## Session — 2026-05-18 20:11
+- The player has gotten into Facility Omicron.
+
+## Session — 2026-05-18 20:41
+- The player found the crate opened by code 9970.
+- The opened crate was near the lost Tangerite drill site.
+
+## Session — 2026-05-18 21:00
+- The player has accessed the "storage + vault" door.
+- A physical storage vault key is required to enter the storage vault.

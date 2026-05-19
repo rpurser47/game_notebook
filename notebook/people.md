@@ -54,8 +54,14 @@ description: Named NPCs and their roles
 **Location:** Bunker Room (dead)
 **Status:** dead (found in Bunker Room)
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[George Broussard]], [[Lisa Chapman]], [[Ncuti Sinclair]]
+**Description:** Maeve's grandfather
+**Relationship to maeve:** not Maeve's grandfather
 ### 2026-05-01
 - Related to [[Bunker Room]]
+### 2026-05-15
+- Related to [[Maeve]]
+### 2026-05-15
+- Related to [[Maeve]]
 
 ## Lisa Chapman
 **Role:** Crew member
@@ -127,3 +133,9 @@ description: Named NPCs and their roles
 **Description:** An AI whose core was recovered from the underwater lab at Kappa.
 ### 2026-05-07
 - Related to [[Surface Facility]]
+
+## Seam X-5
+**Location:** west of Tau Facility
+**Status:** to find
+### 2026-05-14
+- Related to [[Tau Facility]]

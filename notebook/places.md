@@ -94,9 +94,10 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Delta Security Station
 **Explored:** yes
-**Status:** data downloaded
+**Status:** answered
 **Parent:** [[Level 4 — Facility Delta]]
 **Related:** [[GAIA]]
+**Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
 
 - Has a GAIA-like data device similar to the one in Epsilon.
 - Probably needs a special drive or key item — exact requirement unknown.
@@ -135,6 +136,8 @@ description: Facilities, levels, zones, and spatial relationships
 - Has a door to the Canteen that won't open.
 ### 2026-05-02
 - Related to [[Facility Epsilon]]
+### 2026-05-18
+- Related to [[Facility Omicron]]
 
 ## Crew Quarters B
 **Explored:** no
@@ -520,3 +523,24 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Facility Iota
 **Explored:** no
+
+## Lava Fields Around Facility Rho
+**Explored:** partial
+**Position:** around Facility Rho
+**Description:** Lava fields near Facility Rho.
+### 2026-05-12
+- Related to [[Facility Rho]]
+
+## North Gate Jungle
+**Explored:** yes
+**Position:** near North Gate
+### 2026-05-14
+- Related to [[North Gate]]
+
+## Facility Omicron
+**Explored:** no
+**Description:** A facility the player may need to enter.
+
+## Lost Tangerite Drill Site
+**Explored:** partial
+**Description:** A lost drill site associated with Tangerite; the opened crate was found nearby.

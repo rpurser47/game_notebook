@@ -33,7 +33,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Find Sorrell's Fishing Hab]]
 **Related:** [[Roger]], [[Loadmaster's Key]], [[Sorrell]]
-**Outcome:** I've found Deiter Yar's security key.  And I opened the bunker door.
+**Outcome:** I have opened the locked crate in the x-5 structure, and gotten grant harlow's security card.  I need that to enter a facility.  Might be omicron.
 
 - The key is probable at Sorrell's fishing hab. Retrieve it once the hab is confirmed.
 
@@ -113,9 +113,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Theta Gate Servo Install
 **Subtype:** quest
-**Status:** in-progress
+**Status:** completed
 **Requires:** (none)
 **Related:** [[Facility Theta]], [[Servo Unit]]
+**Outcome:** The Theta Gate Servo Install was installed by the player.
 
 - Install the second servo unit at Theta's locked fenced gate.
 - Servo unit has been crafted; not yet installed.
@@ -169,7 +170,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Crew Quarters B Access
 **Subtype:** quest
-**Status:** open
+**Status:** blocked
 **Requires:** (none)
 **Related:** [[Crew Quarters B]]
 
@@ -181,27 +182,28 @@ description: Quests, plans, and mysteries with dependency chains
 **Steps:** [[Obtain Empty Hardened Storage Drive]], [[Read Climber Records]]
 **Requires:** (none)
 **Related:** [[Climber Control Room]], [[GAIA]], [[Empty Hardened Storage Drive]]
-**Outcome:** A hardened storage drive was obtained from Lisa Chapman's room and can be used on Gaia storage points.
+**Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
 
 - Read the GAIA data server in Epsilon's Climber control room.
 - Requires an empty hardened storage drive (recipe / source unknown).
 
 ## Obtain Empty Hardened Storage Drive
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Climber Records — Hardened Storage Drive]]
 **Requires:** (none)
 **Related:** [[Empty Hardened Storage Drive]]
+**Outcome:** The player obtained an Empty Hardened Storage Drive and used it.
 
 - Learn how to make or obtain an empty hardened storage drive.
 
 ## Read Climber Records
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Part-of:** [[Climber Records — Hardened Storage Drive]]
 **Requires:** [[Obtain Empty Hardened Storage Drive]]
 **Related:** [[Climber Control Room]], [[GAIA]]
-**Outcome:** Data from the Gaia data server in Facility Epsilon was downloaded.
+**Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
 
 ## Delta Security Station
 **Subtype:** mystery
@@ -214,17 +216,19 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Mk2 Cargo Drone Blueprint
 **Subtype:** quest
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Mk2 Cargo Drone]]
+**Outcome:** Player figured out how to make a Mark 2 cargo drone
 
 - Learn / unlock the Mk2 cargo drone blueprint or recipe. Condition unknown.
 
 ## Explore North Gate Jungle
 **Subtype:** plan
-**Status:** in-progress
+**Status:** completed
 **Requires:** (none)
 **Related:** [[North Gate]], [[Tangrite]]
+**Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
 
 - Explore further beyond the North Gate outside Epsilon (more jungle, tangrite mapping).
 
@@ -239,9 +243,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Reach Level 6 — Facility Omicron
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Requires:** (none)
 **Related:** [[Level 6 — Facility Omicron]], [[Climber]]
+**Outcome:** I've gotten into Facility Omicron.
 
 - Reach Level 6 / Facility Omicron. Currently inaccessible.
 
@@ -287,9 +292,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Epsilon Crew Disappearance
 **Subtype:** mystery
-**Status:** open
+**Status:** answered
 **Requires:** (none)
 **Related:** [[Facility Epsilon]], [[Crew Quarters A]], [[Crew Quarters B]], [[Crew Quarters C]]
+**Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
 
 - Crew Quarters A is occupied (named residents). B is sealed, C was accessible via Theta.
 - Where did the rest of the crew go? Why are some quarters sealed?
@@ -356,9 +362,14 @@ description: Quests, plans, and mysteries with dependency chains
 - Related to [[Facility Rho]]
 
 ## Manufacturing System in Tau
-**Status:** in-progress
+**Status:** completed
 **Subtype:** quest
+**Outcome:** Facility Iota was found and got working, allowing reactor parts to be created at Tau Facility.
 ### 2026-05-09
 - Related to [[Additive from Facility Iota]]
 ### 2026-05-09
 - Related to [[Tau Facility]]
+
+## Tear Paper Protocol
+**Status:** open
+**Subtype:** mystery

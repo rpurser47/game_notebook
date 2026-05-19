@@ -214,7 +214,7 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Mk2 Cargo Drone
 **Category:** equipment
-**Status:** not obtained (recipe unknown)
+**Status:** found
 **Location:** unknown
 **Related:** [[Mk1 Cargo Drone]]
 
@@ -300,6 +300,8 @@ description: Resources, equipment, key items, access codes, and tech components
 - Crate access code: 9970. Found on a shipment list Samantha Corburn showed.
 - Also linked to a Tangrite focusing lens shipment.
 - Target crate/lock not yet identified.
+### 2026-05-18
+- Related to [[Crate]]
 
 ## Second Laser Drill
 **Location:** near the path from Epsilon South Gate to Kappa
@@ -474,9 +476,10 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Locked Crate on Vehicle in Backyard Southeast of Epsilon
 **Location:** on a vehicle in the backyard southeast of Facility Epsilon
-**Status:** locked
+**Status:** completed
 **Category:** key-item
 **Description:** A locked crate sitting on a vehicle in the back yard southeast of Epsilon.
+**Outcome:** I have opened the locked crate in the x-5 structure, and gotten grant harlow's security card.  I need that to enter a facility.  Might be omicron.
 ### 2026-05-08
 - Related to [[Backyard Southeast of Epsilon]]
 ### 2026-05-08
@@ -546,8 +549,63 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Additive from Facility Iota
 **Location:** Facility Iota
-**Status:** missing
+**Status:** completed
 **Category:** resource
 **Description:** A required additive needed to start the manufacturing system in Tau.
+**Outcome:** Facility Iota was found and got working, resolving the missing additive requirement.
 ### 2026-05-09
 - Related to [[Facility Iota]]
+
+## Reactor Parts
+**Location:** Tau Facility
+**Status:** created
+**Category:** tech-component
+### 2026-05-10
+- Related to [[Tau Facility]]
+
+## Hardened Storage Drives
+**Category:** tech-component
+
+## Omicron Tether Bridge Controls
+**Location:** Level 6 — Facility Omicron
+**Status:** locked
+**Category:** access-code
+**Description:** Controls for the Omicron Tether Bridge.
+### 2026-05-14
+- Related to [[Level 6 — Facility Omicron]]
+### 2026-05-14
+- Related to [[Tear Paper Protocol]]
+### 2026-05-14
+- Related to [[Power Relay]]
+
+## Power Relay
+**Location:** surface
+**Status:** needed
+**Category:** tech-component
+**Description:** A component used to connect power to the Omicron Tether Bridge.
+### 2026-05-14
+- Related to [[surface]]
+
+## Hyperion Crystal
+**Status:** obtained
+**Category:** resource
+
+## Grant Harlow's Security Key
+**Location:** X-5 seam structure
+**Status:** obtained
+**Category:** access-code
+### 2026-05-15
+- Related to [[X-5 seam structure]]
+
+## Gerard Shaw's Security Key
+**Location:** Omicron
+**Status:** used
+**Category:** access-code
+### 2026-05-18
+- Related to [[Omicron]]
+
+## Storage Vault Key
+**Status:** needed
+**Category:** key-item
+### 2026-05-18
+- Related to [[Storage Vault]]
