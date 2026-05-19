@@ -91,7 +91,14 @@ Examples:
 - "List everyone" → {"semantic_query": null, "filters": {"entity_type": "characters"}, "entities_mentioned": []}
 - "What places have I explored?" → {"semantic_query": null, "filters": {"entity_type": "locations"}, "entities_mentioned": []}
 - "What things do I have?" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
-- "What has happened?" → {"semantic_query": null, "filters": {"entity_type": "events"}, "entities_mentioned": []}"""
+- "What has happened?" → {"semantic_query": null, "filters": {"entity_type": "events"}, "entities_mentioned": []}
+- "What numeric codes do I have?" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
+- "List all known numeric codes" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
+- "What numeric codes do I have that I haven't used?" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
+- "What access codes are known?" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
+- "Do I have any unused codes?" → {"semantic_query": null, "filters": {"entity_type": "items"}, "entities_mentioned": []}
+
+IMPORTANT: Codes, passwords, access codes, key codes, numeric codes, and lock combinations are all stored as items (category: access-code). When the user asks about codes or combinations — even implicitly ("what codes do I have that might work here?") — always set entity_type to "items". Never leave entity_type null for these queries."""
 
 
 REFLECTION_PROMPT = """You are reviewing search results for relevance to a user's query.
