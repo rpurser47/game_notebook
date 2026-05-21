@@ -123,12 +123,13 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Theta Laser Drill — Jaspite Lens
 **Subtype:** quest
-**Status:** open
+**Status:** completed
 **Steps:** [[Find Jaspite Source]], [[Craft Jaspite Focusing Lens]]
 **Requires:** (none)
 **Related:** [[Laser Drill at Theta Shack]], [[Jaspite Focusing Lens]]
+**Outcome:** Jaspite focusing lens crafted and installed 2026-05-02. Drill is online.
 
-- Drone installed. Need a Jaspite focusing lens to bring the drill online.
+- Drone installed. Jaspite focusing lens installed. Drill operational.
 
 ## Find Jaspite Source
 **Subtype:** quest
@@ -207,9 +208,10 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Delta Security Station
 **Subtype:** mystery
-**Status:** open
+**Status:** closed
 **Requires:** (none)
 **Related:** [[Delta Security Station]]
+**Outcome:** Closed 2026-05-20 — player determined the station is closed/resolved.
 
 - What does the GAIA-like device at Delta's security station do?
 - What special item does it need? (Similar to Epsilon's GAIA setup.)
@@ -252,7 +254,7 @@ description: Quests, plans, and mysteries with dependency chains
 
 ## Rig #1 Status
 **Subtype:** quest
-**Status:** open
+**Status:** closed
 **Requires:** (none)
 **Related:** [[Rig #1]], [[Level 1 — Habitat]]
 
@@ -373,3 +375,55 @@ description: Quests, plans, and mysteries with dependency chains
 ## Tear Paper Protocol
 **Status:** open
 **Subtype:** mystery
+**Requires:** (none)
+**Related:** [[Omicron Tether Bridge Controls]], [[Underwater Lab at Kappa]]
+
+- A protocol called "Tear Paper" is locking down the Omicron Tether Bridge controls.
+- A console in the Underwater Lab at Kappa could deactivate it — player did not do so.
+- Exact meaning of "Tear Paper" still unknown.
+
+## Fix Omicron Climber
+**Status:** blocked
+**Subtype:** quest
+**Requires:** [[Find Thermo-Pump Plans]]
+**Related:** [[Facility Omicron]], [[Thermo-Pump]]
+
+- The Omicron climber control panel has a thermal warning blocking access.
+- Fixing the climber requires a thermo-pump.
+
+## Find Thermo-Pump Plans
+**Status:** open
+**Subtype:** quest
+**Part-of:** [[Fix Omicron Climber]]
+**Requires:** (none)
+**Related:** [[Thermo-Pump]]
+
+- Plans for a thermo-pump are needed before one can be built.
+- Source of the plans is unknown.
+
+## Find Storage Vault Key
+**Status:** open
+**Subtype:** quest
+**Requires:** (none)
+**Related:** [[Storage Vault]], [[Facility Omicron]]
+
+- The storage + vault door in Omicron's climber maintenance level requires a physical key to enter.
+- Key location unknown.
+
+## Identify Nuclear and Strange Fuel Rods
+**Status:** open
+**Subtype:** mystery
+**Requires:** (none)
+**Related:** [[Nuclear Fuel Rod]], [[Strange Fuel Rod]]
+
+- Player crafted a Nuclear Fuel Rod and a Strange Fuel Rod on 2026-05-20.
+- Purpose of neither is known.
+
+## Rho Intake Tunnel Door
+**Status:** open
+**Subtype:** mystery
+**Requires:** (none)
+**Related:** [[Facility Rho]]
+
+- A door to the intake tunnel in Facility Rho cannot be opened.
+- Access requirement unknown.

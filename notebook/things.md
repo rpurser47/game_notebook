@@ -58,11 +58,10 @@ description: Resources, equipment, key items, access codes, and tech components
 ## Jaspite
 **Category:** resource
 **Status:** found
-**Location:** unknown
+**Location:** found (exact location not logged)
 **Related:** [[Jaspite Focusing Lens]]
 
 - Used to make a Jaspite focusing lens required by the laser drill at the Theta shack.
-- Source not yet discovered.
 
 ## Loadmaster's Key
 **Category:** key-item
@@ -72,18 +71,18 @@ description: Resources, equipment, key items, access codes, and tech components
 
 - Opens Epsilon's Secure Storage.
 - Roger (Loadmaster) lost it — told Jack about it.
-- Probable location: Sorrell's fishing hab near Theta. Not yet recovered.
+- Recovered from Sorrell's fishing hab.
 ### 2026-05-01
 - Related to [[player]]
 
 ## Empty Hardened Storage Drive
 **Category:** tech-component
-**Status:** found
-**Location:** unknown
-**Related:** [[Climber Control Room]], [[GAIA]]
+**Status:** obtained
+**Location:** crafted at surface base
+**Related:** [[Climber Control Room]], [[GAIA]], [[Blueprint for Hardened Data Drives]]
 
-- Needed by the GAIA data server in Epsilon's Climber Control Room to read out Climber records.
-- Don't know how to make or obtain one.
+- Needed by GAIA data servers to read out records.
+- Blueprint obtained from locked box in Lisa Chapman's room. Requires tangrite to craft.
 
 ## Servo Unit
 **Category:** tech-component
@@ -114,12 +113,11 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Jaspite Focusing Lens
 **Category:** tech-component
-**Status:** found
-**Location:** unknown
+**Status:** crafted and installed
+**Location:** installed at Laser Drill near Facility Mu
 **Related:** [[Jaspite]], [[Laser Drill at Theta Shack]]
 
-- Required by the laser drill near the Theta shack.
-- Not yet obtained or crafted. Requires Jaspite ore (source unknown).
+- Crafted on 2026-05-02 and installed at the laser drill near the Theta shack / Facility Mu.
 
 ## Oxygen Generators
 **Category:** equipment
@@ -132,13 +130,12 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Rig #1
 **Category:** equipment
-**Status:** unknown (operating status not confirmed)
+**Status:** closed
 **Location:** [[Upper Entry Chamber]], Level 1
 **Related:** [[Level 1 — Habitat]]
 
-- In the upper entry chamber on Level 1.
-- Operating status and ore type still not confirmed.
-- Has a Mk1 cargo drone assigned.
+- In the upper entry chamber on Level 1. Marked closed 2026-05-20.
+- Ore type not confirmed.
 ### 2026-05-01
 - Related to [[Level 1 — Habitat]]
 
@@ -196,11 +193,11 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Laser Drill at Theta Shack
 **Category:** equipment
-**Status:** not operational (missing Jaspite focusing lens)
+**Status:** operational
 **Location:** near Facility Mu
 **Related:** [[Jaspite Focusing Lens]], [[Mk1 Cargo Drone]]
 
-- Cargo drone installed. Still needs Jaspite focusing lens to come online.
+- Cargo drone installed. Jaspite focusing lens installed 2026-05-02. Drill is online.
 ### 2026-05-02
 - Related to [[Facility Mu]]
 
@@ -214,11 +211,11 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Mk2 Cargo Drone
 **Category:** equipment
-**Status:** found
+**Status:** unlocked
 **Location:** unknown
 **Related:** [[Mk1 Cargo Drone]]
 
-- Trying to figure out how to build one. Recipe / unlock condition unknown.
+- Recipe/unlock figured out on 2026-05-12.
 
 ## Crate Code 7924
 **Category:** access-code
@@ -476,10 +473,9 @@ description: Resources, equipment, key items, access codes, and tech components
 
 ## Locked Crate on Vehicle in Backyard Southeast of Epsilon
 **Location:** on a vehicle in the backyard southeast of Facility Epsilon
-**Status:** completed
+**Status:** open
 **Category:** key-item
-**Description:** A locked crate sitting on a vehicle in the back yard southeast of Epsilon.
-**Outcome:** I have opened the locked crate in the x-5 structure, and gotten grant harlow's security card.  I need that to enter a facility.  Might be omicron.
+**Description:** A locked crate sitting on a vehicle in the back yard southeast of Epsilon. Contents and lock combination unknown.
 ### 2026-05-08
 - Related to [[Backyard Southeast of Epsilon]]
 ### 2026-05-08
@@ -609,3 +605,20 @@ description: Resources, equipment, key items, access codes, and tech components
 **Category:** key-item
 ### 2026-05-18
 - Related to [[Storage Vault]]
+
+## Thermo-Pump
+**Category:** tech-component
+**Status:** needed
+**Location:** unknown
+**Related:** [[Facility Omicron]]
+
+- Required to fix the Omicron climber control panel (thermal warning blocking access).
+- Plans for crafting it are not yet obtained.
+
+## Nuclear Fuel Rod
+**Status:** unknown
+**Category:** tech-component
+
+## Strange Fuel Rod
+**Status:** unknown
+**Category:** tech-component

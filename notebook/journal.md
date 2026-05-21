@@ -645,3 +645,18 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 ## Session — 2026-05-18 21:00
 - The player has accessed the "storage + vault" door.
 - A physical storage vault key is required to enter the storage vault.
+
+## Session — 2026-05-20 20:02
+- The Delta Security Station is probably closed.
+- Rig #1 is probably closed.
+
+## Session — 2026-05-18 20:17
+- The Omicron climber control panel has a thermal warning and cannot be accessed.
+- The climber cannot be fixed without a thermo-pump.
+- The player does not have the plans for a thermo-pump.
+
+## Session — 2026-05-20 20:04
+- The player created a nuclear fuel rod.
+- The player created a strange fuel rod.
+- The player does not know what the nuclear fuel rod is for.
+- The player does not know what the strange fuel rod is for.
