@@ -51,6 +51,39 @@ class TestRoutingUpdate:
 
 
 @pytest.mark.e2e
+class TestRoutingBlockers:
+    """Blocker and constraint statements must route to record, not chat."""
+
+    def test_cant_access_because_requirement(self, agent):
+        # "I can't X because Y" — blocked action is a new game fact
+        assert files_modified_after(
+            agent,
+            "I can't access the Omicron climber control panel because it has a thermal warning",
+        )
+
+    def test_cant_fix_without_item(self, agent):
+        # "I can't fix X without Y" — unmet requirement is a new fact
+        assert files_modified_after(
+            agent,
+            "I can't fix the climber without a thermo-pump",
+        )
+
+    def test_need_plans_for_item(self, agent):
+        # "I need the plans for X" — missing knowledge is a new fact
+        assert files_modified_after(
+            agent,
+            "I need the plans for a thermo-pump",
+        )
+
+    def test_requires_dependency(self, agent):
+        # "X requires Y" about a game object — dependency is a new fact
+        assert files_modified_after(
+            agent,
+            "The elevator at Kappa requires a power cell to run",
+        )
+
+
+@pytest.mark.e2e
 class TestRoutingChat:
     def test_greeting_does_not_modify_files(self, agent):
         assert not files_modified_after(agent, "Thanks, that's all for now")

@@ -47,9 +47,14 @@ Examples:
 - "Dieter Yar lives in Crew Quarter C" → record (stating a fact about a person, even if it includes location)
 - "Simone Parker lives in Crew Quarter C" → record (new person + location = record, not update)
 - "There's a door to the canteen from Crew Quarter C" → record (new observation about a location)
+- "I can't open the door because it needs a keycard" → record (blocker/constraint = new fact about a location or item)
+- "I can't fix the reactor without a thermo-pump" → record (unmet requirement = new fact)
+- "I need the plans for a thermo-pump" → record (missing item/knowledge = new fact)
+- "The elevator requires a power cell to run" → record (dependency = new fact about an item or location)
 
 Key rule: if the user mentions a person or place that has NOT been discussed before, it is ALWAYS record, not update.
 Only use update when explicitly correcting something already established ("actually", "I was wrong", "mark as done").
+Blocker and constraint statements ("I can't X", "I need X", "X requires Y") are ALWAYS record, not chat — they describe game state.
 
 Output only the single word."""
 
