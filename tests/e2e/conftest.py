@@ -139,6 +139,8 @@ description: Chronological session log
     index.index_all(store)
 
     from src.storage.db import NotebookDB
+    from src.storage.migrate import migrate
     db = NotebookDB(nb)
+    migrate(nb, db)
 
     return NotebookAgent(llm, store, index, db)

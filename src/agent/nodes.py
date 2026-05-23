@@ -725,16 +725,41 @@ Return only the IDs of items that are genuinely relevant to this query."""
             [e for e in state.get("resolved_entities", []) if e.get("is_new")]
             if intent == "record" else []
         )
+        _CATEGORY_KEYWORDS = {
+            "resource", "equipment", "key-item", "key item", "keyitem",
+            "tech-component", "tech component", "access-code", "access code",
+            "ore", "mineral", "consumable", "weapon", "tool", "code", "password",
+            "component", "part", "supply", "material",
+        }
         new_entity_context = ""
         if new_entities:
             lines = []
+            items_inferred_category = []
+            user_input_lower = user_input.lower()
             for e in new_entities:
                 name = e.get("resolved_name", e.get("name", ""))
                 fields = e.get("fields", {})
                 field_str = ", ".join(f"{k}: {v}" for k, v in fields.items() if v)
                 lines.append(f"- {name} ({e.get('type', '')}){': ' + field_str if field_str else ''}")
+                if e.get("type") in ("item", "items"):
+                    category = fields.get("category", "")
+                    # Flag items whose category was inferred (no explicit category signal
+                    # in what the player actually said)
+                    category_explicit = any(kw in user_input_lower for kw in _CATEGORY_KEYWORDS)
+                    if not category_explicit:
+                        items_inferred_category.append((name, category))
+            item_gap_note = ""
+            if items_inferred_category:
+                item_names = ", ".join(n for n, _ in items_inferred_category)
+                item_gap_note = (
+                    f"\nREQUIRED: You MUST end your response with a question about item category. "
+                    f"The following item(s) were recorded without an explicit category: {item_names}. "
+                    f"Ask: 'Is it a resource, equipment, key item, tech component, or access code?' "
+                    f"(or a natural variant). This is mandatory — do not skip it."
+                )
             new_entity_context = (
                 "\nNewly recorded entities:\n" + "\n".join(lines) +
+                item_gap_note +
                 "\n\nIf — and only if — a genuinely consequential fact is missing "
                 "(something that would affect what the player should do next, e.g. "
                 "unknown allegiance of a character tied to a quest, or unknown category "

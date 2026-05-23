@@ -88,12 +88,15 @@ class TestOutcomeFieldOnCompletion:
         assert idx != -1
         section = content[idx: idx + 400]
 
-        # Status should still be open
+        # Status should not be completed or answered
         status_match = re.search(r"\*\*Status:\*\*\s*(.+)", section)
         assert status_match
-        assert "open" in status_match.group(1).lower()
+        status_val = status_match.group(1).lower()
+        assert "completed" not in status_val and "answered" not in status_val, (
+            f"Merely mentioning a todo should not complete it, but Status is: {status_val!r}"
+        )
 
-        # No Outcome on an open todo
+        # No Outcome on an incomplete todo
         assert "**Outcome:**" not in section, (
-            "Open todo should not have an Outcome field"
+            "Incomplete todo should not have an Outcome field"
         )

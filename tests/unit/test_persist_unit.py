@@ -57,14 +57,15 @@ class TestConflictCheckNode:
         result = factory.conflict_check(state)
         assert result["conflicts"] == []
 
-    def test_no_conflict_for_routine_update_empty_old_value(self, tmp_path):
+    def test_no_conflict_for_routine_update_on_non_stable_field(self, tmp_path):
+        """Status-like progression fields (location, status) don't trigger stable-field conflict."""
         factory, db, store = make_factory(tmp_path)
         eid = db.insert_entity("Roger", "characters")
-        db.upsert_field(eid, "role", "Loadmaster")
+        db.upsert_field(eid, "location", "Epsilon")
 
         state = {
             "extracted_updates": [
-                {"entity": "Roger", "field": "role", "old_value": "", "new_value": "Captain"},
+                {"entity": "Roger", "field": "location", "old_value": "", "new_value": "Surface"},
             ]
         }
         result = factory.conflict_check(state)

@@ -364,16 +364,29 @@ class NotebookDB:
     # Conflict detection
     # -------------------------------------------------------------------------
 
+    # Fields whose values are stable facts — contradicting them without an explicit
+    # old_value still raises a conflict (e.g. role: captain → loadmaster).
+    # Status-like progression fields (status, explored) are excluded because they
+    # naturally advance and should never block a normal update.
+    _STABLE_FIELDS = {"role", "category", "subtype", "position", "parent"}
+
     def detect_conflicts(self, updates: list[dict]) -> list[dict]:
         """
         Compare proposed updates against current DB state.
-        Returns a list of conflict dicts for any update where the current DB
-        value differs from what the update expected (old_value).
+        Returns a list of conflict dicts for any update that contradicts what's recorded.
+
+        Two cases raise a conflict:
+        1. The player explicitly stated a prior value (old_value) that doesn't match DB.
+        2. The update targets a stable field (role, category…) whose DB value is
+           meaningful (not "unknown"/empty) and the new value contradicts it —
+           even when no old_value was stated.
         """
+        _PLACEHOLDER = {"unknown", "n/a", "none", ""}
+
         conflicts = []
         for update in updates:
             entity_name = update.get("entity", "")
-            field = update.get("field", "")
+            field = (update.get("field") or "").lower()
             old_value = update.get("old_value", "")
             new_value = update.get("new_value", "")
 
@@ -384,16 +397,33 @@ class NotebookDB:
             if current is None:
                 continue  # Field doesn't exist yet — no conflict
 
-            # Only flag a conflict when the player explicitly stated a prior value
-            # that doesn't match what's in the DB. An empty old_value means the
-            # extractor didn't assert a prior state — that's a normal update, not
-            # a conflict (e.g. "I explored Kappa" when DB has explored=no).
-            # Also skip if new_value matches current (re-stating the same fact).
+            current_l = current.lower()
+            new_l = new_value.lower() if new_value else ""
+
+            # No conflict when re-stating the same fact
+            if current_l == new_l:
+                continue
+
+            conflict = False
+
+            # Case 1: explicit old_value that doesn't match DB
+            if old_value and current_l != old_value.lower():
+                conflict = True
+
+            # Case 2: stable field with meaningful current value contradicted,
+            # but only when the player did NOT correctly state the old value.
+            # If old_value matches current, the player knows the current state
+            # and is intentionally correcting it — that's valid, not a conflict.
             if (
-                old_value
-                and current.lower() != new_value.lower()
-                and current.lower() != old_value.lower()
+                not conflict
+                and field in self._STABLE_FIELDS
+                and current_l not in _PLACEHOLDER
+                and new_l not in _PLACEHOLDER
+                and not (old_value and old_value.lower() == current_l)
             ):
+                conflict = True
+
+            if conflict:
                 conflicts.append({
                     "entity": entity_name,
                     "field": field,

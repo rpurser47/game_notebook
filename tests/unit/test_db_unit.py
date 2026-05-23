@@ -177,13 +177,16 @@ class TestConflictDetection:
         ])
         assert conflicts == []
 
-    def test_no_conflict_on_empty_old_value(self, db):
-        """Routine update with no stated prior value must never block a write."""
+    def test_stable_field_contradicted_without_stated_prior_is_conflict(self, db):
+        """Contradicting a stable field (role) without a stated prior still raises a conflict.
+        Per spec §7: 'Roger is the loadmaster' when DB has 'captain' should ask for confirmation."""
         self._seed_roger(db)
         conflicts = db.detect_conflicts([
             {"entity": "Roger", "field": "role", "old_value": "", "new_value": "Captain"},
         ])
-        assert conflicts == []
+        assert len(conflicts) == 1
+        assert conflicts[0]["db_value"] == "Loadmaster"
+        assert conflicts[0]["proposed_value"] == "Captain"
 
     def test_no_conflict_when_new_value_matches_db(self, db):
         """Re-stating the same fact is not a conflict."""
@@ -204,18 +207,22 @@ class TestConflictDetection:
         assert conflicts[0]["db_value"] == "Loadmaster"
         assert conflicts[0]["proposed_value"] == "pilot"
 
-    def test_multiple_updates_only_flags_conflicting_one(self, db):
+    def test_multiple_updates_flags_both_conflicting_ones(self, db):
+        """Both a stable-field contradiction (role) and an explicit wrong prior (location)
+        should be flagged when each has a meaningful current value."""
         eid = db.insert_entity("Roger", "characters")
         db.upsert_field(eid, "role", "Loadmaster")
         db.upsert_field(eid, "location", "Epsilon")
         conflicts = db.detect_conflicts([
-            # No conflict — empty old_value
+            # Conflict — stable field contradicted (role is a stable field)
             {"entity": "Roger", "field": "role", "old_value": "", "new_value": "Captain"},
             # Conflict — explicit wrong old_value
             {"entity": "Roger", "field": "location", "old_value": "Delta", "new_value": "Surface"},
         ])
-        assert len(conflicts) == 1
-        assert conflicts[0]["field"] == "location"
+        assert len(conflicts) == 2
+        fields_flagged = {c["field"] for c in conflicts}
+        assert "role" in fields_flagged
+        assert "location" in fields_flagged
 
     def test_unknown_entity_skipped(self, db):
         conflicts = db.detect_conflicts([

@@ -14,6 +14,7 @@ class TestQuestCompletionPropagatesStatus:
         """When 'Recover Loadmaster's Key' is marked done, the Loadmaster's Key
         item in things.md should also have its status updated to reflect it was
         found — not remain 'lost'."""
+        from src.storage.migrate import migrate
         # Seed things.md with the Loadmaster's Key at 'lost' status
         agent.store.write_file("things.md", """\
 ---
@@ -32,6 +33,7 @@ description: Key items and equipment
 - Probable location: Sorrell's fishing hab near Theta. Not yet recovered.
 """)
         agent.index.index_all(agent.store)
+        migrate(agent.store.notebook_path, agent.db)
 
         agent.chat("I recovered the Loadmaster's Key at Sorrell's fishing hab")
 
@@ -52,6 +54,7 @@ description: Key items and equipment
 
     def test_completing_key_recovery_quest_updates_todo_AND_key(self, agent):
         """Both the todo AND the related item should be updated — not just the todo."""
+        from src.storage.migrate import migrate
         agent.store.write_file("things.md", """\
 ---
 type: items
@@ -67,6 +70,7 @@ description: Key items and equipment
 - Opens Epsilon's Secure Storage.
 """)
         agent.index.index_all(agent.store)
+        migrate(agent.store.notebook_path, agent.db)
 
         agent.chat("I recovered the Loadmaster's Key at Sorrell's fishing hab")
 
@@ -89,6 +93,7 @@ description: Key items and equipment
     def test_completing_quest_does_not_just_update_todo(self, agent):
         """Regression: the agent used to only touch todos.md. This test documents
         the gap — the related item status must also change."""
+        from src.storage.migrate import migrate
         agent.store.write_file("things.md", """\
 ---
 type: items
@@ -104,6 +109,7 @@ description: Key items and equipment
 - Opens Epsilon's Secure Storage.
 """)
         agent.index.index_all(agent.store)
+        migrate(agent.store.notebook_path, agent.db)
 
         agent.chat("Found the Loadmaster's Key — it was at Sorrell's fishing hab")
 
