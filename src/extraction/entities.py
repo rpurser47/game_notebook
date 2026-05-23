@@ -57,6 +57,10 @@ Rules:
 - If nothing to extract, return empty arrays.
 - CRITICAL: If a person's name is not in known_entities["characters"], they MUST appear as an entity with is_new: true. Do not silently drop new people.
 - CRITICAL: If a place is described (even partially — "there's a bridge beyond Mu") and it's not in known_entities["locations"], create it as a new location with is_new: true.
+- CRITICAL: If an item is mentioned (even as a prerequisite or intermediate step), it MUST appear as an entity with is_new: true. Do not drop items that appear mid-chain.
+- CRITICAL — dependency chains: when the player says "I need X to do Y" or "I must do A before B", every entity in the chain must be extracted — not just the final goal. Extract all intermediate items, locations, and todos. For each todo in the chain, set the `requires` field to name the prerequisite step. Set status to "blocked" when the prerequisite is not yet met.
+  - Example: "I need a fuel cell to power the lift, and I need the lift to reach level 3" → extract Fuel Cell (item), Lift (item/location), Level 3 (location), and todos for each unresolved step with appropriate `requires` links.
+  - Never discard the earlier links in a dependency chain just because the player's sentence ends on the goal entity.
 
 Examples:
 - "Simone Parker lives in Crew Quarter C" (not in known_entities) → entity: {"name": "Simone Parker", "type": "character", "is_new": true, "fields": {"location": "Crew Quarters C"}}

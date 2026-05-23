@@ -721,11 +721,34 @@ Return only the IDs of items that are genuinely relevant to this query."""
 
         context_str = "\n".join(context_parts) if context_parts else ""
 
+        new_entities = (
+            [e for e in state.get("resolved_entities", []) if e.get("is_new")]
+            if intent == "record" else []
+        )
+        new_entity_context = ""
+        if new_entities:
+            lines = []
+            for e in new_entities:
+                name = e.get("resolved_name", e.get("name", ""))
+                fields = e.get("fields", {})
+                field_str = ", ".join(f"{k}: {v}" for k, v in fields.items() if v)
+                lines.append(f"- {name} ({e.get('type', '')}){': ' + field_str if field_str else ''}")
+            new_entity_context = (
+                "\nNewly recorded entities:\n" + "\n".join(lines) +
+                "\n\nIf — and only if — a genuinely consequential fact is missing "
+                "(something that would affect what the player should do next, e.g. "
+                "unknown allegiance of a character tied to a quest, or unknown category "
+                "of an item), ask ONE short question at the end of your response. "
+                "Use full conversational context before deciding. "
+                "Do not ask about cosmetic or low-stakes details. "
+                "Do not ask if the entity already has enough context."
+            )
+
         response_prompt = f"""User's message: {user_input}
 
 Intent: {intent}
 
-{context_str}
+{context_str}{new_entity_context}
 
 Respond naturally and concisely. Remember:
 - For recording: acknowledge what was recorded, then mention any relevant related info AND any open next steps or quests from the notebook context above

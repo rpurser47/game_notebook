@@ -1,5 +1,6 @@
 """LangGraph definition for the notebook agent."""
 
+import os
 from typing import Literal
 
 from langchain_core.language_models import BaseChatModel
