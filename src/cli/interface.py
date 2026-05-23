@@ -42,8 +42,8 @@ class NotebookCLI:
         """Display startup banner."""
         banner = Panel(
             Text.from_markup(
-                "[bold]Miner's Notebook[/bold]\n"
-                "[dim]A memory for your mining adventures[/dim]"
+                "[bold]Game Notebook[/bold]\n"
+                "[dim]A memory for your adventures[/dim]"
             ),
             border_style="blue",
         )

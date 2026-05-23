@@ -43,7 +43,7 @@ Output ONLY valid JSON with this structure:
 Field reference by type:
 - character: role, location, status, description (optional — one sentence of colour or context: appearance, personality, what makes them memorable)
 - location: explored (yes|no|partial), status, position (spatial relationship to another place), parent (containing place), description (optional — atmosphere, notable features, what it feels like)
-- item: category (resource|equipment|key-item|tech-component|access-code), status, location, description (optional — what it looks like or why it matters). Use "resource" for ores, minerals, and raw materials that are harvested or found in the world.
+- item: category (resource|equipment|key-item|tech-component|access-code), status, location, description (optional — what it looks like or why it matters). Use "resource" for raw materials, consumables, and harvestable substances found in the world.
 - todo: subtype (quest|plan|mystery), status (open|in-progress|blocked|completed|answered), requires (prerequisite todo name), outcome (one sentence: how/why it was completed — only set when status becomes completed or answered)
 - event: category (death|discovery|encounter|hazard-confirmed|quest-resolution|other), date, location, status (active|resolved|noted)
 

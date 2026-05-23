@@ -23,46 +23,78 @@ A conversational agentic tool that acts as a smart notebook for 1st-person RPG g
 
 ```mermaid
 flowchart TD
-    CLI["CLI Interface\n─────────────────\nLoad last 20 messages\nInput prompt: > \nRich terminal, purple theme"]
-    Agent["LangGraph Agent\n─────────────────\nRouter · Extract · Resolve\nConflictCheck · Retrieve · Reflect\nPersist · Respond"]
-    DB["SQLite Database\n─────────────────\nnotebook/.db/notebook.db\nEntities · Relationships\nQuests · Facts · Provenance"]
-    MD["Markdown Files\n─────────────────\nnotebook/journal.md\npeople.md · places.md\nthings.md · todos.md\nevents.md · [dynamic].md\n.history/conversation.jsonl"]
-    VI["Vector Index\n─────────────────\n.index/chromadb/\nDocuments · Observations\nLore · Journal chunks\nMetadata for filtering"]
+    CLI["CLI Interface
+    ─────────────────
+    Load last 20 messages
+    Input prompt: >
+    Rich terminal, plum1 theme"]
+    Agent["LangGraph Agent
+    ─────────────────
+    Router · Extract · Resolve
+    ConflictCheck · AnalyzeQuery
+    Retrieve · Reflect · Persist · Respond"]
+    DB["SQLite Database
+    ─────────────────
+    notebook/.db/notebook.db
+    Entities · Relationships
+    Facts · Provenance · History"]
+    MD["Markdown Files
+    ─────────────────
+    notebook/journal.md
+    people.md · places.md
+    things.md · todos.md
+    events.md
+    .history/conversation.jsonl"]
+    VI["Vector Index
+    ─────────────────
+    .index/chromadb/
+    Entity prose · Observations
+    Journal chunks
+    Metadata for filtering"]
 
     CLI --> Agent
     Agent --> DB
     Agent --> MD
     Agent --> VI
     DB -->|"sync on write"| MD
-    DB -->|"embeds summaries"| VI
+    MD -->|"chunked + embedded"| VI
 ```
 
 ---
 
 ## Memory Architecture
 
-The system uses four distinct memory layers, each with a clear role. Mixing these layers is the primary source of agent hallucination, so the boundary between them is enforced by design.
+The system uses three distinct memory layers, each with a clear role. Mixing these layers is the primary source of agent hallucination, so the boundary between them is enforced by design.
 
 ```mermaid
 flowchart LR
     subgraph L1["Layer 1 — Session Context"]
-        SC["Recent messages\nCurrent scene\nActive turn state"]
+        SC["Recent messages
+        Current scene
+        Active turn state"]
     end
     subgraph L2["Layer 2 — Structured World State"]
-        DB["SQLite\n────────────────\nEntities & aliases\nRelationships\nQuest flags & status\nInventory\nTimeline events\nFacts & provenance"]
+        DB["SQLite
+        ────────────────
+        Entities & aliases
+        Relationships
+        Quest flags & status
+        Inventory
+        Timeline events
+        Facts & provenance"]
     end
     subgraph L3["Layer 3 — Semantic Memory"]
-        VI["ChromaDB\n────────────────\nJournal entries\nLore & observations\nProse descriptions\nConversation summaries"]
-    end
-    subgraph L4["Layer 4 — Procedural Memory"]
-        PM["Reflection table\n────────────────\nExtraction lessons\nConflict resolutions\nAgent heuristics"]
+        VI["ChromaDB
+        ────────────────
+        Journal entries
+        Lore & observations
+        Prose descriptions"]
     end
 
     L1 -->|"informs"| L2
     L1 -->|"informs"| L3
     L2 -->|"authoritative facts first"| Agent
     L3 -->|"semantic enrichment second"| Agent
-    L4 -->|"behavior guidance"| Agent
 ```
 
 **The golden rule**: if a value must support equality tests, filters, joins, or state transitions — it belongs in the database. If it helps answer "what feels related?" — it belongs in the vector store.
@@ -72,7 +104,8 @@ flowchart LR
 | Quest flags, status, inventory, NPC status, timestamps | SQLite | Exact lookup, constraints, updates, auditing |
 | Entity relationships ("A serves B", "Place X contains Y") | SQLite relationships table | Explicit traversal; vectors miss directionality |
 | Lore text, journals, notes, observations, transcripts | ChromaDB | Fuzzy similarity and thematic recall |
-| Agent reflections, extraction lessons | SQLite reflection table + optional embeddings | Behavior guidance isolated from world facts |
+
+> Note on procedural memory: a `reflections` table exists in the schema for future use (extraction lessons, conflict resolutions, agent heuristics). It is **not currently populated** by any code path — it is reserved for a future iteration.
 
 ---
 
@@ -90,7 +123,6 @@ game_notebook/
 │   ├── things.md               # Items and equipment (rendered from DB)
 │   ├── todos.md                # Quests, plans, mysteries (rendered from DB)
 │   ├── events.md               # Events and hazards (rendered from DB)
-│   ├── [dynamic].md            # New files as topics emerge
 │   ├── .db/
 │   │   └── notebook.db         # SQLite canonical store (gitignored)
 │   ├── .index/                 # Vector store (gitignored)
@@ -104,7 +136,9 @@ game_notebook/
 └── README.md
 ```
 
-Markdown files remain the human-readable, git-friendly view of the world. They are rendered from the database on write, not the source of truth. The database is the source of truth.
+The set of markdown files is **fixed**: journal, people, places, things, todos, events. Dynamic file creation for emerging topics is not implemented; all entity types are routed to the existing files.
+
+Markdown files are the human-readable, git-friendly view of the world. The SQLite database is the canonical source of truth; markdown is written by `MarkdownStore` in sync with DB writes, so the two stay consistent on every persist.
 
 ### SQLite Schema
 
@@ -140,7 +174,7 @@ CREATE TABLE entity_fields (
 CREATE TABLE relationships (
     from_id     INTEGER NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
     to_name     TEXT NOT NULL,
-    relation    TEXT NOT NULL,  -- "serves", "contains", "is at", "related to"
+    relation    TEXT NOT NULL,
     asserted_at TEXT NOT NULL,
     PRIMARY KEY (from_id, to_name, relation)
 );
@@ -166,7 +200,7 @@ CREATE TABLE entity_history (
     recorded_at TEXT NOT NULL
 );
 
--- Agent reflection notes (isolated from world facts)
+-- Agent reflection notes (reserved; not currently written)
 CREATE TABLE reflections (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     category    TEXT NOT NULL,  -- "extraction"|"conflict"|"coreference"
@@ -191,8 +225,6 @@ Sources:
 
 ### Markdown File Format
 
-Markdown files are rendered from the database on every write. Format unchanged for human readability:
-
 ```yaml
 ---
 type: <entity type>
@@ -200,7 +232,7 @@ description: <brief description>
 ---
 ```
 
-Entity types: `observations`, `characters`, `locations`, `items`, `equipment`, `events`, `hazards`
+Entity types written by the system: `characters`, `locations`, `items`, `todos`, `events`.
 
 ### Entity Format
 
@@ -234,16 +266,6 @@ Chronological, append-only (never rendered from DB — the journal is always wri
 - Observation one
 - Observation two
 ```
-
-### Dynamic File Creation
-
-The agent creates new markdown files when topics don't fit existing categories, auto-updating README.md:
-
-| Situation | New File |
-|-----------|----------|
-| Multiple vehicles mentioned | `vehicles.md` |
-| Faction politics emerge | `factions.md` |
-| Crafting system details | `crafting.md` |
 
 ---
 
@@ -322,7 +344,9 @@ The `Retrieve` node performs both structured (DB) and semantic (ChromaDB) lookup
 | `update` | "Mark X as done", "Actually, X is Y not Z", "I finished..." |
 | `chat` | "Hello", "Thanks", "What can you do?" |
 
-**Key rule**: A message mentioning a new person is always `record`, never `update`.
+**Key rules:**
+- A message mentioning a new person is always `record`, never `update`.
+- Blocker / constraint statements ("I can't X", "I need X", "X requires Y") are **always** `record`, never `chat`. This guarantees impediments are captured as todos.
 
 ---
 
@@ -334,13 +358,31 @@ Structured state is always queried first. Semantic recall is enrichment only.
 
 ```mermaid
 flowchart TD
-    Q([User Query]) --> QA["AnalyzeQuery — LLM\n─────────────────────\nentities_mentioned: list\nfilters: entity_type, status, subtype\nsemantic_query: text or null"]
+    Q([User Query]) --> QA["AnalyzeQuery — LLM
+    ─────────────────────
+    entities_mentioned: list
+    filters: entity_type, status, subtype
+    semantic_query: text or null"]
 
-    QA --> R["Retrieve — single node\n─────────────────────────\nExact entity fetch by name/alias (DB)\nRelationship traversal (DB)\nStatus + field filters (DB)\n+\nSemantic search (ChromaDB)\n+ metadata filters\ntop_k = 10–30"]
+    QA --> R["Retrieve — single node
+    ─────────────────────────
+    Exact entity fetch by name/alias (DB)
+    Relationship traversal (DB)
+    Status + field filters (DB)
+    +
+    Semantic search (ChromaDB)
+    + metadata filters
+    top_k = 10–30"]
 
-    R --> Reflect["Reflect — LLM\n────────────────\nFilter chunk IDs\nto genuinely relevant ones"]
+    R --> Reflect["Reflect — LLM
+    ────────────────
+    Filter chunk IDs
+    to genuinely relevant ones"]
 
-    Reflect --> Merge["Merge Context Bundle\n──────────────────────\nauthor: structured_results\nenrichment: semantic_chunks\nopen_questions: []"]
+    Reflect --> Merge["Merge Context Bundle
+    ──────────────────────
+    authoritative: structured_results
+    enrichment: semantic_chunks"]
 
     Merge --> Respond
 ```
@@ -361,6 +403,7 @@ This ordering prevents semantic recall from overriding known canon facts.
 | "Anything about curses?" | None | "curse cursed magical affliction" |
 | "Open quests in Millhaven" | `entity_type=todos, status=open` | "Millhaven" |
 | "What's Roger's role?" | `entity=Roger, field=role` | None |
+| "What access codes do I have?" | `entity_type=items` | None |
 
 Status filters only applied when **explicitly** requested ("open quests", "completed tasks").
 
@@ -373,8 +416,6 @@ Only these document types go into the vector store:
 | Journal session entries | Narrative recall, thematic search |
 | Entity prose descriptions | Lore and flavor text |
 | Observations (extracted) | "What do I know about X?" fuzzy queries |
-| Conversation summaries | Session continuity |
-| Reflection notes | Agent behavior retrieval |
 
 Entity fields, quest status, relationship edges, inventory — these are **not** embedded. They are queried exactly from the DB.
 
@@ -383,18 +424,16 @@ Entity fields, quest status, relationship edges, inventory — these are **not**
 **Chunking strategy:**
 - Journal: split at `##` session headers
 - Entities: one chunk per `##` section (full entity block, including field key-value pairs)
-- Observations: one chunk per extracted observation string
 
 **Chunk metadata:**
 ```python
 {
-    "doc_type": "journal|entity_prose|observation|reflection",
-    "entity_name": "Roger",        # if linked to an entity
-    "entity_type": "characters",   # if linked to an entity
-    "session_date": "2024-01-15",  # for journal chunks
-    "source": "player_observed",   # provenance
-    "status": "open",              # for todo/quest chunks (enables metadata filters)
-    "subtype": "quest",            # for todo chunks
+    "file": "people.md",
+    "entity_name": "Roger",
+    "entity_type": "characters",
+    "status": "open",
+    "location": "...",
+    "related": "Name1,Name2",
 }
 ```
 
@@ -442,16 +481,14 @@ Hash tracking uses `<filename>::<entity_name>` as the key. If the hash differs f
   ],
   "updates": [
     {"entity": "Roger", "field": "role", "old_value": "loadmaster", "new_value": "captain", "source": "player_observed", "confidence": "certain"},
-    {"entity": "Recover Key Quest", "field": "status", "old_value": "open", "new_value": "completed", "source": "player_observed", "confidence": "certain"},
-    {"entity": "Recover Key Quest", "field": "outcome", "old_value": "", "new_value": "Found at Sorrell's fishing hab", "source": "player_observed", "confidence": "certain"}
+    {"entity": "Recover Key Quest", "field": "status", "old_value": "open", "new_value": "completed"},
+    {"entity": "Recover Key Quest", "field": "outcome", "old_value": "", "new_value": "Found at Sorrell's fishing hab"}
   ],
   "relationships": [
-    {"from": "Kira", "relation": "is at", "to": "Millhaven", "source": "player_observed", "confidence": "certain"}
+    {"from": "Kira", "relation": "is at", "to": "Millhaven"}
   ]
 }
 ```
-
-Every extracted item carries `source` and `confidence`. These propagate to the `facts` table for provenance tracking.
 
 **Field types by entity type:**
 - Character: `role`, `location`, `status`, `description`
@@ -460,19 +497,28 @@ Every extracted item carries `source` and `confidence`. These propagate to the `
 - Todo: `subtype` (quest/plan/mystery), `status`, `requires`, `outcome`, `description`
 - Event: `category`, `date`, `location`, `status`, `description`
 
-**Critical rule**: New people/places MUST appear as entities with `is_new: true`. Uncertain info is tagged with `(probable)` and written with `confidence: "uncertain"`.
+### Critical Extraction Rules
+
+- **New people MUST be extracted with `is_new: true`, never dropped.**
+- **New locations MUST be extracted with `is_new: true`, never dropped.**
+- **New items MUST be extracted with `is_new: true`, never dropped — even when mentioned only as a prerequisite** ("I need a keycard to open the vault" still creates the keycard).
+- **Dependency chains** ("I need X to do Y", "Opening Y requires X"): every entity in the chain must be extracted; the dependent todo gets `requires: X` and `status: blocked`.
+- Uncertain info is tagged with `(probable)` and written with `confidence: "uncertain"`.
 
 ### Coreference Resolution
 
-After extraction, each entity name is resolved against DB aliases before any write. The extractor receives `known_entities` (a dict of type → name list) from `NotebookDB.get_known_entities()` so it can identify potentially ambiguous references.
+After extraction, each entity name where `is_new=True` is checked against the known entities of the same type (provided to the extractor as `known_entities` from `NotebookDB.get_known_entities()`):
 
 ```
 For each extracted entity:
-  if is_new is False → already resolved by LLM, use name as-is
-  if name matches known entity → run coreference LLM to confirm match
-    if certain/likely → is_new=False, resolved to canonical entity
-    else → treat as new entity, note ambiguity in reflection table
-  if name not in known entities AND is_new=true → genuinely new, INSERT
+  if is_new is False:
+    already resolved by the extractor LLM — use name as-is
+  elif name NOT in known_entities[type]:
+    genuinely new — skip coreference, set resolved_name = name
+  else:
+    run coreference LLM to confirm match
+      if certain/likely → is_new=False, resolved_name = canonical
+      else            → keep as new (the LLM was uncertain)
 ```
 
 Coreference output:
@@ -484,7 +530,7 @@ Coreference output:
 }
 ```
 
-The alias table is updated on every confirmed coreference match, so "the innkeeper" resolving to "Mara" is remembered for next time.
+`NotebookDB.get_entity_by_name` does case-insensitive lookup and also consults the `aliases` table. The `aliases` table is available for lookup but the resolve pipeline does not currently write new alias rows on a confirmed coreference match.
 
 ### Conflict Detection
 
@@ -518,7 +564,7 @@ The `persist` node handles all writes for both `record` and `update` intents:
 
 1. **Observations** — embed as observation chunk; journal append (record only)
 2. **Journal** (record only) — append observations as a new `## Session —` entry, upsert journal chunk in vector index
-3. **New entities** — INSERT into `entities`, `entity_fields`, `aliases`; render markdown section; re-index file
+3. **New entities** — INSERT into `entities`, `entity_fields`; render markdown section; re-index file
 4. **Field updates** — UPDATE `entity_fields`, INSERT `facts` provenance row, re-render markdown section, re-index file
 5. **Completion propagation** — when a todo's `status` becomes `completed` or `answered`:
    - Query `related` names on the todo entity
@@ -527,6 +573,8 @@ The `persist` node handles all writes for both `record` and `update` intents:
    - Write fallback `Outcome` from raw user input if extractor didn't produce one (both to DB and markdown)
 6. **Relationships** — INSERT into `relationships` table; append `Related to [[Entity]]` to markdown
 7. **Re-index** — call `index.index_file` for each modified file
+
+Field map (markdown label → DB key): `role`, `status`, `location`, `explored`, `position`, `subtype`, `category`, `date`, `outcome`, `description`.
 
 ---
 
@@ -539,9 +587,19 @@ For `record` and `update` intents, the respond node enriches the reply using the
 2. Fetch those entities from DB (exact fields, status, relationships)
 3. Run semantic search over journal/observations for each entity name (top 3, deduped)
 4. Run additional semantic search filtered to `entity_type=todos, status=open` — surfaces unblocked next steps
-5. Inject into LLM prompt: authoritative DB rows first, semantic chunks second
+5. Build a compact list of newly recorded entities with their fields and inject into the prompt
+6. Inject all context into the LLM prompt: authoritative DB rows first, semantic chunks second
 
 The LLM is instructed to treat DB rows as ground truth and semantic chunks as supporting context only.
+
+### LLM-driven clarifying questions
+
+When intent is `record` and new entities were recorded, the respond prompt includes the compact entity list plus this instruction: if a **consequential** fact is missing, append **one** short clarifying question to the end of the reply. Consequential gaps include:
+
+- A character is tied to a quest and their allegiance is unknown
+- An item is mentioned but its category (key-item vs equipment vs access-code) cannot be inferred from context
+
+The model is explicitly instructed **not** to ask about cosmetic details and **not** to ask when the entity already has enough context. The user's answer on the next turn is processed as normal input — there is no special "answering a question" routing, no dedicated state fields, no separate graph node.
 
 For `query` intent: semantic results are deduplicated against DB results — chunks whose entity name already appears in structured results are treated as enrichment only, not repeated.
 
@@ -560,8 +618,8 @@ For `query` intent: semantic results are deduplicated against DB results — chu
 
 ```
 ╭─────────────────────────────────────────╮
-│          Miner's Notebook               │
-│   A memory for your mining adventures   │
+│            Game Notebook                │
+│    A memory for your adventures         │
 ╰─────────────────────────────────────────╯
 
 Loaded 847 chunks · 142 entities · 8 files. 20 messages restored.
@@ -580,7 +638,6 @@ Loaded 847 chunks · 142 entities · 8 files. 20 messages restored.
 | `/reindex` | Incremental re-index (changed chunks only) |
 | `/rebuild` | Full index rebuild from scratch |
 | `/clear` | Clear conversation history (keeps knowledge base) |
-| `/conflicts` | Show any pending unresolved conflicts |
 | `/help` | Show command list |
 
 ### Conversation Persistence
@@ -594,7 +651,7 @@ Stored in `notebook/.history/conversation.jsonl`:
 
 - Last 40 messages kept in memory per session
 - Last 20 messages displayed on startup
-- Agent responses rendered in purple using Rich Markdown
+- Agent responses rendered in plum1 using Rich Markdown
 
 ---
 
@@ -604,7 +661,7 @@ Stored in `notebook/.history/conversation.jsonl`:
 
 - Memory-only: records and recalls, never advises or strategizes
 - Concise and conversational, second person ("you found", "you've got")
-- Record: brief acknowledgement, confirm key facts, mention related open items or next steps
+- Record: brief acknowledgement, confirm key facts; may end with one short clarifying question when a consequential gap exists
 - Query: answer directly from authoritative DB state; mention supporting context from journal if relevant
 - Update: acknowledge the change, mention what is now unblocked
 - Never expose internal mechanics, mention files, or reveal whether a fact came from DB vs vector store
@@ -615,6 +672,12 @@ Stored in `notebook/.history/conversation.jsonl`:
 ```
 > met a mechanic named Yuki at the surface base, she fixes drones
 Added Yuki — mechanic at the surface base, works on drones.
+```
+
+**Recording with a clarifying question:**
+```
+> met a guard named Vex at the checkpoint
+Added Vex — guard at the checkpoint. Which faction is she with?
 ```
 
 **Querying:**
@@ -657,7 +720,7 @@ you mean to change it back, or is this a different Roger?
 | Canonical store | SQLite (`sqlite3` stdlib) | Entities, facts, relationships, provenance |
 | Embeddings | sentence-transformers (local) or OpenAI | Vector search |
 | Vector DB | ChromaDB | Semantic recall over prose and journal |
-| Markdown | Rendered from DB on write | Human-readable, git-friendly view |
+| Markdown | Written from DB on every change | Human-readable, git-friendly view |
 | UI | Rich | Terminal rendering with colors/markdown |
 | Config | dotenv | Environment-based configuration |
 
@@ -667,10 +730,10 @@ you mean to change it back, or is this a different Roger?
 src/
 ├── agent/
 │   ├── graph.py        # LangGraph definition + NotebookAgent wrapper
-│   ├── nodes.py        # All node implementations + NodeFactory
+│   ├── nodes.py        # All node implementations + NodeFactory + prompts
 │   └── state.py        # NotebookState TypedDict schema
 ├── storage/
-│   ├── db.py           # NotebookDB: SQLite reads/writes, schema migration
+│   ├── db.py           # NotebookDB: SQLite reads/writes, schema bootstrap
 │   ├── markdown.py     # MarkdownStore: render markdown from DB; journal appends
 │   ├── index.py        # NotebookIndex: ChromaDB + hybrid search
 │   └── migrate.py      # One-time migration: parse markdown → SQLite
@@ -689,9 +752,11 @@ Environment variables (`.env`):
 |----------|---------|-------------|
 | `LLM_PROVIDER` | `openai` | `openai` or `anthropic` |
 | `OPENAI_MODEL` | `gpt-4o` | OpenAI model name |
-| `ANTHROPIC_MODEL` | `claude-sonnet-4-6` | Anthropic model name |
+| `ANTHROPIC_MODEL` | `claude-sonnet-4-20250514` | Anthropic model name |
 | `EMBEDDING_PROVIDER` | `local` | `local` or `openai` |
 | `NOTEBOOK_PATH` | `./notebook` | Game data directory |
+
+LLM temperature is fixed at `0.7`.
 
 ### Recording Rules
 - Preserve first-person tone in journal entries
@@ -699,8 +764,25 @@ Environment variables (`.env`):
 - Tag uncertain info as `(probable)` until confirmed in-world; write with `confidence: "uncertain"` in DB
 - History is chronological (oldest first, newest at bottom)
 - Corrections update the canonical DB field; original value preserved in `facts` log
-- Reflections are stored in the `reflections` table, never mixed with world facts
 
 ### DB Seeding
 
-The SQLite DB is not populated from the markdown on first run automatically. The `migrate` module (`src/storage/migrate.py`) parses all markdown files and seeds the DB. This must be run before first use if the notebook was previously markdown-only. E2E test fixtures must call `migrate()` after seeding markdown to ensure `get_known_entities()` returns accurate data for the extraction prompt.
+The SQLite DB is not populated from the markdown on first run automatically. The `migrate` module (`src/storage/migrate.py`) parses all markdown files and seeds the DB. This must be run before first use if the notebook was previously markdown-only.
+
+The e2e test fixtures (`tests/e2e/conftest.py`) do **not** call `migrate()`. The DB is populated by the real agent as observations flow in during tests. This means the extractor starts with an empty `known_entities` list until entities are first written.
+
+### E2E Test Files
+
+| File | What it covers |
+|------|----------------|
+| `test_record_e2e.py` | Recording new entities and observations |
+| `test_query_e2e.py` | Structured + semantic retrieval |
+| `test_update_e2e.py` | Corrections and completion propagation |
+| `test_routing_e2e.py` | Intent classification including blocker statements |
+| `test_reflect_e2e.py` | Relevance filtering |
+| `test_contextual_response_e2e.py` | Contextual enrichment in record/update responses |
+| `test_status_propagation_e2e.py` | Cross-entity status propagation on todo completion |
+| `test_outcome_e2e.py` | Outcome field written on todo completion |
+| `test_dependency_chain_e2e.py` | Multi-entity prerequisite extraction and `requires`/`status:blocked` |
+
+See `docs/test_plan.md` for the complete test inventory across unit, integration, and e2e tiers.

@@ -12,7 +12,7 @@ from ..storage.markdown import MarkdownStore
 from .state import NotebookState
 
 
-NOTEBOOK_SYSTEM_PROMPT = """You are a notebook assistant for a 1st-person mining RPG. You have perfect memory of everything the player has told you about their game.
+NOTEBOOK_SYSTEM_PROMPT = """You are a notebook assistant for a 1st-person adventure game. You have perfect memory of everything the player has told you about their game.
 
 Your job:
 - Record observations the player shares (people, places, items, events)
