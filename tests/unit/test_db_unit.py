@@ -239,6 +239,35 @@ class TestConflictDetection:
         ])
         assert conflicts == []
 
+    def test_terminal_to_terminal_status_not_a_conflict(self, db):
+        """Moving from one terminal status (closed) to another (completed) is not a conflict.
+
+        Reproduces: player says 'close out Delta Security Station' when DB has status=closed.
+        Both are done-states; the player is just confirming/relabelling — not contradicting."""
+        eid = db.insert_entity("Delta Security Station", "todos")
+        db.upsert_field(eid, "status", "closed")
+        conflicts = db.detect_conflicts([
+            {"entity": "Delta Security Station", "field": "status", "old_value": "", "new_value": "completed"},
+        ])
+        assert conflicts == []
+
+    def test_get_entity_by_name_prefers_todos_over_locations_for_same_name(self, db):
+        """When a location and a todo share the same name, get_entity_by_name called with
+        a type hint should return the correct one.
+
+        Reproduces: 'Delta Security Station' exists as both a location and a todo;
+        status updates targeting the todo were applied to the location instead."""
+        db.insert_entity("Delta Security Station", "locations", status="closed")
+        db.insert_entity("Delta Security Station", "todos", status="open")
+        # Without type hint — any result is acceptable, but should not crash
+        entity = db.get_entity_by_name("Delta Security Station")
+        assert entity is not None
+        # With type hint — must return the correct type
+        loc = db.get_entity_by_name("Delta Security Station", entity_type="locations")
+        assert loc is not None and loc.type == "locations"
+        todo = db.get_entity_by_name("Delta Security Station", entity_type="todos")
+        assert todo is not None and todo.type == "todos"
+
 
 @pytest.mark.unit
 class TestGetKnownEntities:

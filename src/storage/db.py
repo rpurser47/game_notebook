@@ -141,21 +141,40 @@ class NotebookDB:
         self._conn.commit()
         return entity_id
 
-    def get_entity_by_name(self, name: str) -> EntityRow | None:
-        """Fetch an entity by exact name (case-insensitive). Returns first match."""
-        row = self._conn.execute(
-            "SELECT * FROM entities WHERE lower(name) = lower(?)", (name,)
-        ).fetchone()
+    def get_entity_by_name(self, name: str, entity_type: str | None = None) -> EntityRow | None:
+        """Fetch an entity by exact name (case-insensitive).
+
+        When entity_type is given, returns the entity of that type.
+        Without a type hint, returns the first match (lowest id).
+        """
+        if entity_type:
+            row = self._conn.execute(
+                "SELECT * FROM entities WHERE lower(name) = lower(?) AND lower(type) = lower(?)",
+                (name, entity_type),
+            ).fetchone()
+        else:
+            row = self._conn.execute(
+                "SELECT * FROM entities WHERE lower(name) = lower(?) ORDER BY id",
+                (name,),
+            ).fetchone()
+
         if not row:
             # Try alias lookup
-            alias_row = self._conn.execute(
+            alias_sql = (
                 """
                 SELECT e.* FROM entities e
                 JOIN aliases a ON a.entity_id = e.id
-                WHERE lower(a.alias) = lower(?)
-                """,
-                (name,),
-            ).fetchone()
+                WHERE lower(a.alias) = lower(?) AND lower(e.type) = lower(?)
+                """
+                if entity_type else
+                """
+                SELECT e.* FROM entities e
+                JOIN aliases a ON a.entity_id = e.id
+                WHERE lower(a.alias) = lower(?) ORDER BY e.id
+                """
+            )
+            alias_params = (name, entity_type) if entity_type else (name,)
+            alias_row = self._conn.execute(alias_sql, alias_params).fetchone()
             if not alias_row:
                 return None
             row = alias_row

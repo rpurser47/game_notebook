@@ -351,6 +351,9 @@ class NodeFactory:
             if filename not in files_modified:
                 files_modified.append(filename)
 
+        # Reverse map: markdown file → DB entity type
+        _FILE_TO_DB_TYPE = {v: k for k, v in _DB_TYPE_TO_FILE.items()}
+
         # Field updates
         for update in updates:
             entity_name = update.get("entity", "")
@@ -362,18 +365,19 @@ class NodeFactory:
             if not (entity_name and new_value):
                 continue
 
-            # DB write
-            db_entity = self.db.get_entity_by_name(entity_name)
+            # Resolve file first — its type disambiguates same-name entities
+            filename = self._find_entity_file(entity_name)
+            if not filename:
+                continue
+
+            # DB write — use type hint derived from the file to avoid same-name collision
+            entity_type_hint = _FILE_TO_DB_TYPE.get(filename)
+            db_entity = self.db.get_entity_by_name(entity_name, entity_type=entity_type_hint)
             if db_entity and field:
                 self.db.upsert_field(
                     db_entity.id, field, new_value,
                     source=source, confidence=confidence, turn_text=user_input,
                 )
-
-            # Markdown write
-            filename = self._find_entity_file(entity_name)
-            if not filename:
-                continue
 
             if field:
                 md_field = _MD_FIELD_MAP.get(field, field.capitalize())
