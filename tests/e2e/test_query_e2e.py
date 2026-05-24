@@ -18,16 +18,12 @@ class TestQueryKnownNPC:
 
 @pytest.mark.e2e
 class TestQueryOpenQuests:
-    def test_open_quests_returned(self, agent):
+    def test_open_quests_returned_correctly(self, agent):
+        """Open quests listed; no hallucinated completions."""
         response = agent.chat("What quests are still open?")
         lower = response.lower()
-        # Both open quests from seed data should appear
         assert "epsilon" in lower or "key" in lower or "storage" in lower
-
-    def test_does_not_hallucinate_completed_quests(self, agent):
-        response = agent.chat("What quests are still open?")
-        # No completed quests in seed data, so nothing should be marked done
-        assert "completed" not in response.lower()
+        assert "completed" not in lower
 
 
 @pytest.mark.e2e
@@ -40,33 +36,58 @@ class TestQueryOpenMysteries:
 
 @pytest.mark.e2e
 class TestQueryNumericCodes:
-    """Regression for: asking about numeric codes returned nothing on first ask.
+    """Regression: asking about codes returned nothing on first ask.
 
-    The agent was failing to map access-code questions to entity_type='items',
-    so the retrieve node fell through to a bare semantic search that missed them.
+    Uses a class-scoped agent so seed_codes runs once for all three assertions.
     """
 
-    @pytest.fixture(autouse=True)
-    def seed_codes(self, agent):
-        """Add two known codes and one used code to the seeded notebook."""
-        agent.chat("I found a crate code: 1234. Target lock not identified yet.")
-        agent.chat("I found another crate code: 5678. Haven't used it.")
-        agent.chat("I opened a locked box using code 9999.")
+    @pytest.fixture(scope="class")
+    def agent_with_codes(self, tmp_path_factory):
+        """Class-scoped agent seeded with three codes."""
+        import os
+        from dotenv import load_dotenv
+        from langchain_openai import ChatOpenAI
+        from src.storage.markdown import MarkdownStore
+        from src.storage.index import NotebookIndex
+        from src.storage.db import NotebookDB
+        from src.storage.migrate import migrate
+        from src.agent.graph import NotebookAgent
 
-    def test_lists_all_numeric_codes_on_direct_request(self, agent):
-        response = agent.chat("list all known numeric codes")
+        load_dotenv()
+        nb = tmp_path_factory.mktemp("codes_notebook")
+        store = MarkdownStore(nb)
+
+        store.write_file("people.md", "---\ntype: characters\ndescription: NPCs\n---\n")
+        store.write_file("places.md", "---\ntype: locations\ndescription: Locations\n---\n")
+        store.write_file("todos.md", "---\ntype: todos\ndescription: Quests\n---\n")
+        store.write_file("journal.md", "---\ntype: observations\ndescription: Journal\n---\n\n# Journal\n")
+
+        llm = ChatOpenAI(model=os.getenv("OPENAI_MODEL", "gpt-4o"), temperature=0.3)
+        index = NotebookIndex(nb, embedding_provider="local")
+        index.index_all(store)
+        db = NotebookDB(nb)
+        migrate(nb, db)
+        a = NotebookAgent(llm, store, index, db)
+
+        a.chat("I found a crate code: 1234. Target lock not identified yet.")
+        a.chat("I found another crate code: 5678. Haven't used it.")
+        a.chat("I opened a locked box using code 9999.")
+        return a
+
+    def test_all_codes_listed_and_query_not_empty(self, agent_with_codes):
+        """All three codes returned on direct request; no false 'none' claim."""
+        response = agent_with_codes.chat("list all known numeric codes")
         assert "1234" in response
         assert "5678" in response
         assert "9999" in response
 
-    def test_returns_codes_on_first_ask_without_rephrasing(self, agent):
-        """The regression: first ask should return codes, not 'none recorded'."""
-        response = agent.chat("what numeric codes do I have that I haven't used?")
-        # At minimum the two unused codes should surface
+    def test_unused_codes_returned_on_first_ask(self, agent_with_codes):
+        """Regression: unused codes should surface without rephrasing."""
+        response = agent_with_codes.chat("what numeric codes do I have that I haven't used?")
         assert "1234" in response or "5678" in response
 
-    def test_does_not_claim_no_codes_exist(self, agent):
-        response = agent.chat("what numeric codes do I have?")
+    def test_does_not_claim_no_codes_exist(self, agent_with_codes):
+        response = agent_with_codes.chat("what numeric codes do I have?")
         lower = response.lower()
         assert "no codes" not in lower
         assert "haven't told me any" not in lower
