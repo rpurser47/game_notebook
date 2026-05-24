@@ -660,3 +660,73 @@ This is a flowing chronological record. Newest entries at the bottom. The other 
 - The player created a strange fuel rod.
 - The player does not know what the nuclear fuel rod is for.
 - The player does not know what the strange fuel rod is for.
+
+## Session — 2026-05-20 20:45
+- The player entered the secure records in Omicron.
+- The player obtained the key to the storage area.
+
+## Session — 2026-05-20 21:14
+- The player has the thermo pump plans.
+- The player indicates they now possess an item that satisfies the Find Thermo-Pump Plans todo (probable).
+
+## Session — 2026-05-20 21:22
+- The player found the Storage Vault Key.
+
+## Session — 2026-05-22 21:03
+- The Omicron tether bridge is now operational.
+- The player entered Facility Omicron a long time ago.
+- The player's earlier note that Facility Omicron was inaccessible is outdated.
+- Tear Paper Protocol appears to have been overcome or is no longer blocking access to the Omicron tether bridge controls (probable).
+
+## Session — 2026-05-22 21:05
+- The player crossed the tether bridge.
+- The player obtained a strange crystal after crossing the tether bridge.
+- The player was able to reach Facility Sigma.
+
+## Session — 2026-05-22 21:06
+- There is a locked door in Facility Sigma.
+- Opening the locked door in Facility Sigma requires fixing the three transmission towers at Facility Omicron, Tau Facility, and Facility Rho.
+
+## Session — 2026-05-22 21:09
+- The player needs to make a bypass mole for each of the towers.
+- The bypass mole task is related to the transmission towers at Facility Omicron, Tau Facility, and Facility Rho.
+
+## Session — 2026-05-24 14:33
+- The player has gained access to the Kryptos facility via a transporter.
+- The player is currently exploring Kryptos.
+
+## Session — 2026-05-24 14:35
+- There is a control panel in the Kryptos medical control room.
+- The control panel is locked with a numeric code.
+
+## Session — 2026-05-24 14:36
+- The scanning room door in Kryptos is locked with a security code.
+- The locked door is in Kryptos Facility.
+- The door is specifically the scanning room door.
+
+## Session — 2026-05-24 14:38
+- The medical chief's office in Kappa is locked.
+- The medical chief's office in Kappa requires Grant Harlow's security card.
+- The required Grant Harlow security card is different from the one the player already has.
+
+## Session — 2026-05-24 14:39
+- The surgical suite door in Kryptos is locked.
+- The surgical suite door in Kryptos requires a security code.
+
+## Session — 2026-05-24 14:40
+- The Emergency Access door in Kryptos is broken.
+- The Emergency Access door in Kryptos will not open.
+
+## Session — 2026-05-24 14:47
+- The medical chief's office is in Kryptos.
+- The speaker corrected the location from Kappa to Kryptos.
+
+## Session — 2026-05-24 14:48
+- The player has gotten into the medical chief's office in Kryptos.
+
+## Session — 2026-05-24 14:50
+- The code to open the surgical suite in Kryptos is 4321.
+- The surgical suite is associated with the surgical suite door in Kryptos.
+
+## Session — 2026-05-24 14:54
+- The code to emergency access is 9620.

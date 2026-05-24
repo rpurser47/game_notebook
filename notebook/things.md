@@ -622,3 +622,60 @@ description: Resources, equipment, key items, access codes, and tech components
 ## Strange Fuel Rod
 **Status:** unknown
 **Category:** tech-component
+
+## Storage Area Key
+**Location:** player inventory
+**Status:** obtained
+**Category:** key-item
+**Description:** A key used to access the storage area.
+### 2026-05-20
+- Related to [[Epsilon Secure Storage]]
+
+## Thermo Pump Plans
+**Status:** held
+**Category:** key-item
+
+## Strange Crystal
+**Location:** after crossing the Omicron Tether Bridge
+**Status:** found
+**Category:** key-item
+**Description:** A strange crystal obtained immediately after crossing the tether bridge.
+### 2026-05-22
+- Related to [[Omicron Tether Bridge]]
+
+## Locked Door in Facility Sigma
+**Location:** Facility Sigma
+**Status:** locked
+**Category:** key-item
+**Description:** A door in Sigma that cannot be opened until the transmission towers are repaired.
+### 2026-05-22
+- Related to [[Facility Sigma]]
+
+## Bypass Mole
+**Status:** completed
+**Category:** equipment
+**Description:** A device the player needs to make for each transmission tower.
+**Outcome:** I've reactivated all three transmission towers.  Created moles, too
+### 2026-05-22
+- Related to [[Transmission Towers at Facility Omicron, Tau Facility, and Facility Rho]]
+
+## Transporter
+**Status:** used
+**Category:** tech-component
+**Description:** The transport mechanism used to reach Kryptos.
+
+## Control Panel in Kryptos Medical Control Room
+**Location:** Kryptos Medical Control Room
+**Status:** locked
+**Category:** access-code
+**Description:** A control panel that requires a numeric code.
+### 2026-05-24
+- Related to [[Kryptos Medical Control Room]]
+
+## Scanning Room Door in Kryptos
+**Location:** Kryptos Facility
+**Status:** locked
+**Category:** access-code
+**Description:** A scanning room door that requires a security code.
+### 2026-05-24
+- Related to [[Kryptos Facility]]

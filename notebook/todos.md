@@ -43,7 +43,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Part-of:** [[Lambda Reactor Repair]]
 **Requires:** [[Recover Loadmaster's Key]]
 **Related:** [[Epsilon Secure Storage]], [[Loadmaster's Key]]
-**Outcome:** I've gotten the key, unlocked the storage, gotten the reactor parts, and fixed the reactor.  All those all complete.
+**Outcome:** Storage area key obtained from the secure records in Omicron
 
 - Use the Loadmaster's key to open Epsilon's Secure Storage.
 
@@ -127,7 +127,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Steps:** [[Find Jaspite Source]], [[Craft Jaspite Focusing Lens]]
 **Requires:** (none)
 **Related:** [[Laser Drill at Theta Shack]], [[Jaspite Focusing Lens]]
-**Outcome:** Jaspite focusing lens crafted and installed 2026-05-02. Drill is online.
+**Outcome:** The player resolved the Theta laser drill.
 
 - Drone installed. Jaspite focusing lens installed. Drill operational.
 
@@ -248,7 +248,7 @@ description: Quests, plans, and mysteries with dependency chains
 **Status:** completed
 **Requires:** (none)
 **Related:** [[Level 6 — Facility Omicron]], [[Climber]]
-**Outcome:** I've gotten into Facility Omicron.
+**Outcome:** After crossing the tether bridge, I got a strange crystal, and was able to reach facility sigma.
 
 - Reach Level 6 / Facility Omicron. Currently inaccessible.
 
@@ -373,39 +373,43 @@ description: Quests, plans, and mysteries with dependency chains
 - Related to [[Tau Facility]]
 
 ## Tear Paper Protocol
-**Status:** open
+**Status:** completed
 **Subtype:** mystery
 **Requires:** (none)
 **Related:** [[Omicron Tether Bridge Controls]], [[Underwater Lab at Kappa]]
+**Outcome:** i have gotten the tether bridge operational, and i got into omicron a long time ago
 
 - A protocol called "Tear Paper" is locking down the Omicron Tether Bridge controls.
 - A console in the Underwater Lab at Kappa could deactivate it — player did not do so.
 - Exact meaning of "Tear Paper" still unknown.
 
 ## Fix Omicron Climber
-**Status:** blocked
+**Status:** completed
 **Subtype:** quest
 **Requires:** [[Find Thermo-Pump Plans]]
 **Related:** [[Facility Omicron]], [[Thermo-Pump]]
+**Outcome:** Thermo pump installed and the climber repaired.
 
 - The Omicron climber control panel has a thermal warning blocking access.
 - Fixing the climber requires a thermo-pump.
 
 ## Find Thermo-Pump Plans
-**Status:** open
+**Status:** completed
 **Subtype:** quest
 **Part-of:** [[Fix Omicron Climber]]
 **Requires:** (none)
 **Related:** [[Thermo-Pump]]
+**Outcome:** Player acquired the thermo pump plans.
 
 - Plans for a thermo-pump are needed before one can be built.
 - Source of the plans is unknown.
 
 ## Find Storage Vault Key
-**Status:** open
+**Status:** completed
 **Subtype:** quest
 **Requires:** (none)
 **Related:** [[Storage Vault]], [[Facility Omicron]]
+**Outcome:** The player found the Storage Vault Key.
 
 - The storage + vault door in Omicron's climber maintenance level requires a physical key to enter.
 - Key location unknown.
@@ -427,3 +431,11 @@ description: Quests, plans, and mysteries with dependency chains
 
 - A door to the intake tunnel in Facility Rho cannot be opened.
 - Access requirement unknown.
+
+## Transmission Towers at Facility Omicron, Tau Facility, and Facility Rho
+**Status:** completed
+**Subtype:** quest
+**Requires:** [[Fix the 3 transmission towers at Omicron, Tau, and Rho]]
+**Outcome:** I've reactivated all three transmission towers.  Created moles, too
+### 2026-05-22
+- Related to [[Fix the 3 transmission towers at Omicron, Tau, and Rho]]

@@ -94,7 +94,7 @@ description: Facilities, levels, zones, and spatial relationships
 
 ## Delta Security Station
 **Explored:** yes
-**Status:** answered
+**Status:** closed
 **Parent:** [[Level 4 — Facility Delta]]
 **Related:** [[GAIA]]
 **Outcome:** i think we can close the delta security station mystery and the epsilon crew disppearance.  I've explored the north gate jungle and gotten hardened storage drives.  I've read the climber records.
@@ -406,6 +406,8 @@ description: Facilities, levels, zones, and spatial relationships
 ## Communications Facility Sigma
 **Status:** found
 **Explored:** partial
+### 2026-05-22
+- Related to [[Omicron Tether Bridge]]
 
 ## Materials Research Facility
 **Explored:** partial
@@ -544,3 +546,39 @@ description: Facilities, levels, zones, and spatial relationships
 ## Lost Tangerite Drill Site
 **Explored:** partial
 **Description:** A lost drill site associated with Tangerite; the opened crate was found nearby.
+
+## Kryptos Facility
+**Status:** accessed
+**Explored:** partial
+**Description:** A facility reached by transporter and now being explored.
+
+## Kryptos Medical Control Room
+**Explored:** partial
+**Parent:** [[Kryptos Facility]]
+**Description:** A medical control room inside Kryptos Facility.
+### 2026-05-24
+- Related to [[Kryptos Facility]]
+
+## Medical Chief's Office in Kappa
+**Status:** locked
+**Explored:** no
+**Position:** in Kryptos
+**Description:** An office belonging to the medical chief; access requires Grant Harlow's security card.
+### 2026-05-24
+- Related to [[Grant Harlow's Security Card]]
+
+## Surgical Suite Door in Kryptos
+**Status:** unlocked
+**Explored:** no
+**Position:** in Kryptos
+**Description:** A locked door to the surgical suite.
+### 2026-05-24
+- Related to [[Security Code]]
+### 2026-05-24
+- Related to [[4321]]
+
+## Emergency Access Door in Kryptos
+**Status:** broken
+**Explored:** no
+**Position:** in Kryptos
+**Description:** A door that is broken and cannot be opened.
