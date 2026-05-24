@@ -192,9 +192,9 @@ class TestRespondLLMQuestion:
         assert "engineer" in prompt
         assert "reactor room" in prompt
 
-    def test_consequential_gap_instruction_present_for_new_entities(self):
-        """The 'consequential fact' instruction must be present when a new entity
-        is in the state so the LLM knows it may ask one question."""
+    def test_no_ask_instruction_present_for_new_entities(self):
+        """When a new entity is recorded, the prompt must tell the LLM not to ask
+        clarifying questions (unless the item_gap_note is set)."""
         factory = make_factory()
         factory.index.hybrid_search.return_value = []
 
@@ -210,7 +210,9 @@ class TestRespondLLMQuestion:
         }
 
         factory.respond(state)
-        assert "consequential" in _prompt_text(factory)
+        prompt = _prompt_text(factory)
+        assert "Do NOT ask" in prompt
+        assert "location hierarchy" in prompt
 
     def test_no_question_instruction_for_existing_entities_only(self):
         """When all resolved entities are existing (is_new=False), the clarifying

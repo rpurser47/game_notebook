@@ -725,28 +725,45 @@ Return only the IDs of items that are genuinely relevant to this query."""
             [e for e in state.get("resolved_entities", []) if e.get("is_new")]
             if intent == "record" else []
         )
+        # Category keywords that indicate the player explicitly named the category
         _CATEGORY_KEYWORDS = {
             "resource", "equipment", "key-item", "key item", "keyitem",
             "tech-component", "tech component", "access-code", "access code",
             "ore", "mineral", "consumable", "weapon", "tool", "code", "password",
             "component", "part", "supply", "material",
         }
+        # Item name patterns that self-evidently imply a category (no clarification needed)
+        _SELF_EVIDENT_ITEM_PATTERNS = {
+            "door", "panel", "console", "terminal", "station", "button", "screen",
+            "lock", "keypad", "lever", "switch", "gate", "hatch", "ladder",
+            "card", "key", "badge", "pass", "chip", "disk", "drive",
+            "rod", "cell", "battery", "fuel", "crystal", "lens",
+            "mole", "pump", "servo", "unit", "drone",
+        }
         new_entity_context = ""
         if new_entities:
             lines = []
             items_inferred_category = []
             user_input_lower = user_input.lower()
+            # Check if agent already asked about category for any of these entities
+            recent_assistant_text = " ".join(
+                m.content for m in messages[-4:]
+                if hasattr(m, "content") and hasattr(m, "type") and m.type == "ai"
+            ).lower()
+            already_asked_category = "resource" in recent_assistant_text and (
+                "equipment" in recent_assistant_text or "key item" in recent_assistant_text
+            )
             for e in new_entities:
                 name = e.get("resolved_name", e.get("name", ""))
                 fields = e.get("fields", {})
                 field_str = ", ".join(f"{k}: {v}" for k, v in fields.items() if v)
                 lines.append(f"- {name} ({e.get('type', '')}){': ' + field_str if field_str else ''}")
-                if e.get("type") in ("item", "items"):
+                if e.get("type") in ("item", "items") and not already_asked_category:
                     category = fields.get("category", "")
-                    # Flag items whose category was inferred (no explicit category signal
-                    # in what the player actually said)
+                    name_lower = name.lower()
                     category_explicit = any(kw in user_input_lower for kw in _CATEGORY_KEYWORDS)
-                    if not category_explicit:
+                    name_self_evident = any(pat in name_lower for pat in _SELF_EVIDENT_ITEM_PATTERNS)
+                    if not category_explicit and not name_self_evident:
                         items_inferred_category.append((name, category))
             item_gap_note = ""
             if items_inferred_category:
@@ -760,13 +777,11 @@ Return only the IDs of items that are genuinely relevant to this query."""
             new_entity_context = (
                 "\nNewly recorded entities:\n" + "\n".join(lines) +
                 item_gap_note +
-                "\n\nIf — and only if — a genuinely consequential fact is missing "
-                "(something that would affect what the player should do next, e.g. "
-                "unknown allegiance of a character tied to a quest, or unknown category "
-                "of an item), ask ONE short question at the end of your response. "
-                "Use full conversational context before deciding. "
-                "Do not ask about cosmetic or low-stakes details. "
-                "Do not ask if the entity already has enough context."
+                "\n\nDo NOT ask any clarifying questions unless item_gap_note above is set. "
+                "Specifically: do NOT ask about location hierarchy (parent facility, which area), "
+                "do NOT re-ask a question that appears in the recent conversation, "
+                "do NOT ask about cosmetic or low-stakes details. "
+                "Just acknowledge what was recorded and surface related notebook context."
             )
 
         response_prompt = f"""User's message: {user_input}
