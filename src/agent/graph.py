@@ -91,12 +91,31 @@ class NotebookAgent:
         index: NotebookIndex,
         db: NotebookDB,
     ):
+        import logging
         self.llm = llm
         self.store = store
         self.index = index
         self.db = db
         self.graph = create_graph(llm, store, index, db)
         self.messages = []
+
+        # Integrity audit at startup — log warnings, never block
+        issues = self.db.audit()
+        if issues:
+            logger = logging.getLogger(__name__)
+            for issue in issues:
+                if issue["type"] == "status_mismatch":
+                    logger.warning(
+                        "DB integrity: status mismatch for '%s' (%s) — "
+                        "entities.status=%r but entity_fields.status=%r",
+                        issue["entity"], issue["entity_type"],
+                        issue["entities_status"], issue["fields_status"],
+                    )
+                elif issue["type"] == "cross_type_name":
+                    logger.warning(
+                        "DB integrity: '%s' exists under multiple types: %s",
+                        issue["entity"], ", ".join(issue["types"]),
+                    )
 
     def load_history(self, limit: int = 20) -> list[dict]:
         """Load conversation history from storage."""
@@ -136,6 +155,10 @@ class NotebookAgent:
             self.messages = self.messages[-40:]
 
         return response
+
+    def audit(self) -> list[dict]:
+        """Run a DB integrity audit. Returns list of issue dicts (empty = clean)."""
+        return self.db.audit()
 
     def get_stats(self) -> dict:
         """Get agent statistics."""

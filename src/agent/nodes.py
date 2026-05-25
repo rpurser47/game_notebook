@@ -181,6 +181,15 @@ _DB_TYPE_TO_FILE = {
     "events": "events.md",
 }
 
+# Markdown file → human-readable type label for user-facing messages
+_FILE_TO_TYPE = {
+    "people.md": "character",
+    "places.md": "location",
+    "things.md": "item",
+    "todos.md": "quest/mystery",
+    "events.md": "event",
+}
+
 _UNACQUIRED_STATUSES = {"lost", "not obtained", "not recovered", "unknown"}
 
 
@@ -299,6 +308,8 @@ class NodeFactory:
         relationships = state.get("extracted_relationships", [])
 
         files_modified = []
+        cross_type_warnings = []
+        update_ambiguities = []
 
         # Journal (record only)
         if intent == "record" and observations:
@@ -323,11 +334,24 @@ class NodeFactory:
             fields = entity.get("fields", {})
             source = entity.get("source", "player_observed")
             confidence = entity.get("confidence", "certain")
+            canonical_type = self._canonical_type(entity_type)
+
+            # Warn if the same name already exists under a different type
+            existing_rows = self.db._conn.execute(
+                "SELECT DISTINCT type FROM entities WHERE lower(name) = lower(?) AND type != ?",
+                (entity_name, canonical_type),
+            ).fetchall()
+            for row in existing_rows:
+                cross_type_warnings.append({
+                    "entity": entity_name,
+                    "existing_type": row["type"],
+                    "new_type": canonical_type,
+                })
 
             # DB write
             entity_id = self.db.insert_entity(
                 name=entity_name,
-                type=self._canonical_type(entity_type),
+                type=canonical_type,
                 status=fields.get("status"),
                 source=source,
                 confidence=confidence,
@@ -365,8 +389,18 @@ class NodeFactory:
             if not (entity_name and new_value):
                 continue
 
-            # Resolve file first — its type disambiguates same-name entities
-            filename = self._find_entity_file(entity_name)
+            # Detect ambiguity: same name in multiple files → ask player, skip write
+            matched_files = self._find_entity_files(entity_name)
+            if len(matched_files) > 1:
+                update_ambiguities.append({
+                    "entity": entity_name,
+                    "files": matched_files,
+                    "field": field,
+                    "new_value": new_value,
+                })
+                continue
+
+            filename = matched_files[0] if matched_files else None
             if not filename:
                 continue
 
@@ -439,7 +473,12 @@ class NodeFactory:
         for filename in files_modified:
             self.index.index_file(self.store, filename)
 
-        return {**state, "files_modified": files_modified}
+        return {
+            **state,
+            "files_modified": files_modified,
+            "cross_type_warnings": cross_type_warnings,
+            "update_ambiguities": update_ambiguities,
+        }
 
     # ------------------------------------------------------------------
     # Query path
@@ -597,6 +636,8 @@ Return only the IDs of items that are genuinely relevant to this query."""
         conflicts = state.get("conflicts", [])
 
         context_parts = []
+        cross_type_warnings = state.get("cross_type_warnings", [])
+        update_ambiguities = state.get("update_ambiguities", [])
 
         # Conflict response — don't write, ask player to confirm
         if conflicts:
@@ -610,6 +651,35 @@ Return only the IDs of items that are genuinely relevant to this query."""
             context_parts.append(
                 "CONFLICTS — the following contradict what's recorded. "
                 "Ask the player to confirm before accepting:\n" + "\n".join(conflict_lines)
+            )
+
+        # Cross-type name warning — ask player to confirm this is a distinct entity
+        if cross_type_warnings:
+            warn_lines = []
+            for w in cross_type_warnings:
+                warn_lines.append(
+                    f"- '{w['entity']}' already exists as a {w['existing_type']} entry. "
+                    f"Is this a separate {w['new_type']} entry, or did you mean the existing one?"
+                )
+            context_parts.append(
+                "NAME COLLISION — the following new entities share a name with an existing "
+                "entry of a different type. Ask the player to confirm inline:\n"
+                + "\n".join(warn_lines)
+            )
+
+        # Update ambiguity — name matches multiple files, ask which one
+        if update_ambiguities:
+            amb_lines = []
+            for a in update_ambiguities:
+                file_types = [_FILE_TO_TYPE.get(f, f) for f in a["files"]]
+                amb_lines.append(
+                    f"- '{a['entity']}' exists as both {' and '.join(file_types)}. "
+                    f"Which one did you mean to update?"
+                )
+            context_parts.append(
+                "UPDATE AMBIGUITY — the update was not applied because the name matches "
+                "entries in multiple categories. Ask the player which one they mean:\n"
+                + "\n".join(amb_lines)
             )
 
         elif intent == "query":
@@ -842,17 +912,43 @@ Do not explain your process or mention files."""
         return mapping.get(entity_type, "todos")
 
     def _find_entity_file(self, entity_name: str) -> str | None:
-        """Find the markdown file for an entity via DB type lookup."""
-        entity = self.db.get_entity_by_name(entity_name)
-        if entity:
-            return _DB_TYPE_TO_FILE.get(entity.type)
+        """Find the single markdown file for an entity via DB type lookup.
+
+        Returns None if not found, or the first match when ambiguous.
+        Use _find_entity_files for ambiguity detection.
+        """
+        files = self._find_entity_files(entity_name)
+        return files[0] if files else None
+
+    def _find_entity_files(self, entity_name: str) -> list[str]:
+        """Return all markdown files that contain a section for entity_name.
+
+        Usually returns one file. Returns multiple when the same name exists
+        in different entity type files (e.g. both places.md and todos.md).
+        """
+        # Check DB for all types under this name
+        name_lower = entity_name.lower()
+        rows = self.db._conn.execute(
+            "SELECT DISTINCT type FROM entities WHERE lower(name) = ?", (name_lower,)
+        ).fetchall()
+        if rows:
+            files = []
+            for row in rows:
+                f = _DB_TYPE_TO_FILE.get(row["type"])
+                if f and f not in files:
+                    files.append(f)
+            if files:
+                return files
+
         # Fall back to scanning markdown (handles entities not yet in DB)
+        found = []
         for file_path in self.store.list_files():
             chunks = self.store.parse_into_chunks(file_path.name)
             for chunk in chunks:
-                if chunk.entity_name.lower() == entity_name.lower():
-                    return file_path.name
-        return None
+                if chunk.entity_name.lower() == name_lower:
+                    if file_path.name not in found:
+                        found.append(file_path.name)
+        return found
 
     def _propagate_completion(self, todo_name: str, db_entity) -> list[str]:
         """When a todo completes, update status of related items that are unacquired."""

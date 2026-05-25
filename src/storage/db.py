@@ -465,6 +465,56 @@ class NotebookDB:
         self._conn.commit()
 
     # -------------------------------------------------------------------------
+    # Integrity audit
+    # -------------------------------------------------------------------------
+
+    def audit(self) -> list[dict]:
+        """Check DB integrity. Returns a list of issue dicts, empty when clean.
+
+        Issue types:
+        - status_mismatch: entities.status disagrees with entity_fields status value
+        - cross_type_name: same entity name exists under two or more different types
+        """
+        issues = []
+
+        # 1. status_mismatch — join entities with entity_fields on status
+        rows = self._conn.execute(
+            """
+            SELECT e.name, e.type, e.status AS entities_status, ef.value AS fields_status
+            FROM entities e
+            JOIN entity_fields ef ON ef.entity_id = e.id AND ef.field = 'status'
+            WHERE e.status IS NOT NULL
+              AND lower(e.status) != lower(ef.value)
+            """
+        ).fetchall()
+        for row in rows:
+            issues.append({
+                "type": "status_mismatch",
+                "entity": row["name"],
+                "entity_type": row["type"],
+                "entities_status": row["entities_status"],
+                "fields_status": row["fields_status"],
+            })
+
+        # 2. cross_type_name — names that appear in more than one type
+        rows = self._conn.execute(
+            """
+            SELECT name, GROUP_CONCAT(DISTINCT type) AS types, COUNT(DISTINCT type) AS type_count
+            FROM entities
+            GROUP BY lower(name)
+            HAVING type_count > 1
+            """
+        ).fetchall()
+        for row in rows:
+            issues.append({
+                "type": "cross_type_name",
+                "entity": row["name"],
+                "types": row["types"].split(","),
+            })
+
+        return issues
+
+    # -------------------------------------------------------------------------
     # Stats
     # -------------------------------------------------------------------------
 

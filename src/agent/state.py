@@ -29,6 +29,10 @@ class NotebookState(TypedDict, total=False):
     # Conflict detection (proposed updates that contradict DB state)
     conflicts: list[dict]
 
+    # Integrity warnings (cross-type name collision, multi-match update ambiguity)
+    cross_type_warnings: list[dict]
+    update_ambiguities: list[dict]
+
     # Query analysis
     query_filters: dict | None
     semantic_query: str | None
