@@ -415,10 +415,11 @@ description: Quests, plans, and mysteries with dependency chains
 - Key location unknown.
 
 ## Identify Nuclear and Strange Fuel Rods
-**Status:** open
+**Status:** answered
 **Subtype:** mystery
 **Requires:** (none)
 **Related:** [[Nuclear Fuel Rod]], [[Strange Fuel Rod]]
+**Outcome:** i've identified them
 
 - Player crafted a Nuclear Fuel Rod and a Strange Fuel Rod on 2026-05-20.
 - Purpose of neither is known.
