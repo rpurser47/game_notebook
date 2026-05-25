@@ -389,16 +389,21 @@ class NodeFactory:
             if not (entity_name and new_value):
                 continue
 
-            # Detect ambiguity: same name in multiple files → ask player, skip write
+            # Detect ambiguity: same name in multiple files
             matched_files = self._find_entity_files(entity_name)
             if len(matched_files) > 1:
-                update_ambiguities.append({
-                    "entity": entity_name,
-                    "files": matched_files,
-                    "field": field,
-                    "new_value": new_value,
-                })
-                continue
+                # Auto-resolve: terminal todo status values always target todos.md
+                _TODO_TERMINAL = {"completed", "answered", "closed"}
+                if field == "status" and new_value.lower() in _TODO_TERMINAL and "todos.md" in matched_files:
+                    matched_files = ["todos.md"]
+                else:
+                    update_ambiguities.append({
+                        "entity": entity_name,
+                        "files": matched_files,
+                        "field": field,
+                        "new_value": new_value,
+                    })
+                    continue
 
             filename = matched_files[0] if matched_files else None
             if not filename:

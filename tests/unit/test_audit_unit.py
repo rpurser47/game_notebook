@@ -253,9 +253,10 @@ class TestMultiMatchUpdate:
         files = factory._find_entity_files("Find the Key")
         assert files == ["todos.md"]
 
-    def test_multi_match_update_sets_ambiguity_flag(self, tmp_path):
-        """When an update targets a name present in multiple files, persist must
-        skip the write and set update_ambiguities in state."""
+    def test_multi_match_status_terminal_prefers_todos(self, tmp_path):
+        """When a status update with a todo-terminal value (completed/answered) targets
+        a name that exists in both todos and locations, the write goes to todos only —
+        no ambiguity flag, no ask."""
         factory, db, store = make_factory(tmp_path)
         self._seed_both_files(store, db)
 
@@ -275,13 +276,41 @@ class TestMultiMatchUpdate:
         }
 
         result = factory.persist(state)
-        ambiguities = result.get("update_ambiguities", [])
-        assert len(ambiguities) == 1
-        assert ambiguities[0]["entity"] == "Delta Security Station"
-        assert set(ambiguities[0]["files"]) == {"places.md", "todos.md"}
+        # No ambiguity — resolved automatically
+        assert result.get("update_ambiguities", []) == []
+        # todos.md was updated
+        content = store.read_file("todos.md")
+        assert "completed" in content.lower()
+        # places.md was NOT touched
+        places = store.read_file("places.md")
+        assert "completed" not in places.lower()
 
-    def test_multi_match_update_does_not_write(self, tmp_path):
-        """The write must be skipped when ambiguous — neither file should change."""
+    def test_multi_match_non_terminal_status_still_flags_ambiguity(self, tmp_path):
+        """A status update with a non-todo-terminal value (e.g. 'active') on an
+        ambiguous name should still flag ambiguity — we can't auto-resolve it."""
+        factory, db, store = make_factory(tmp_path)
+        self._seed_both_files(store, db)
+
+        state = {
+            "intent": "update",
+            "user_input": "Delta Security Station is active again",
+            "messages": [],
+            "extracted_observations": [],
+            "resolved_entities": [],
+            "extracted_updates": [
+                {"entity": "Delta Security Station", "field": "status",
+                 "old_value": "", "new_value": "active"}
+            ],
+            "extracted_relationships": [],
+            "files_modified": [],
+            "conflicts": [],
+        }
+
+        result = factory.persist(state)
+        assert len(result.get("update_ambiguities", [])) == 1
+
+    def test_multi_match_update_does_not_write_when_ambiguous(self, tmp_path):
+        """Non-resolvable ambiguity: the write must be skipped — neither file changes."""
         factory, db, store = make_factory(tmp_path)
         self._seed_both_files(store, db)
 
@@ -289,13 +318,13 @@ class TestMultiMatchUpdate:
 
         state = {
             "intent": "update",
-            "user_input": "close out Delta Security Station",
+            "user_input": "Delta Security Station is active again",
             "messages": [],
             "extracted_observations": [],
             "resolved_entities": [],
             "extracted_updates": [
                 {"entity": "Delta Security Station", "field": "status",
-                 "old_value": "", "new_value": "completed"}
+                 "old_value": "", "new_value": "active"}
             ],
             "extracted_relationships": [],
             "files_modified": [],
